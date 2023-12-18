@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JoyStick controller - snapshot test should render correctly 1`] = `
+<View
+  style={
+    {
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      [
+        {
+          "borderRadius": 150,
+          "height": 300,
+          "width": 300,
+        },
+        {
+          "alignItems": "center",
+          "backgroundColor": "tomato",
+          "justifyContent": "center",
+        },
+      ]
+    }
+    testID="pan"
+  >
+    <View
+      animatedStyle={
+        {
+          "value": {
+            "transform": [
+              {
+                "translateX": 0,
+              },
+              {
+                "translateY": 0,
+              },
+            ],
+          },
+        }
+      }
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "cyan",
+          "borderRadius": 150,
+          "height": 120,
+          "transform": [
+            {
+              "translateX": 0,
+            },
+            {
+              "translateY": 0,
+            },
+          ],
+          "width": 120,
+        }
+      }
+    />
+  </View>
+</View>
+`;
