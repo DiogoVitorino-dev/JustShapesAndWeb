@@ -11,7 +11,7 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 
-interface JoyStickData {
+export interface JoyStickData {
   x: number;
   y: number;
   angle: number;
@@ -37,29 +37,29 @@ export default function Joystick({
   onMove,
 }: JoyStickProp) {
   const radius = size / 2;
+  const pointerSize = size / 2.5;
   const pos = useSharedValue({ x: 0, y: 0 });
 
   const normalizeData = ({ angle, x, y }: JoyStickData): JoyStickData => {
     "worklet";
-    const distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
-    x = interpolate(x, [distance * -1, distance], [velocity * -1, velocity]);
-    y = interpolate(y, [distance * -1, distance], [velocity * -1, velocity]);
+    x = interpolate(x, [radius * -1, radius], [velocity * -1, velocity]);
+    y = interpolate(y, [radius * -1, radius], [velocity * -1, velocity]);
 
     return { angle, x, y };
   };
 
   const pan = Gesture.Pan()
-    .onBegin((event) => {
-      const posX = event.x - radius;
-      const posY = event.y - radius;
+    .onBegin(({ x, y }) => {
+      const posX = x - radius;
+      const posY = y - radius;
 
       pos.value = { x: posX, y: posY };
     })
 
-    .onUpdate((event) => {
-      const posX = event.x - radius;
-      const posY = event.y - radius;
+    .onUpdate(({ x, y }) => {
+      const posX = x - radius;
+      const posY = y - radius;
 
       // Distance from center to the edge of the area
       const distance = Math.sqrt(Math.pow(posX, 2) + Math.pow(posY, 2));
@@ -113,13 +113,17 @@ export default function Joystick({
         <View
           testID="pan"
           style={[
-            { width: size, height: size, borderRadius: size / 2 },
+            { width: size, height: size, borderRadius: radius },
             styles.area,
           ]}
         >
           <Animated.View
             style={[
-              { width: size / 2.5, height: size / 2.5, borderRadius: size / 2 },
+              {
+                width: pointerSize,
+                height: pointerSize,
+                borderRadius: radius,
+              },
               styles.pointer,
               pointerAnimatedStyle,
             ]}
