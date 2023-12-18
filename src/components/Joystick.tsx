@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ViewStyle } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   Easing,
@@ -20,21 +20,30 @@ export interface JoyStickData {
 interface JoyStickProp {
   size?: number;
   velocity?: number;
-  onMove: (data: JoyStickData) => void;
+  onMove?: (data: JoyStickData) => void;
+  style?: ViewStyle;
 }
 
-const calculateAngle = (x: number, y: number) => {
+function shiftAngle(angle: number, amount: number) {
+  "worklet";
+  if (angle === 0) return 0;
+  return (angle + amount) % 360;
+}
+
+function calculateAngle(x: number, y: number) {
   "worklet";
   let angle = Math.atan2(y, x); // calculating angle
   angle = angle * (180 / Math.PI); // convert radian to degree
-  angle = (angle + 360) % 360; // convert to positives degrees
+  angle = shiftAngle(angle, 360); // convert to positives degrees
+
   return angle;
-};
+}
 
 export default function Joystick({
   size = 100,
-  velocity = 100,
+  velocity = 10,
   onMove,
+  style,
 }: JoyStickProp) {
   const radius = size / 2;
   const pointerSize = size / 2.5;
@@ -43,18 +52,22 @@ export default function Joystick({
   const normalizeData = ({ angle, x, y }: JoyStickData): JoyStickData => {
     "worklet";
 
+    // adjusting to velocity range
     x = interpolate(x, [radius * -1, radius], [velocity * -1, velocity]);
     y = interpolate(y, [radius * -1, radius], [velocity * -1, velocity]);
+    angle = shiftAngle(angle, 90); // Adjust the initial angle point upwards
 
     return { angle, x, y };
   };
 
+  const updatePointerPosition = (x: number, y: number) => {
+    "worklet";
+    pos.value = { x, y };
+  };
+
   const pan = Gesture.Pan()
     .onBegin(({ x, y }) => {
-      const posX = x - radius;
-      const posY = y - radius;
-
-      pos.value = { x: posX, y: posY };
+      updatePointerPosition(x - radius, y - radius);
     })
 
     .onUpdate(({ x, y }) => {
@@ -67,16 +80,16 @@ export default function Joystick({
       // Limits the pointer to the edge of the area
       if (distance >= radius) {
         const factor = radius / distance;
-        pos.value = { x: posX * factor, y: posY * factor };
+        updatePointerPosition(posX * factor, posY * factor);
       } else {
-        pos.value = { x: posX, y: posY };
+        updatePointerPosition(posX, posY);
       }
     })
 
     .onFinalize(() => {
-      pos.value = { x: 0, y: 0 };
+      updatePointerPosition(0, 0);
     })
-    .withTestId("pan");
+    .withTestId("joystickPan");
 
   const pointerAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -101,14 +114,14 @@ export default function Joystick({
       return normalizeData({ angle, x: pos.value.x, y: pos.value.y });
     },
     (currentValue, previousValue) => {
-      if (currentValue !== previousValue) {
+      if (currentValue !== previousValue && onMove) {
         runOnJS(onMove)(currentValue);
       }
     },
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <GestureDetector gesture={pan}>
         <View
           testID="pan"
@@ -136,8 +149,8 @@ export default function Joystick({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
+    backgroundColor: "indigo",
+    position: "absolute",
   },
 
   area: {
