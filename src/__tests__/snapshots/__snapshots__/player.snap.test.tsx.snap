@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Player model - snapshot test Should renders correctly 1`] = `
+<View
+  animatedStyle={
+    {
+      "value": {
+        "left": 50,
+        "top": 150,
+        "transform": [
+          {
+            "rotate": "270deg",
+          },
+        ],
+      },
+    }
+  }
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "#2f95dc",
+      "borderRadius": 2,
+      "borderTopColor": "tomato",
+      "borderTopWidth": 3,
+      "height": 25,
+      "left": 50,
+      "position": "absolute",
+      "top": 150,
+      "transform": [
+        {
+          "rotate": "270deg",
+        },
+      ],
+      "width": 25,
+    }
+  }
+  testID="playerModel"
+/>
+`;
