@@ -5,11 +5,11 @@ exports[`Player model - snapshot test Should renders correctly 1`] = `
   animatedStyle={
     {
       "value": {
-        "left": 50,
-        "top": 150,
+        "left": 25,
+        "top": 100,
         "transform": [
           {
-            "rotate": "270deg",
+            "rotate": "45deg",
           },
         ],
       },
@@ -23,12 +23,12 @@ exports[`Player model - snapshot test Should renders correctly 1`] = `
       "borderTopColor": "tomato",
       "borderTopWidth": 3,
       "height": 25,
-      "left": 50,
+      "left": 25,
       "position": "absolute",
-      "top": 150,
+      "top": 100,
       "transform": [
         {
-          "rotate": "270deg",
+          "rotate": "45deg",
         },
       ],
       "width": 25,

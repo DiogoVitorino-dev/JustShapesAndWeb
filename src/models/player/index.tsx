@@ -6,7 +6,7 @@ import Animated, {
 
 import Colors from "@/constants/Colors";
 
-type PlayerPosition = SharedValue<{
+export type PlayerPosition = SharedValue<{
   x: number;
   y: number;
 }>;

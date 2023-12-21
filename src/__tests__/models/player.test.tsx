@@ -2,15 +2,10 @@ import { render, renderHook } from "@testing-library/react-native";
 import { SharedValue, useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
-import Player from "@/components/Player";
-
-interface PlayerPosition {
-  x: number;
-  y: number;
-}
+import Player, { PlayerPosition } from "@/models/player";
 
 describe("Player model - tests", () => {
-  let pos: SharedValue<PlayerPosition>;
+  let pos: PlayerPosition;
   let angle: SharedValue<number>;
 
   beforeEach(() => {
