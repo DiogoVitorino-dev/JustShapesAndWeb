@@ -1,7 +1,7 @@
 {
   "name": "justshapesandweb",
   "main": "expo-router/entry",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
+    "@phntms/use-key": "^1.0.0",
     "@react-navigation/native": "^6.0.2",
     "expo": "~49.0.15",
     "expo-dev-client": "~2.4.12",

@@ -11,7 +11,7 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 
-export interface JoyStickData {
+export interface JoystickData {
   x: number;
   y: number;
   angle: number;
@@ -20,7 +20,7 @@ export interface JoyStickData {
 interface JoyStickProp {
   size?: number;
   velocity?: number;
-  onMove?: (data: JoyStickData) => void;
+  onMove?: (data: JoystickData) => void;
   style?: ViewStyle;
 }
 
@@ -49,7 +49,7 @@ export default function Joystick({
   const pointerSize = size / 2.5;
   const pos = useSharedValue({ x: 0, y: 0 });
 
-  const normalizeData = ({ angle, x, y }: JoyStickData): JoyStickData => {
+  const normalizeData = ({ angle, x, y }: JoystickData): JoystickData => {
     "worklet";
 
     // adjusting to velocity range

@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react-native";
 
-import Joystick from "@/components/Joystick";
+import Joystick from "@/controllers/joystick";
 
 describe("JoyStick controller - snapshot test", () => {
   it("should render correctly", () => {
