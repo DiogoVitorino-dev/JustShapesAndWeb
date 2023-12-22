@@ -2,8 +2,8 @@ import { Platform, StyleSheet } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 
 import { View } from "@/components/Themed";
-import Joystick, { JoystickData } from "@/controllers/joystick";
 import Keyboard, { KeyboardData } from "@/controllers/keyboard";
+import MobileController, { JoystickData } from "@/controllers/mobile";
 import Player from "@/models/player";
 import {
   MovableObject,
@@ -30,7 +30,7 @@ export default function Sandbox() {
     anglePlayer.value = angle;
   };
 
-  const handleOnMoveKeyboard = ({ angle, x, y, dash }: KeyboardData) => {
+  const handleOnMoveKeyboard = ({ angle, x, y, isDashing }: KeyboardData) => {
     movementPlayer.value = {
       ...movementPlayer.value,
       velocityX: x,
@@ -42,7 +42,7 @@ export default function Sandbox() {
   return (
     <View style={styles.container}>
       {Platform.OS === "ios" || Platform.OS === "android" ? (
-        <Joystick
+        <MobileController
           onMove={handleOnMoveJoystick}
           velocity={3}
           style={{ bottom: 10, left: 35 }}

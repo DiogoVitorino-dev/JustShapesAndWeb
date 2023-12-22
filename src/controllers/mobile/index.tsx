@@ -15,10 +15,10 @@ export interface JoystickProp {
   style?: ViewStyle;
 }
 
-interface JoystickControllerProp extends JoystickProp {
+interface MobileControllerProp extends JoystickProp {
   controlType?: ControlTypes;
 }
 
-export default function Joystick(props: JoystickControllerProp) {
+export default function MobileController(props: MobileControllerProp) {
   return <AnalogicJoystick {...props} />;
 }
