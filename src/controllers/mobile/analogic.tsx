@@ -64,7 +64,7 @@ export default function AnalogicJoystick({
     .onFinalize(() => {
       updatePointerPosition(0, 0);
     })
-    .withTestId("joystickPan");
+    .withTestId("joystickAnalogicPan");
 
   const pointerAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
