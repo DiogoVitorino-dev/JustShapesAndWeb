@@ -17,7 +17,7 @@ import { AnglesUtils } from "@/scripts/utils/angleUtils";
 
 export interface JoystickData extends ControlData {}
 
-interface JoyStickProp {
+interface JoystickProp {
   size?: number;
   velocity?: number;
   onMove?: (data: JoystickData) => void;
@@ -29,7 +29,7 @@ export default function Joystick({
   velocity = 10,
   onMove,
   style,
-}: JoyStickProp) {
+}: JoystickProp) {
   const radius = size / 2;
   const pointerSize = size / 2.5;
   const pos = useSharedValue({ x: 0, y: 0 });
@@ -93,9 +93,13 @@ export default function Joystick({
   }));
 
   useAnimatedReaction(
-    () => {
+    (): JoystickData => {
       const angle = AnglesUtils.calculateAngle(pos.value.x, pos.value.y);
-      return normalizeData({ angle, x: pos.value.x, y: pos.value.y });
+      return normalizeData({
+        angle,
+        x: pos.value.x,
+        y: pos.value.y,
+      });
     },
     (currentValue, previousValue) => {
       if (currentValue !== previousValue && onMove) {

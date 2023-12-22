@@ -7,13 +7,11 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-import { ControlData } from "../typesControllers";
+import { ControlData, Dash } from "../typesControllers";
 
 import { AnglesUtils } from "@/scripts/utils/angleUtils";
 
-export interface KeyboardData extends ControlData {
-  dash: boolean;
-}
+export interface KeyboardData extends ControlData, Dash {}
 
 interface KeyboardProps {
   velocity?: number;
@@ -92,7 +90,7 @@ export default function Keyboard({
   };
 
   useAnimatedReaction(
-    () => {
+    (): KeyboardData => {
       let { x, y } = limitDiagonalVelocity(
         right.value + left.value, // X = Left (negative values) + Right (positive values)
         up.value + down.value, // Y = Up (negative values) + Down (positive values)
@@ -105,7 +103,7 @@ export default function Keyboard({
         x,
         y,
         angle: AnglesUtils.calculateAngle(x, y),
-        dash: dash.value !== 1,
+        isDashing: dash.value !== 1,
       };
     },
     (currentValue, previousValue) => {

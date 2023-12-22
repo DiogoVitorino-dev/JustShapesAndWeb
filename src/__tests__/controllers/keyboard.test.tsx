@@ -125,7 +125,7 @@ describe("keyboard controller - press and release default keys", () => {
   });
 
   it("Should change the value when pressing and releasing the DASH key", () => {
-    const mockHandlerMove = jest.fn((data: KeyboardData) => data.dash);
+    const mockHandlerMove = jest.fn((data: KeyboardData) => data.isDashing);
     render(
       <Keyboard
         velocity={100}
