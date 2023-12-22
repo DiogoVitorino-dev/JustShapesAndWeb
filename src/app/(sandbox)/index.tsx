@@ -5,7 +5,7 @@ import { View } from "@/components/Themed";
 import Joystick, { JoystickData } from "@/controllers/joystick";
 import Keyboard, { KeyboardData } from "@/controllers/keyboard";
 import Player from "@/models/player";
-import { MovableObject, useMovementSystem } from "@/scripts/movementSystem";
+import { MovableObject, useMovementSystem } from "@/scripts/systems/movementSystem";
 
 export default function Sandbox() {
   const movementPlayer = useSharedValue<MovableObject>({
