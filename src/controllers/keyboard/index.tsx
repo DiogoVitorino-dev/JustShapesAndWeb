@@ -7,6 +7,8 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
+import { AnglesUtils } from "@/scripts/utils/angleUtils";
+
 export interface KeyboardData {
   x: number;
   y: number;
@@ -19,19 +21,6 @@ interface KeyboardProps {
   dashMultiplier?: number;
   dashDuration?: number;
   onMove?: (data: KeyboardData) => void;
-}
-
-function shiftAngle(angle: number, amount: number) {
-  if (angle === 0) return 0;
-  return (angle + amount) % 360;
-}
-
-function calculateAngle(x: number, y: number) {
-  let angle = Math.atan2(y, x); // calculating angle
-  angle = angle * (180 / Math.PI); // convert radian to degree
-  angle = shiftAngle(angle, 360); // convert to positives degrees
-
-  return angle;
 }
 
 export default function Keyboard({
@@ -113,7 +102,12 @@ export default function Keyboard({
       x *= dash.value;
       y *= dash.value;
 
-      return { x, y, angle: calculateAngle(x, y), dash: dash.value !== 1 };
+      return {
+        x,
+        y,
+        angle: AnglesUtils.calculateAngle(x, y),
+        dash: dash.value !== 1,
+      };
     },
     (currentValue, previousValue) => {
       if (currentValue !== previousValue && onMove) {

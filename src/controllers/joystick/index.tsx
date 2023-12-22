@@ -11,6 +11,8 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 
+import { AnglesUtils } from "@/scripts/utils/angleUtils";
+
 export interface JoystickData {
   x: number;
   y: number;
@@ -22,21 +24,6 @@ interface JoyStickProp {
   velocity?: number;
   onMove?: (data: JoystickData) => void;
   style?: ViewStyle;
-}
-
-function shiftAngle(angle: number, amount: number) {
-  "worklet";
-  if (angle === 0) return 0;
-  return (angle + amount) % 360;
-}
-
-function calculateAngle(x: number, y: number) {
-  "worklet";
-  let angle = Math.atan2(y, x); // calculating angle
-  angle = angle * (180 / Math.PI); // convert radian to degree
-  angle = shiftAngle(angle, 360); // convert to positives degrees
-
-  return angle;
 }
 
 export default function Joystick({
@@ -55,7 +42,6 @@ export default function Joystick({
     // adjusting to velocity range
     x = interpolate(x, [radius * -1, radius], [velocity * -1, velocity]);
     y = interpolate(y, [radius * -1, radius], [velocity * -1, velocity]);
-    angle = shiftAngle(angle, 90); // Adjust the initial angle point upwards
 
     return { angle, x, y };
   };
@@ -110,7 +96,7 @@ export default function Joystick({
 
   useAnimatedReaction(
     () => {
-      const angle = calculateAngle(pos.value.x, pos.value.y);
+      const angle = AnglesUtils.calculateAngle(pos.value.x, pos.value.y);
       return normalizeData({ angle, x: pos.value.x, y: pos.value.y });
     },
     (currentValue, previousValue) => {
