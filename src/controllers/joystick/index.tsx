@@ -11,13 +11,11 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 
+import { ControlData } from "../typesControllers";
+
 import { AnglesUtils } from "@/scripts/utils/angleUtils";
 
-export interface JoystickData {
-  x: number;
-  y: number;
-  angle: number;
-}
+export interface JoystickData extends ControlData {}
 
 interface JoyStickProp {
   size?: number;

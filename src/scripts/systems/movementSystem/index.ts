@@ -1,8 +1,8 @@
 import { SharedValue, useFrameCallback } from "react-native-reanimated";
 
-export interface MovableObject {
-  x: number;
-  y: number;
+import { Position } from "@/constants/types";
+
+export interface MovableObject extends Position {
   velocityY: number;
   velocityX: number;
 }

@@ -5,11 +5,9 @@ import Animated, {
 } from "react-native-reanimated";
 
 import Colors from "@/constants/Colors";
+import { Position } from "@/constants/types";
 
-export type PlayerPosition = SharedValue<{
-  x: number;
-  y: number;
-}>;
+export type PlayerPosition = SharedValue<Position>;
 
 interface PlayerProps {
   position: PlayerPosition;

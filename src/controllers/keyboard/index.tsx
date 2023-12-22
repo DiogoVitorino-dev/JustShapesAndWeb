@@ -7,12 +7,11 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
+import { ControlData } from "../typesControllers";
+
 import { AnglesUtils } from "@/scripts/utils/angleUtils";
 
-export interface KeyboardData {
-  x: number;
-  y: number;
-  angle: number;
+export interface KeyboardData extends ControlData {
   dash: boolean;
 }
 
