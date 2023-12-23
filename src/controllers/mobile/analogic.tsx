@@ -8,7 +8,6 @@ import Animated, {
   interpolate,
   useAnimatedReaction,
   withTiming,
-  runOnJS,
 } from "react-native-reanimated";
 
 import { JoystickData, JoystickProp } from ".";
@@ -94,7 +93,7 @@ export default function AnalogicJoystick({
     },
     (currentValue, previousValue) => {
       if (currentValue !== previousValue && onMove) {
-        runOnJS(onMove)(currentValue);
+        onMove(currentValue);
       }
     },
   );
