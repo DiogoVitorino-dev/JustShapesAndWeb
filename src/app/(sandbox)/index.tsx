@@ -22,6 +22,7 @@ export default function Sandbox() {
   const { MovementResult } = useMovementSystem({ movementPlayer });
 
   const handleOnMoveJoystick = ({ angle, x, y }: JoystickData) => {
+    "worklet";
     movementPlayer.value = {
       ...movementPlayer.value,
       velocityX: x,
@@ -44,16 +45,13 @@ export default function Sandbox() {
       {Platform.OS === "ios" || Platform.OS === "android" ? (
         <MobileController
           onMove={handleOnMoveJoystick}
-          velocity={3}
+          velocity={2}
           style={{ bottom: 10, left: 35 }}
         />
       ) : (
         <Keyboard onMove={handleOnMoveKeyboard} />
       )}
-      <Player
-        position={MovementResult.movementPlayer}
-        lookAngle={anglePlayer}
-      />
+      <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
     </View>
   );
 }

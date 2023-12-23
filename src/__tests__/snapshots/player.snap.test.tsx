@@ -9,7 +9,7 @@ describe("Player model - snapshot test", () => {
       .current;
     const angle = renderHook(() => useSharedValue(45)).result.current;
 
-    const tree = render(<Player lookAngle={angle} position={pos} size={25} />);
+    const tree = render(<Player angle={angle} position={pos} size={25} />);
 
     expect(tree.toJSON()).toMatchSnapshot();
   });

@@ -22,7 +22,7 @@ describe("Player model - tests", () => {
   });
 
   it("should move a model", () => {
-    const { getByTestId } = render(<Player lookAngle={angle} position={pos} />);
+    const { getByTestId } = render(<Player angle={angle} position={pos} />);
 
     const view = getByTestId("playerModel");
 
@@ -39,7 +39,7 @@ describe("Player model - tests", () => {
   });
 
   it("should change angle", () => {
-    const { getByTestId } = render(<Player lookAngle={angle} position={pos} />);
+    const { getByTestId } = render(<Player angle={angle} position={pos} />);
 
     angle.value = 90;
 
