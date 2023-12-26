@@ -21,12 +21,12 @@ export default function MobileControl({ onMove, velocity }: MobileControlProp) {
   const jump = useSharedValue<boolean>(false);
   const data = useSharedValue<JoystickData>({ angle: 0, x: 0, y: 0 });
 
-  const handleOnMove = (newData: JoystickData) => {
+  const handleDirectional = (newData: JoystickData) => {
     "worklet";
     data.value = newData;
   };
 
-  const handleOnJump = (pressed: boolean) => {
+  const handleButtons = (pressed: boolean) => {
     "worklet";
     jump.value = pressed;
   };
@@ -42,8 +42,8 @@ export default function MobileControl({ onMove, velocity }: MobileControlProp) {
 
   return (
     <View style={styles.container}>
-      <AnalogicJoystick onMove={handleOnMove} velocity={velocity} />
-      <AreaButton onPress={handleOnJump} />
+      <AnalogicJoystick onMove={handleDirectional} velocity={velocity} />
+      <AreaButton onPress={handleButtons} />
     </View>
   );
 }
