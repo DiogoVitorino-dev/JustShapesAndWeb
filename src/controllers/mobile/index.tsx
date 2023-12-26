@@ -1,24 +1,28 @@
 import React from "react";
 import { ViewStyle } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
 
-import AnalogicJoystick from "./analogic";
-import { ControlData } from "../typesControllers";
+import AnalogicJoystick from "./directional/analogic";
+import { ControlProp, Directional } from "../typesControllers";
 
-export type ControlTypes = "analogic";
+interface MobileControlProp extends ControlProp {}
 
-export interface JoystickData extends ControlData {}
+export interface JoystickData extends Directional {}
 
 export interface JoystickProp {
   size?: number;
   velocity?: number;
   onMove?: (data: JoystickData) => void;
-  style?: ViewStyle;
+  containerStyle?: ViewStyle;
 }
 
-interface MobileControllerProp extends JoystickProp {
-  controlType?: ControlTypes;
-}
+export default function MobileControl({ onMove, velocity }: MobileControlProp) {
+  const jump = useSharedValue<boolean>(false);
 
-export default function MobileController(props: MobileControllerProp) {
-  return <AnalogicJoystick {...props} />;
+  const handleOnMove = ({ angle, x, y }: JoystickData) => {
+    "worklet";
+    onMove({ angle, jumping: jump.value, x, y });
+  };
+
+  return <AnalogicJoystick onMove={handleOnMove} velocity={velocity} />;
 }

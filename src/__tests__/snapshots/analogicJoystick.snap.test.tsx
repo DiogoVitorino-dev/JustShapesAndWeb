@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react-native";
 
-import AnalogicJoystick from "@/controllers/mobile/analogic";
+import AnalogicJoystick from "@/controllers/mobile/directional/analogic";
 
 describe("Analogic Joystick - Snapshot mobile controller test", () => {
   it("should render correctly", () => {

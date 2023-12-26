@@ -10,16 +10,18 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { JoystickData, JoystickProp } from ".";
+import { JoystickData, JoystickProp } from "..";
 
 import { AnglesUtils } from "@/scripts/utils/angleUtils";
+
+interface AnalogicProp extends JoystickProp {}
 
 export default function AnalogicJoystick({
   size = 100,
   velocity = 10,
   onMove,
-  style,
-}: JoystickProp) {
+  containerStyle,
+}: AnalogicProp) {
   const radius = size / 2;
   const pointerSize = size / 2.5;
   const pos = useSharedValue({ x: 0, y: 0 });
@@ -99,7 +101,7 @@ export default function AnalogicJoystick({
   );
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, containerStyle]}>
       <GestureDetector gesture={pan}>
         <View
           testID="pan"
@@ -127,14 +129,18 @@ export default function AnalogicJoystick({
 
 const styles = StyleSheet.create({
   container: {
+    width: "30%",
+    height: "50%",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "indigo",
-    position: "absolute",
   },
 
   area: {
     backgroundColor: "tomato",
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 1000,
   },
 
   pointer: {

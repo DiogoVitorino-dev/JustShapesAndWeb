@@ -11,7 +11,7 @@ const defaultKeys = {
   down: "s",
   left: "a",
   right: "d",
-  dash: " ",
+  jump: " ",
 };
 
 describe("keyboard controller - press and release default keys", () => {
@@ -124,30 +124,27 @@ describe("keyboard controller - press and release default keys", () => {
     expect(mockHandlerMove).toHaveReturnedWith(-100);
   });
 
-  it("Should change the value when pressing and releasing the DASH key", () => {
-    const mockHandlerMove = jest.fn((data: KeyboardData) => data.isDashing);
-    render(
-      <Keyboard
-        velocity={100}
-        onMove={mockHandlerMove}
-        dashDuration={10}
-        dashMultiplier={2}
-      />,
-    );
+  it("Should change the value when pressing and releasing the JUMP key", () => {
+    const mockHandlerMove = jest.fn((data: KeyboardData) => data.jumping);
+    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
 
-    let event = new KeyboardEvent("keydown", { key: defaultKeys.dash });
-    act(() => {
-      window.dispatchEvent(event);
-    });
-
-    event = new KeyboardEvent("keyup", { key: defaultKeys.dash });
+    let event = new KeyboardEvent("keydown", { key: defaultKeys.jump });
     act(() => {
       window.dispatchEvent(event);
     });
 
     jest.advanceTimersByTime(20);
 
-    expect(mockHandlerMove).toHaveNthReturnedWith(2, true);
+    expect(mockHandlerMove).toHaveReturnedWith(true);
+
+    event = new KeyboardEvent("keyup", { key: defaultKeys.jump });
+    act(() => {
+      window.dispatchEvent(event);
+    });
+
+    jest.advanceTimersByTime(20);
+
+    expect(mockHandlerMove).toHaveReturnedWith(false);
   });
 });
 

@@ -1,9 +1,9 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 
 import { View } from "@/components/Themed";
-import Keyboard, { KeyboardData } from "@/controllers/keyboard";
-import MobileController, { JoystickData } from "@/controllers/mobile";
+import Controller from "@/controllers";
+import { ControlData } from "@/controllers/typesControllers";
 import Player from "@/models/player";
 import {
   MovableObject,
@@ -21,17 +21,8 @@ export default function Sandbox() {
 
   const { MovementResult } = useMovementSystem({ movementPlayer });
 
-  const handleOnMoveJoystick = ({ angle, x, y }: JoystickData) => {
+  const handleOnMove = ({ angle, x, y }: ControlData) => {
     "worklet";
-    movementPlayer.value = {
-      ...movementPlayer.value,
-      velocityX: x,
-      velocityY: y,
-    };
-    anglePlayer.value = angle;
-  };
-
-  const handleOnMoveKeyboard = ({ angle, x, y, isDashing }: KeyboardData) => {
     movementPlayer.value = {
       ...movementPlayer.value,
       velocityX: x,
@@ -42,15 +33,7 @@ export default function Sandbox() {
 
   return (
     <View style={styles.container}>
-      {Platform.OS === "ios" || Platform.OS === "android" ? (
-        <MobileController
-          onMove={handleOnMoveJoystick}
-          velocity={2}
-          style={{ bottom: 10, left: 35 }}
-        />
-      ) : (
-        <Keyboard onMove={handleOnMoveKeyboard} />
-      )}
+      <Controller onMove={handleOnMove} velocity={2} />
       <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
     </View>
   );

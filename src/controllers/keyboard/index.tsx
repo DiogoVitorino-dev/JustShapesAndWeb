@@ -4,33 +4,25 @@ import {
   runOnJS,
   useAnimatedReaction,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
 
-import { ControlData, Dash } from "../typesControllers";
+import { ControlData, ControlProp } from "../typesControllers";
 
 import { AnglesUtils } from "@/scripts/utils/angleUtils";
 
-export interface KeyboardData extends ControlData, Dash {}
+export interface KeyboardData extends ControlData {}
 
-interface KeyboardProps {
-  velocity?: number;
-  dashMultiplier?: number;
-  dashDuration?: number;
-  onMove?: (data: KeyboardData) => void;
-}
+interface KeyboardProps extends ControlProp {}
 
-export default function Keyboard({
+export default function KeyboardControl({
   onMove,
-  dashMultiplier = 2,
-  dashDuration = 100,
   velocity = 3,
 }: KeyboardProps) {
   const up = useSharedValue(0);
   const down = useSharedValue(0);
   const left = useSharedValue(0);
   const right = useSharedValue(0);
-  const dash = useSharedValue(1);
+  const jumping = useSharedValue<boolean>(false);
 
   const increaseOnKeypress = (animV: SharedValue<number>, pressed: boolean) => {
     "worklet";
@@ -63,17 +55,7 @@ export default function Keyboard({
   useKey("A", (pressed) => decreaseOnKeypress(left, pressed));
 
   useKey(" ", (pressed) => {
-    if (pressed) {
-      dash.value = withTiming(
-        dashMultiplier,
-        { duration: dashDuration },
-        (fin) => {
-          if (fin) {
-            dash.value = 1;
-          }
-        },
-      );
-    }
+    jumping.value = pressed;
   });
 
   const limitDiagonalVelocity = (x: number, y: number) => {
@@ -91,19 +73,16 @@ export default function Keyboard({
 
   useAnimatedReaction(
     (): KeyboardData => {
-      let { x, y } = limitDiagonalVelocity(
+      const { x, y } = limitDiagonalVelocity(
         right.value + left.value, // X = Left (negative values) + Right (positive values)
         up.value + down.value, // Y = Up (negative values) + Down (positive values)
       );
 
-      x *= dash.value;
-      y *= dash.value;
-
       return {
         x,
         y,
+        jumping: jumping.value,
         angle: AnglesUtils.calculateAngle(x, y),
-        isDashing: dash.value !== 1,
       };
     },
     (currentValue, previousValue) => {

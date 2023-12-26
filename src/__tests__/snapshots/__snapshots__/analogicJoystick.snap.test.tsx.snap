@@ -5,8 +5,11 @@ exports[`Analogic Joystick - Snapshot mobile controller test should render corre
   style={
     [
       {
+        "alignItems": "center",
         "backgroundColor": "indigo",
-        "position": "absolute",
+        "height": "50%",
+        "justifyContent": "center",
+        "width": "30%",
       },
       undefined,
     ]
@@ -25,6 +28,7 @@ exports[`Analogic Joystick - Snapshot mobile controller test should render corre
           "alignItems": "center",
           "backgroundColor": "tomato",
           "justifyContent": "center",
+          "zIndex": 1000,
         },
       ]
     }
