@@ -21,7 +21,7 @@ export default function Sandbox() {
 
   const { MovementResult } = useMovementSystem({ movementPlayer });
 
-  const handleOnMove = ({ angle, x, y }: ControlData) => {
+  const handleOnMove = ({ angle, x, y, jumping }: ControlData) => {
     "worklet";
     movementPlayer.value = {
       ...movementPlayer.value,
@@ -29,6 +29,7 @@ export default function Sandbox() {
       velocityY: y,
     };
     anglePlayer.value = angle;
+    console.log(jumping);
   };
 
   return (
