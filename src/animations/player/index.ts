@@ -17,7 +17,7 @@ const useAnimationMove = (position: PlayerPosition, angle: PlayerAngle) => {
     top: position.value.y,
     left: position.value.x,
     transform: [
-      { rotate: withTiming(angle.value + "deg", { duration: 50 }) },
+      { rotate: withSpring(angle.value + "deg", {}) },
       {
         scaleY: withSpring(scaleY.value, { stiffness: 500 }),
       },
@@ -26,9 +26,12 @@ const useAnimationMove = (position: PlayerPosition, angle: PlayerAngle) => {
   }));
 
   useAnimatedReaction(
-    () => position.value.x,
+    () => ({
+      x: position.value.x,
+      y: position.value.y,
+    }),
     (current, previous) => {
-      if (previous && current !== previous) {
+      if (previous && JSON.stringify(current) !== JSON.stringify(previous)) {
         scaleY.value = 0.75;
       } else if (scaleY.value !== 1) {
         scaleY.value = 1;
