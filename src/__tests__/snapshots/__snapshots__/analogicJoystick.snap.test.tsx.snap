@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Analogic Joystick - Snapshot mobile controller test should render correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "indigo",
+        "height": "50%",
+        "justifyContent": "center",
+        "width": "30%",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      [
+        {
+          "borderRadius": 150,
+          "height": 300,
+          "width": 300,
+        },
+        {
+          "alignItems": "center",
+          "backgroundColor": "tomato",
+          "justifyContent": "center",
+          "zIndex": 1000,
+        },
+      ]
+    }
+    testID="pan"
+  >
+    <View
+      animatedStyle={
+        {
+          "value": {
+            "transform": [
+              {
+                "translateX": 0,
+              },
+              {
+                "translateY": 0,
+              },
+            ],
+          },
+        }
+      }
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "cyan",
+          "borderRadius": 150,
+          "height": 120,
+          "transform": [
+            {
+              "translateX": 0,
+            },
+            {
+              "translateY": 0,
+            },
+          ],
+          "width": 120,
+        }
+      }
+    />
+  </View>
+</View>
+`;

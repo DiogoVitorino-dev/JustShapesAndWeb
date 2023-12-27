@@ -2,8 +2,8 @@
   "expo": {
     "name": "JustShapesAndWeb",
     "slug": "JustShapesAndWeb",
-    "version": "0.0.2",
-    "orientation": "portrait",
+    "version": "0.9.3",
+    "orientation": "landscape",
     "icon": "./src/assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -40,15 +40,8 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "e599bca7-6115-45ce-a15c-20bca70d9a15"
-      }
+      "typedRoutes": true,
+      "tsconfigPaths": true
     }
   }
 }
