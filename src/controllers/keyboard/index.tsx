@@ -87,7 +87,7 @@ export default function KeyboardControl({
     },
     (currentValue, previousValue) => {
       if (currentValue !== previousValue && onMove) {
-        runOnJS(onMove)(currentValue);
+        onMove(currentValue);
       }
     },
   );
