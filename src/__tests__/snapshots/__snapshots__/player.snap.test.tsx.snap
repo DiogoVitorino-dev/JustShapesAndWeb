@@ -5,13 +5,21 @@ exports[`Player model - snapshot test Should renders correctly 1`] = `
   animatedStyle={
     {
       "value": {
+        "height": 50,
         "left": 25,
-        "top": 100,
+        "top": 50,
         "transform": [
           {
-            "rotate": "45deg",
+            "rotate": "90deg",
+          },
+          {
+            "scaleY": 1,
+          },
+          {
+            "scale": 1,
           },
         ],
+        "width": 100,
       },
     }
   }
@@ -19,19 +27,25 @@ exports[`Player model - snapshot test Should renders correctly 1`] = `
   style={
     {
       "backgroundColor": "#2f95dc",
+      "borderLeftColor": "tomato",
+      "borderLeftWidth": 3,
       "borderRadius": 2,
-      "borderTopColor": "tomato",
-      "borderTopWidth": 3,
-      "height": 25,
+      "height": 50,
       "left": 25,
       "position": "absolute",
-      "top": 100,
+      "top": 50,
       "transform": [
         {
-          "rotate": "45deg",
+          "rotate": "90deg",
+        },
+        {
+          "scaleY": 1,
+        },
+        {
+          "scale": 1,
         },
       ],
-      "width": 25,
+      "width": 100,
     }
   }
   testID="playerModel"

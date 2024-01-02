@@ -1,15 +1,26 @@
 import { render, renderHook } from "@testing-library/react-native";
 import { useSharedValue } from "react-native-reanimated";
 
-import Player from "@/models/player";
+import Player, {
+  PlayerAngle,
+  PlayerPosition,
+  PlayerSize,
+} from "@/models/player";
 
 describe("Player model - snapshot test", () => {
   it("Should renders correctly", () => {
-    const pos = renderHook(() => useSharedValue({ x: 25, y: 100 })).result
-      .current;
-    const angle = renderHook(() => useSharedValue(45)).result.current;
+    let pos: PlayerPosition;
+    let angle: PlayerAngle;
+    let size: PlayerSize;
 
-    const tree = render(<Player angle={angle} position={pos} size={25} />);
+    renderHook(() => {
+      pos = useSharedValue({ x: 25, y: 50 });
+      angle = useSharedValue(90);
+      size = useSharedValue({ width: 100, height: 50 });
+    });
+
+    //@ts-expect-error
+    const tree = render(<Player angle={angle} position={pos} size={size} />);
 
     expect(tree.toJSON()).toMatchSnapshot();
   });

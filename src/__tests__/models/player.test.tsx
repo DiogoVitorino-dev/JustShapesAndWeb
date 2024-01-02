@@ -1,18 +1,24 @@
 import { render, renderHook } from "@testing-library/react-native";
-import { SharedValue, useSharedValue } from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
-import Player, { PlayerPosition } from "@/models/player";
+import Player, {
+  PlayerAngle,
+  PlayerPosition,
+  PlayerSize,
+} from "@/models/player";
 
 describe("Player model - tests", () => {
   let pos: PlayerPosition;
-  let angle: SharedValue<number>;
+  let size: PlayerSize;
+  let angle: PlayerAngle;
 
   beforeEach(() => {
     jest.useFakeTimers();
 
     renderHook(() => {
       pos = useSharedValue({ x: 0, y: 0 });
+      size = useSharedValue({ width: 50, height: 50 });
       angle = useSharedValue(0);
     });
   });
@@ -21,7 +27,7 @@ describe("Player model - tests", () => {
     jest.useRealTimers();
   });
 
-  it("should move a model", () => {
+  it("Should move a model", () => {
     const { getByTestId } = render(<Player angle={angle} position={pos} />);
 
     const view = getByTestId("playerModel");
@@ -30,7 +36,7 @@ describe("Player model - tests", () => {
 
     angle.value = 90;
 
-    jest.advanceTimersByTime(2000);
+    jest.advanceTimersByTime(1000);
 
     expect(view).toHaveAnimatedStyle({
       left: 50,
@@ -38,15 +44,30 @@ describe("Player model - tests", () => {
     });
   });
 
-  it("should change angle", () => {
+  it("Should change angle", () => {
     const { getByTestId } = render(<Player angle={angle} position={pos} />);
 
     angle.value = 90;
 
-    jest.advanceTimersByTime(2000);
+    jest.advanceTimersByTime(1500);
 
     const style = getAnimatedStyle(getByTestId("playerModel"));
 
     expect(style.transform[0].rotate).toStrictEqual("90deg");
+  });
+
+  it("Should change size", () => {
+    const { getByTestId } = render(
+      <Player angle={angle} position={pos} size={size} />,
+    );
+
+    size.value = { width: 100, height: 150 };
+
+    jest.advanceTimersByTime(1000);
+
+    const style = getAnimatedStyle(getByTestId("playerModel"));
+
+    expect(style.width).toBe(100);
+    expect(style.height).toBe(150);
   });
 });
