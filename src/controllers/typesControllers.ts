@@ -1,7 +1,7 @@
-import { Position } from "@/constants/types";
+import { Angle, Position } from "@/constants/types";
 
 export interface Directional extends Position {
-  angle: number;
+  angle: Angle;
 }
 
 export interface Jumpable {

@@ -4,7 +4,6 @@ import {
   useSharedValue,
   withSequence,
   withSpring,
-  withTiming,
 } from "react-native-reanimated";
 
 import { PlayerAngle, PlayerPosition } from "@/models/player";
@@ -17,7 +16,7 @@ const useAnimationMove = (position: PlayerPosition, angle: PlayerAngle) => {
     top: position.value.y,
     left: position.value.x,
     transform: [
-      { rotate: withSpring(angle.value + "deg", {}) },
+      { rotate: withSpring(angle.value + "deg") },
       {
         scaleY: withSpring(scaleY.value, { stiffness: 500 }),
       },
