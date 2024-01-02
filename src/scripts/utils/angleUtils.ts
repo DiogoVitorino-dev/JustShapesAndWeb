@@ -10,7 +10,7 @@ function calculateAngle(x: number, y: number) {
   angle = angle * (180 / Math.PI); // convert radian to degree
   angle = shiftAngle(angle, 360); // convert to positives degrees
 
-  return angle;
+  return Number(angle.toFixed(0));
 }
 
 export const AnglesUtils = {
