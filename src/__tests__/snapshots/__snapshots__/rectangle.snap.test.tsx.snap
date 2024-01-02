@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rectangle model - snapshot test Should renders correctly 1`] = `
+<View
+  animatedStyle={
+    {
+      "value": {
+        "height": 50,
+        "left": 25,
+        "top": 50,
+        "transform": [
+          {
+            "rotate": "90deg",
+          },
+        ],
+        "width": 100,
+      },
+    }
+  }
+  collapsable={false}
+  style={
+    {
+      "height": 50,
+      "left": 25,
+      "position": "absolute",
+      "top": 50,
+      "transform": [
+        {
+          "rotate": "90deg",
+        },
+      ],
+      "width": 100,
+    }
+  }
+  testID="rectangleModel"
+/>
+`;

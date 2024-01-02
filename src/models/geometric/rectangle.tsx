@@ -2,43 +2,40 @@ import React from "react";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 import {
-  Angle,
   AnimatedAngle,
   AnimatedPosition,
   AnimatedSize,
   AnimatedViewStyle,
-  Position,
-  Size,
 } from "@/constants/types";
 
-export interface Rectangle extends Size, Position {
-  angle: Angle;
-}
+export type RectanglePosition = AnimatedPosition;
+export type RectangleSize = AnimatedSize;
+export type RectangleAngle = AnimatedAngle;
 
 interface RectangleGeometricProps {
-  size: AnimatedSize;
-  angle: AnimatedAngle;
-  position: AnimatedPosition;
+  position: RectanglePosition;
+  angle?: RectangleAngle;
+  size?: RectangleSize;
   style?: AnimatedViewStyle;
 }
 
-export default function RectangleGeometric({
+export default function Rectangle({
   position,
   angle,
   style,
   size,
 }: RectangleGeometricProps) {
   const animatedStyle = useAnimatedStyle(() => ({
-    width: size.value.width,
-    height: size.value.height,
+    width: size?.value.width || 50,
+    height: size?.value.height || 100,
     top: position.value.y,
     left: position.value.x,
-    transform: [{ rotate: angle.value + "deg" }],
+    transform: [{ rotate: angle?.value + "deg" }],
   }));
 
   return (
     <Animated.View
-      testID="rectangleGeometricModel"
+      testID="rectangleModel"
       style={[animatedStyle, style, { position: "absolute" }]}
     />
   );
