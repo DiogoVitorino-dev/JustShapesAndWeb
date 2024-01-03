@@ -10,11 +10,13 @@ import { AnglesUtils } from "@/scripts/utils/angleUtils";
 // Top - Negative Y
 // Down - Positive Y
 
-describe("Angle Utils  - tests", () => {
+describe("testing shiftAngle - Angle Utils tests", () => {
   it("Should move the angle degree to 90 forward", () => {
     expect(AnglesUtils.shiftAngle(90, 180)).toBe(270);
   });
+});
 
+describe("testing calculateAngle - Angle Utils tests", () => {
   // Screen Reference (x,y) x Degrees Range
 
   // Right - Down (Positive,Positive) =   (0° - 90°)

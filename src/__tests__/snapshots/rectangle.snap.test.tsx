@@ -7,7 +7,7 @@ import Rectangle, {
   RectangleSize,
 } from "@/models/geometric/rectangle";
 
-describe("Rectangle model - snapshot test", () => {
+describe("Rectangle model - Snapshot test", () => {
   it("Should renders correctly", () => {
     let pos: RectanglePosition;
     let angle: RectangleAngle;

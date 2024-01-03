@@ -7,7 +7,7 @@ import Player, {
   PlayerSize,
 } from "@/models/player";
 
-describe("Player model - snapshot test", () => {
+describe("Player model - Snapshot test", () => {
   it("Should renders correctly", () => {
     let pos: PlayerPosition;
     let angle: PlayerAngle;

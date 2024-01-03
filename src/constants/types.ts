@@ -17,6 +17,6 @@ export type AnimatedPosition = SharedValue<Position>;
 export type AnimatedSize = SharedValue<Size>;
 export type AnimatedAngle = SharedValue<Angle>;
 
-export type AnimatedViewStyle = AnimatedStyleProp<
+export type AnimatedStyleApp = AnimatedStyleProp<
   ViewStyle | ImageStyle | TextStyle
 >;

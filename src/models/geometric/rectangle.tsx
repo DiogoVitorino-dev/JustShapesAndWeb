@@ -5,7 +5,7 @@ import {
   AnimatedAngle,
   AnimatedPosition,
   AnimatedSize,
-  AnimatedViewStyle,
+  AnimatedStyleApp,
 } from "@/constants/types";
 
 export type RectanglePosition = AnimatedPosition;
@@ -16,7 +16,7 @@ interface RectangleGeometricProps {
   position: RectanglePosition;
   angle?: RectangleAngle;
   size?: RectangleSize;
-  style?: AnimatedViewStyle;
+  style?: AnimatedStyleApp;
 }
 
 export default function Rectangle({

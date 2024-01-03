@@ -8,7 +8,7 @@ import Player, {
   PlayerSize,
 } from "@/models/player";
 
-describe("Player model - tests", () => {
+describe("Player - Model tests", () => {
   let pos: PlayerPosition;
   let size: PlayerSize;
   let angle: PlayerAngle;

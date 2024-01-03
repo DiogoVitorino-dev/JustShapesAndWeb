@@ -9,7 +9,7 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-import { AnimatedViewStyle } from "@/constants/types";
+import { AnimatedStyleApp } from "@/constants/types";
 import { MathUtils } from "@/scripts/utils/mathUtils";
 
 export type ShakeImpact = "start" | "end" | "all";
@@ -24,8 +24,8 @@ export interface ShakeImpactConfig extends ShakeImpactDirection {
 }
 
 export interface ShakeAnimation {
-  animatedStyle: AnimatedViewStyle;
-  run: () => { animatedStyle: AnimatedViewStyle };
+  animatedStyle: AnimatedStyleApp;
+  run: () => { animatedStyle: AnimatedStyleApp };
 }
 
 export function useShakeAnimation(
@@ -36,7 +36,7 @@ export function useShakeAnimation(
   const shakeY = useSharedValue(0);
   const shakeX = useSharedValue(0);
 
-  const animatedStyle: AnimatedViewStyle = useAnimatedStyle(() => ({
+  const animatedStyle: AnimatedStyleApp = useAnimatedStyle(() => ({
     transform: [{ translateX: shakeX.value }, { translateY: shakeY.value }],
   }));
 

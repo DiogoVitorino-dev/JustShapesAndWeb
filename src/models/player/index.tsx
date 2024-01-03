@@ -7,7 +7,7 @@ import {
   AnimatedAngle,
   AnimatedSize,
   AnimatedPosition,
-  AnimatedViewStyle,
+  AnimatedStyleApp,
 } from "@/constants/types";
 
 export type PlayerSize = AnimatedSize;
@@ -18,7 +18,7 @@ interface PlayerProps {
   position: PlayerPosition;
   angle: PlayerAngle;
   size?: PlayerSize;
-  style?: AnimatedViewStyle;
+  style?: AnimatedStyleApp;
 }
 
 export default function Player({ size, angle, position, style }: PlayerProps) {

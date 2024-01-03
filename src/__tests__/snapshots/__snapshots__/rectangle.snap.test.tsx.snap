@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rectangle model - snapshot test Should renders correctly 1`] = `
+exports[`Rectangle model - Snapshot test Should renders correctly 1`] = `
 <View
   animatedStyle={
     {

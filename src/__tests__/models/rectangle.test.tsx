@@ -8,7 +8,7 @@ import Rectangle, {
   RectangleSize,
 } from "@/models/geometric/rectangle";
 
-describe("Rectangle model - tests", () => {
+describe("Rectangle - Model tests", () => {
   let pos: RectanglePosition;
   let size: RectangleSize;
   let angle: RectangleAngle;
