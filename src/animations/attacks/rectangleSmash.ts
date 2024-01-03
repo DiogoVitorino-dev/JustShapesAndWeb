@@ -3,6 +3,7 @@ import {
   Easing,
   WithTimingConfig,
   useAnimatedStyle,
+  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
@@ -45,9 +46,12 @@ export default function useRectangleSmash({
     easing: Easing.exp,
   };
 
+  const opacity = useSharedValue(0.5);
+
   const style = useAnimatedStyle(() => ({
     width: size.value.width,
     height: size.value.height,
+    opacity: opacity.value,
   }));
 
   const verticalAttack = () => {
@@ -71,6 +75,7 @@ export default function useRectangleSmash({
   };
 
   const horizontalAttack = () => {
+    opacity.value = 1;
     size.value = withTiming(
       {
         width: size.value.width + prepareValue,
