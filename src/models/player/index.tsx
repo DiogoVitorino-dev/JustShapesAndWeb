@@ -1,30 +1,42 @@
 import React from "react";
-import Animated, { SharedValue } from "react-native-reanimated";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 import { AnimationPlayer } from "@/animations/player";
 import Colors from "@/constants/Colors";
-import { Position } from "@/constants/types";
+import {
+  AnimatedAngle,
+  AnimatedSize,
+  AnimatedPosition,
+  AnimatedStyleApp,
+} from "@/constants/types";
 
-export type PlayerPosition = SharedValue<Position>;
-export type PlayerAngle = SharedValue<number>;
+export type PlayerSize = AnimatedSize;
+export type PlayerPosition = AnimatedPosition;
+export type PlayerAngle = AnimatedAngle;
 
 interface PlayerProps {
   position: PlayerPosition;
   angle: PlayerAngle;
-  size?: number;
+  size?: PlayerSize;
+  style?: AnimatedStyleApp;
 }
 
-export default function Player({ size = 20, angle, position }: PlayerProps) {
+export default function Player({ size, angle, position, style }: PlayerProps) {
   const animatedMove = AnimationPlayer.useAnimationMove(position, angle);
+
+  const playerAnimatedStyle = useAnimatedStyle(() => ({
+    width: size?.value.width || 20,
+    height: size?.value.height || 20,
+  }));
 
   return (
     <Animated.View
       testID="playerModel"
       style={[
         animatedMove,
+        playerAnimatedStyle,
+        style,
         {
-          width: size,
-          height: size,
           backgroundColor: Colors["light"].tabIconSelected,
           borderRadius: 2,
           position: "absolute",

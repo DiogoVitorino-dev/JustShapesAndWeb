@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Player model - Snapshot test Should renders correctly 1`] = `
+exports[`Rectangle model - Snapshot test Should renders correctly 1`] = `
 <View
   animatedStyle={
     {
@@ -12,12 +12,6 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
           {
             "rotate": "90deg",
           },
-          {
-            "scaleY": 1,
-          },
-          {
-            "scale": 1,
-          },
         ],
         "width": 100,
       },
@@ -26,10 +20,6 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
   collapsable={false}
   style={
     {
-      "backgroundColor": "#2f95dc",
-      "borderLeftColor": "tomato",
-      "borderLeftWidth": 3,
-      "borderRadius": 2,
       "height": 50,
       "left": 25,
       "position": "absolute",
@@ -38,16 +28,10 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
         {
           "rotate": "90deg",
         },
-        {
-          "scaleY": 1,
-        },
-        {
-          "scale": 1,
-        },
       ],
       "width": 100,
     }
   }
-  testID="playerModel"
+  testID="rectangleModel"
 />
 `;

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Circle model - Snapshot test Should renders correctly 1`] = `
+<View
+  animatedStyle={
+    {
+      "value": {
+        "height": 90,
+        "left": 25,
+        "top": 50,
+        "width": 90,
+      },
+    }
+  }
+  collapsable={false}
+  style={
+    {
+      "height": 90,
+      "left": 25,
+      "top": 50,
+      "width": 90,
+    }
+  }
+  testID="circleModel"
+/>
+`;

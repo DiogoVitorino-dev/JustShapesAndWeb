@@ -1,17 +1,17 @@
 import { render, renderHook } from "@testing-library/react-native";
 import { useSharedValue } from "react-native-reanimated";
 
-import Player, {
-  PlayerAngle,
-  PlayerPosition,
-  PlayerSize,
-} from "@/models/player";
+import Rectangle, {
+  RectangleAngle,
+  RectanglePosition,
+  RectangleSize,
+} from "@/models/geometric/rectangle";
 
-describe("Player model - Snapshot test", () => {
+describe("Rectangle model - Snapshot test", () => {
   it("Should renders correctly", () => {
-    let pos: PlayerPosition;
-    let angle: PlayerAngle;
-    let size: PlayerSize;
+    let pos: RectanglePosition;
+    let angle: RectangleAngle;
+    let size: RectangleSize;
 
     renderHook(() => {
       pos = useSharedValue({ x: 25, y: 50 });
@@ -20,7 +20,7 @@ describe("Player model - Snapshot test", () => {
     });
 
     //@ts-expect-error
-    const tree = render(<Player angle={angle} position={pos} size={size} />);
+    const tree = render(<Rectangle angle={angle} position={pos} size={size} />);
 
     expect(tree.toJSON()).toMatchSnapshot();
   });

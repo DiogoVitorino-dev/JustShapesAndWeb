@@ -14,7 +14,7 @@ const defaultKeys = {
   jump: " ",
 };
 
-describe("keyboard controller - press and release default keys", () => {
+describe("press and release default keys - Keyboard controller tests", () => {
   beforeEach(() => jest.useFakeTimers());
   afterEach(() => jest.useRealTimers());
 
@@ -148,7 +148,7 @@ describe("keyboard controller - press and release default keys", () => {
   });
 });
 
-describe("keyboard controller - Angles", () => {
+describe("Angles - Keyboard controller tests", () => {
   const mockHandlerMove = jest.fn((data: KeyboardData) => data.angle);
 
   beforeEach(() => jest.useFakeTimers());
