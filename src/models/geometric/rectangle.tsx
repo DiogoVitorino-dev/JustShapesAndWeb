@@ -12,7 +12,7 @@ export type RectanglePosition = AnimatedPosition;
 export type RectangleSize = AnimatedSize;
 export type RectangleAngle = AnimatedAngle;
 
-interface RectangleGeometricProps {
+interface RectangleProps {
   position: RectanglePosition;
   angle?: RectangleAngle;
   size?: RectangleSize;
@@ -24,7 +24,7 @@ export default function Rectangle({
   angle,
   style,
   size,
-}: RectangleGeometricProps) {
+}: RectangleProps) {
   const animatedStyle = useAnimatedStyle(() => ({
     width: size?.value.width || 50,
     height: size?.value.height || 100,
