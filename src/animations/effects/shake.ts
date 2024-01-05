@@ -9,6 +9,8 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
+import { RunnableAnimation, StylizedAnimation } from "../animations.type";
+
 import { AnimatedStyleApp } from "@/constants/types";
 import { MathUtils } from "@/scripts/utils/mathUtils";
 
@@ -23,10 +25,7 @@ export interface ShakeImpactConfig extends ShakeImpactDirection {
   duration?: number;
 }
 
-export interface ShakeAnimation {
-  animatedStyle: AnimatedStyleApp;
-  run: () => { animatedStyle: AnimatedStyleApp };
-}
+export interface ShakeAnimation extends StylizedAnimation, RunnableAnimation {}
 
 export function useShakeAnimation(
   duration = 200,

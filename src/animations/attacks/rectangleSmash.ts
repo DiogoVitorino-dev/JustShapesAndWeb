@@ -7,6 +7,8 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
+import { RunnableAnimation, StylizedAnimation } from "../animations.type";
+
 import { RectangleSize } from "@/models/geometric/rectangle";
 
 export type SmashDirection = "horizontal" | "vertical";
@@ -28,10 +30,14 @@ interface RectangleSmashProps {
   smashConfig?: RectangleSmashConfig;
 }
 
-export default function useRectangleSmash({
+interface RectangleSmashAnimation
+  extends RunnableAnimation,
+    StylizedAnimation {}
+
+export function useRectangleSmashAnimation({
   size,
   smashConfig,
-}: RectangleSmashProps) {
+}: RectangleSmashProps): RectangleSmashAnimation {
   const { width, height } = useWindowDimensions();
   const prepareValue =
     smashConfig?.prepareAmount || InitialValues.prepareAmount;
@@ -48,7 +54,7 @@ export default function useRectangleSmash({
 
   const opacity = useSharedValue(0.5);
 
-  const style = useAnimatedStyle(() => ({
+  const animatedStyle = useAnimatedStyle(() => ({
     width: size.value.width,
     height: size.value.height,
     opacity: opacity.value,
@@ -106,8 +112,8 @@ export default function useRectangleSmash({
         break;
     }
 
-    return style;
+    return { animatedStyle };
   };
 
-  return { style, run };
+  return { animatedStyle, run };
 }

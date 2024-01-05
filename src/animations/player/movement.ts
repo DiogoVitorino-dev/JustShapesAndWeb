@@ -6,16 +6,20 @@ import {
   withSpring,
 } from "react-native-reanimated";
 
+import { StylizedAnimation } from "../animations.type";
+
 import { PlayerAngle, PlayerPosition } from "@/models/player";
 
-export default function useAnimationMove(
+export interface PlayerMovementAnimation extends StylizedAnimation {}
+
+export function usePlayerMovementAnimation(
   position: PlayerPosition,
   angle: PlayerAngle,
-) {
+): PlayerMovementAnimation {
   const scaleY = useSharedValue(1);
   const bounce = useSharedValue(1);
 
-  const moveAnimatedStyle = useAnimatedStyle(() => ({
+  const animatedStyle = useAnimatedStyle(() => ({
     top: position.value.y,
     left: position.value.x,
     transform: [
@@ -46,5 +50,5 @@ export default function useAnimationMove(
     },
   );
 
-  return moveAnimatedStyle;
+  return { animatedStyle };
 }

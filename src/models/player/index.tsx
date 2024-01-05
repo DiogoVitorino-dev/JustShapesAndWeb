@@ -22,7 +22,10 @@ interface PlayerProps {
 }
 
 export default function Player({ size, angle, position, style }: PlayerProps) {
-  const animatedMove = AnimationPlayer.useAnimationMove(position, angle);
+  const { animatedStyle } = AnimationPlayer.usePlayerMovementAnimation(
+    position,
+    angle,
+  );
 
   const playerAnimatedStyle = useAnimatedStyle(() => ({
     width: size?.value.width || 20,
@@ -33,7 +36,7 @@ export default function Player({ size, angle, position, style }: PlayerProps) {
     <Animated.View
       testID="playerModel"
       style={[
-        animatedMove,
+        animatedStyle,
         playerAnimatedStyle,
         style,
         {

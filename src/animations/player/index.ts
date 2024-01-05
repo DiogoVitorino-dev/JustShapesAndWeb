@@ -1,5 +1,5 @@
-import useAnimationMove from "./move";
+import * as movement from "./movement";
 
 export const AnimationPlayer = {
-  useAnimationMove,
+  ...movement,
 };
