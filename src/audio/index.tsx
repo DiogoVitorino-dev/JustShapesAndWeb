@@ -1,15 +1,7 @@
 import { Sound } from "expo-av/build/Audio";
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
-  PlaybackFunctions,
-  PlaybackProps,
   PlaybackStatus,
   PlaybackGetProgress,
   PlaybackPause,
@@ -17,28 +9,9 @@ import {
   PlaybackSetProgress,
   PlaybackSetVolume,
   PlaybackLoadAndPlay,
-} from "../audio.types";
+} from "./audio.types";
 
-export interface SoundEffects extends PlaybackFunctions, PlaybackProps {}
-
-const SoundEffectsContext = createContext<SoundEffects>({
-  status: PlaybackStatus.IDLE,
-  player: new Sound(),
-  pause: async () => {},
-  loadAndPlay: async () => {},
-  setProgress: async () => {},
-  getProgress: async () => -1,
-  play: async () => {},
-  setVolume: async () => {},
-});
-
-export const useSoundEffects = () => useContext(SoundEffectsContext);
-
-interface ProviderProps {
-  children: React.JSX.Element | React.JSX.Element[];
-}
-
-export default function SoundEffectProvider({ children }: ProviderProps) {
+export function useAudioSystem() {
   const [player] = useState<Sound>(new Sound());
   const [status, setStatus] = useState<PlaybackStatus>(0);
   const [error, setError] = useState<Error | undefined>();
@@ -145,7 +118,7 @@ export default function SoundEffectProvider({ children }: ProviderProps) {
     init();
   }, []);
 
-  const value = useMemo(
+  return useMemo(
     () => ({
       player,
       status,
@@ -158,10 +131,5 @@ export default function SoundEffectProvider({ children }: ProviderProps) {
       getProgress,
     }),
     [player, status, error],
-  );
-  return (
-    <SoundEffectsContext.Provider value={value}>
-      {children}
-    </SoundEffectsContext.Provider>
   );
 }
