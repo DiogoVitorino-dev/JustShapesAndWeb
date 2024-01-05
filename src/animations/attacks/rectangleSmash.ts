@@ -22,22 +22,17 @@ export interface RectangleSmashConfig {
 enum InitialValues {
   prepareDuration = 2000,
   prepareAmount = 70,
-  attackSpeed = 150,
+  attackDuration = 150,
 }
 
-interface RectangleSmashProps {
-  size: RectangleSize;
-  smashConfig?: RectangleSmashConfig;
-}
-
-interface RectangleSmashAnimation
+export interface RectangleSmashAnimation
   extends RunnableAnimation,
     StylizedAnimation {}
 
-export function useRectangleSmashAnimation({
-  size,
-  smashConfig,
-}: RectangleSmashProps): RectangleSmashAnimation {
+export function useRectangleSmashAnimation(
+  size: RectangleSize,
+  smashConfig?: RectangleSmashConfig,
+): RectangleSmashAnimation {
   const { width, height } = useWindowDimensions();
   const prepareValue =
     smashConfig?.prepareAmount || InitialValues.prepareAmount;
@@ -48,7 +43,7 @@ export function useRectangleSmashAnimation({
   };
 
   const attackTimingConfig: WithTimingConfig = {
-    duration: InitialValues.attackSpeed,
+    duration: InitialValues.attackDuration,
     easing: Easing.exp,
   };
 
