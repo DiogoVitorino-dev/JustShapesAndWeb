@@ -32,10 +32,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="audio"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Audio Test",
+          tabBarIcon: ({ color }) => <TabBarIcon name="music" color={color} />,
         }}
       />
     </Tabs>
