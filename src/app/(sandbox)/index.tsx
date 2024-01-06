@@ -8,7 +8,7 @@ import Player from "@/models/player";
 import {
   MovableObject,
   useMovementSystem,
-} from "@/scripts/systems/movementSystem";
+} from "@/scripts/gameplay/movementSystem";
 
 export default function Sandbox() {
   const movementPlayer = useSharedValue<MovableObject>({
