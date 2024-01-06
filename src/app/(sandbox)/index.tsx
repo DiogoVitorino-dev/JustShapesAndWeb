@@ -3,7 +3,7 @@ import { useSharedValue } from "react-native-reanimated";
 
 import { View } from "@/components/Themed";
 import Controller from "@/controllers";
-import { ControlData } from "@/controllers/typesControllers";
+import { ControlData } from "@/controllers/controllers.type";
 import Player from "@/models/player";
 import {
   MovableObject,

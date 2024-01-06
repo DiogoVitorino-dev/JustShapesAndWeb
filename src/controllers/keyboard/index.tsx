@@ -6,7 +6,7 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 
-import { ControlData, ControlProp } from "../typesControllers";
+import { ControlData, ControlProp } from "../controllers.type";
 
 import { AnglesUtils } from "@/scripts/utils/angleUtils";
 

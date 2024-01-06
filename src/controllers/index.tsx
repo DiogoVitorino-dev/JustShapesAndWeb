@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform } from "react-native";
 
 import KeyboardControl from "./keyboard";
 import MobileControl from "./mobile";
-import { ControlProp } from "./typesControllers";
+import { ControlProp } from "./controllers.type";
 
 interface ControllerProp extends ControlProp {}
 

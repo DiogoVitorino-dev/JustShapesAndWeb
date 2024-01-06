@@ -4,7 +4,7 @@ import { useAnimatedReaction, useSharedValue } from "react-native-reanimated";
 
 import AreaButton from "./buttons/area";
 import AnalogicJoystick from "./directional/analogic";
-import { ControlData, ControlProp, Directional } from "../typesControllers";
+import { ControlData, ControlProp, Directional } from "../controllers.type";
 
 interface MobileControlProp extends ControlProp {}
 
