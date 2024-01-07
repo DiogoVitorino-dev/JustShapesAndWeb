@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import MusicProvider from '@/audio/music/musicProvider';
 import SoundEffectProvider from '@/audio/sound/soundEffectProvider';
+import { Provider } from "react-redux";
+import { store } from '@/store';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,10 +54,12 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <MusicProvider>
         <SoundEffectProvider>
-          <Stack>
-            <Stack.Screen name="(sandbox)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          </Stack>
+          <Provider store={store}>
+            <Stack>
+              <Stack.Screen name="(sandbox)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            </Stack>
+          </Provider>
         </SoundEffectProvider>
       </MusicProvider>
     </ThemeProvider>
