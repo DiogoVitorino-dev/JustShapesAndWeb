@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
-import { useSoundContext } from "@/providers/contexts/sound";
+import { useSoundContext } from "@/audio/sound";
 
 export default function Audio() {
   const [progressValue, setProgressValue] = useState(0);

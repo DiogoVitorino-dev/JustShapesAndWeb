@@ -11,9 +11,10 @@ import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { Provider } from "react-redux";
 
-import MusicProvider from "@/providers/contexts/music";
-import SoundEffectProvider from "@/providers/contexts/sound";
-import { store } from "@/providers/store";
+import MusicProvider from "@/audio/music";
+import SoundEffectProvider from "@/audio/sound";
+import DatabaseProvider from "@/database";
+import { store } from "@/store";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -57,15 +58,20 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <MusicProvider>
-        <SoundEffectProvider>
-          <Provider store={store}>
-            <Stack>
-              <Stack.Screen name="(testing)" options={{ headerShown: false }} />
-            </Stack>
-          </Provider>
-        </SoundEffectProvider>
-      </MusicProvider>
+      <DatabaseProvider>
+        <MusicProvider>
+          <SoundEffectProvider>
+            <Provider store={store}>
+              <Stack>
+                <Stack.Screen
+                  name="(testing)"
+                  options={{ headerShown: false }}
+                />
+              </Stack>
+            </Provider>
+          </SoundEffectProvider>
+        </MusicProvider>
+      </DatabaseProvider>
     </ThemeProvider>
   );
 }
