@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { Provider } from "react-redux";
 
-import MusicProvider from "@/providers/contexts/musicProvider/musicProvider";
+import MusicProvider from "@/providers/contexts/music";
 import SoundEffectProvider from "@/providers/contexts/sound";
 import { store } from "@/providers/store";
 
