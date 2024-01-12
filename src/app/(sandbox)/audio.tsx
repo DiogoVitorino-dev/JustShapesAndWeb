@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput } from "react-native";
 
-import { useSoundEffectsContext } from "@/audio/sound/soundEffectProvider";
+import { useSoundEffectsContext } from "@/providers/contexts/sound";
 import { View } from "@/components/Themed";
 
 export default function Audio() {

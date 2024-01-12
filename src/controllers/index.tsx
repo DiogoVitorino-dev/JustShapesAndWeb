@@ -1,9 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Platform } from "react-native";
 
-import KeyboardControl from "./keyboard";
-import MobileControl from "./mobile";
 import { ControlProp } from "./controllers.type";
+import MobileControl from "./mobile";
+import KeyboardControl from "./web";
 
 interface ControllerProp extends ControlProp {}
 

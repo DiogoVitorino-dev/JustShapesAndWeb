@@ -1,12 +1,12 @@
 import { Sound } from "expo-av/build/Audio";
 import React, { createContext, useContext } from "react";
 
-import { useAudioSystem } from "..";
+import { useAudioSystem } from "@/audio";
 import {
   PlaybackFunctions,
   PlaybackProps,
   PlaybackStatus,
-} from "../audio.types";
+} from "@/audio/audio.types";
 
 export interface MusicContext extends PlaybackFunctions, PlaybackProps {}
 

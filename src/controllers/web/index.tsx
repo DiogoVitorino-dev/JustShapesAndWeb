@@ -1,14 +1,13 @@
 import useKey from "@phntms/use-key";
 import {
   SharedValue,
-  runOnJS,
   useAnimatedReaction,
   useSharedValue,
 } from "react-native-reanimated";
 
 import { ControlData, ControlProp } from "../controllers.type";
 
-import { AnglesUtils } from "@/scripts/utils/angleUtils";
+import { AnglesUtils } from "@/utils/angleUtils";
 
 export interface KeyboardData extends ControlData {}
 

@@ -4,10 +4,7 @@ import { useSharedValue } from "react-native-reanimated";
 import Controller from "@/controllers";
 import { ControlData } from "@/controllers/controllers.type";
 import Player from "@/models/player";
-import {
-  MovableObject,
-  useMovementSystem,
-} from "@/scripts/gameplay/movementSystem";
+import { MovableObject, useMovementSystem } from "@/scripts/systems/movement";
 
 export default function Sandbox() {
   const movementPlayer = useSharedValue<MovableObject>({

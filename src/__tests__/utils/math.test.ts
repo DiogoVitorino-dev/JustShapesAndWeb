@@ -1,4 +1,4 @@
-import { MathUtils } from "@/scripts/utils/mathUtils";
+import { MathUtils } from "@/utils/mathUtils";
 
 describe("testing random - Math Utils tests", () => {
   it("Should generate a random number between min and max", () => {

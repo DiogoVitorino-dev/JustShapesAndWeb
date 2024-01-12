@@ -1,4 +1,4 @@
-import { AnglesUtils } from "@/scripts/utils/angleUtils";
+import { AnglesUtils } from "@/utils/angleUtils";
 
 // Initial point (0°) - Right middle
 // Clockwise

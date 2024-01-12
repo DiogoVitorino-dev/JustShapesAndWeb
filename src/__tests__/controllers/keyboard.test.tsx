@@ -4,7 +4,7 @@
 
 import { act, render } from "@testing-library/react-native";
 
-import Keyboard, { KeyboardData } from "@/controllers/keyboard";
+import Keyboard, { KeyboardData } from "@/controllers/web";
 
 const defaultKeys = {
   up: "w",

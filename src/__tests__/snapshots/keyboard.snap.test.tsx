@@ -4,7 +4,7 @@
 
 import { render } from "@testing-library/react-native";
 
-import Keyboard from "@/controllers/keyboard";
+import Keyboard from "@/controllers/web";
 
 describe("Keyboard controller - Snapshot test", () => {
   it("should render correctly", () => {

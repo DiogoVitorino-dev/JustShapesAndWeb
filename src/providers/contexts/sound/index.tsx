@@ -1,16 +1,16 @@
 import { Sound } from "expo-av/build/Audio";
 import React, { createContext, useContext } from "react";
 
-import { useAudioSystem } from "..";
+import { useAudioSystem } from "@/audio";
 import {
   PlaybackFunctions,
   PlaybackProps,
   PlaybackStatus,
-} from "../audio.types";
+} from "@/audio/audio.types";
 
-export interface SoundEffectsContext extends PlaybackFunctions, PlaybackProps {}
+export interface SoundContext extends PlaybackFunctions, PlaybackProps {}
 
-const Context = createContext<SoundEffectsContext>({
+const Context = createContext<SoundContext>({
   status: PlaybackStatus.IDLE,
   player: new Sound(),
   pause: async () => {},
@@ -21,13 +21,13 @@ const Context = createContext<SoundEffectsContext>({
   setVolume: async () => {},
 });
 
-export const useSoundEffectsContext = () => useContext(Context);
+export const useSoundContext = () => useContext(Context);
 
 interface ProviderProps {
   children: React.JSX.Element | React.JSX.Element[];
 }
 
-export default function SoundEffectProvider({ children }: ProviderProps) {
+export default function SoundProvider({ children }: ProviderProps) {
   const value = useAudioSystem();
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
