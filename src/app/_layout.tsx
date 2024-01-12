@@ -22,7 +22,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(sandbox)",
+  initialRouteName: "(testing)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -61,7 +61,7 @@ function RootLayoutNav() {
         <SoundEffectProvider>
           <Provider store={store}>
             <Stack>
-              <Stack.Screen name="(sandbox)" options={{ headerShown: false }} />
+              <Stack.Screen name="(testing)" options={{ headerShown: false }} />
             </Stack>
           </Provider>
         </SoundEffectProvider>
