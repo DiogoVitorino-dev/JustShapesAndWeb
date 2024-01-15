@@ -13,7 +13,6 @@ import { Provider } from "react-redux";
 
 import MusicProvider from "@/audio/music";
 import SoundEffectProvider from "@/audio/sound";
-import DatabaseProvider from "@/database";
 import { store } from "@/store";
 
 export {
@@ -50,7 +49,11 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <Provider store={store}>
+      <RootLayoutNav />
+    </Provider>
+  );
 }
 
 function RootLayoutNav() {
@@ -58,20 +61,13 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <DatabaseProvider>
-        <MusicProvider>
-          <SoundEffectProvider>
-            <Provider store={store}>
-              <Stack>
-                <Stack.Screen
-                  name="(testing)"
-                  options={{ headerShown: false }}
-                />
-              </Stack>
-            </Provider>
-          </SoundEffectProvider>
-        </MusicProvider>
-      </DatabaseProvider>
+      <MusicProvider>
+        <SoundEffectProvider>
+          <Stack>
+            <Stack.Screen name="(testing)" options={{ headerShown: false }} />
+          </Stack>
+        </SoundEffectProvider>
+      </MusicProvider>
     </ThemeProvider>
   );
 }
