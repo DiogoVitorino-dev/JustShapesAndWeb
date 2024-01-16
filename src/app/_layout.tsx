@@ -12,8 +12,10 @@ import { useColorScheme } from "react-native";
 import { Provider } from "react-redux";
 
 import MusicProvider from "@/audio/music";
-import SoundEffectProvider from "@/audio/sound";
+import SoundProvider from "@/audio/sound";
 import { store } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { SettingsActions } from "@/store/reducers/settings/settingsActions";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -58,15 +60,26 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const dispatch = useAppDispatch();
+
+  const initializedSettings = useAppSelector(
+    (state) => state.settings.initialized,
+  );
+
+  useEffect(() => {
+    if (!initializedSettings) {
+      dispatch(SettingsActions.initialize());
+    }
+  }, []);
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <MusicProvider>
-        <SoundEffectProvider>
+        <SoundProvider>
           <Stack>
             <Stack.Screen name="(testing)" options={{ headerShown: false }} />
           </Stack>
-        </SoundEffectProvider>
+        </SoundProvider>
       </MusicProvider>
     </ThemeProvider>
   );
