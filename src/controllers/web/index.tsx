@@ -1,4 +1,3 @@
-import useKey from "@phntms/use-key";
 import {
   SharedValue,
   useAnimatedReaction,
@@ -7,7 +6,10 @@ import {
 
 import { ControlData, ControlProp } from "../controllers.type";
 
+import { useAppSelector } from "@/store/hooks";
+import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 import { AnglesUtils } from "@/utils/angleUtils";
+import { ListenersUtils } from "@/utils/listenersUtils";
 
 export interface KeyboardData extends ControlData {}
 
@@ -22,6 +24,10 @@ export default function KeyboardControl({
   const left = useSharedValue(0);
   const right = useSharedValue(0);
   const jumping = useSharedValue<boolean>(false);
+
+  const { alternative, primary } = useAppSelector(
+    SettingsSelectors.selectKeyboardSettings,
+  ).keys;
 
   const increaseOnKeypress = (animV: SharedValue<number>, pressed: boolean) => {
     "worklet";
@@ -41,21 +47,39 @@ export default function KeyboardControl({
     }
   };
 
-  useKey("s", (pressed) => increaseOnKeypress(down, pressed));
-  useKey("S", (pressed) => increaseOnKeypress(down, pressed));
+  const { useKeyListener } = ListenersUtils.web;
 
-  useKey("d", (pressed) => increaseOnKeypress(right, pressed));
-  useKey("D", (pressed) => increaseOnKeypress(right, pressed));
+  //DOWN
+  useKeyListener(
+    (pressed) => increaseOnKeypress(down, pressed),
+    [primary.down, alternative.down],
+  );
 
-  useKey("w", (pressed) => decreaseOnKeypress(up, pressed));
-  useKey("W", (pressed) => decreaseOnKeypress(up, pressed));
+  //RIGHT
+  useKeyListener(
+    (pressed) => increaseOnKeypress(right, pressed),
+    [primary.right, alternative.right],
+  );
 
-  useKey("a", (pressed) => decreaseOnKeypress(left, pressed));
-  useKey("A", (pressed) => decreaseOnKeypress(left, pressed));
+  // LEFT
+  useKeyListener(
+    (pressed) => decreaseOnKeypress(left, pressed),
+    [primary.left, alternative.left],
+  );
 
-  useKey(" ", (pressed) => {
-    jumping.value = pressed;
-  });
+  // UP
+  useKeyListener(
+    (pressed) => decreaseOnKeypress(up, pressed),
+    [primary.up, alternative.up],
+  );
+
+  //JUMP
+  useKeyListener(
+    (pressed) => {
+      jumping.value = pressed;
+    },
+    [primary.jump, alternative.jump],
+  );
 
   const limitDiagonalVelocity = (x: number, y: number) => {
     const distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));

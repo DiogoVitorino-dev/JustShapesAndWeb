@@ -1,3 +1,5 @@
+import { MouseKeys } from "@/utils/listenersUtils/webListeners";
+
 export interface GameCommands {
   up: string;
   left: string;
@@ -29,7 +31,7 @@ export const DefaultKeyboardSettings: KeyboardSettings = {
       left: "ArrowLeft",
       down: "ArrowDown",
       right: "ArrowRight",
-      jump: "MOUSE_CLICK",
+      jump: MouseKeys.LEFT_BUTTON,
     },
   },
 };

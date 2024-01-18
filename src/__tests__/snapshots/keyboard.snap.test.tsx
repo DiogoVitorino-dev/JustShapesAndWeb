@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render } from "@testing-library/react-native";
+import { render } from "../testsUtils";
 
 import Keyboard from "@/controllers/web";
 
