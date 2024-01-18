@@ -23,22 +23,41 @@ const initialState: SettingsReducerState = {
   data: DefaultSettings,
 };
 
-const { saveAudioSettings, saveKeyboardSettings, initialize } = SettingsActions;
+const {
+  saveAudioSettings,
+  saveKeyboardSettings,
+  initialize,
+  resetAudioSettings,
+  resetKeyboardSettings,
+} = SettingsActions;
 
 const isAPendingAction = isPending(
   saveAudioSettings,
   saveKeyboardSettings,
+  resetAudioSettings,
+  resetKeyboardSettings,
   initialize,
 );
 const isARejectedAction = isRejected(
   saveAudioSettings,
   saveKeyboardSettings,
+  resetAudioSettings,
+  resetKeyboardSettings,
   initialize,
 );
 const isAFulfilledAction = isFulfilled(
   saveAudioSettings,
   saveKeyboardSettings,
+  resetAudioSettings,
+  resetKeyboardSettings,
   initialize,
+);
+
+const isAUpdateAudioAction = isFulfilled(resetAudioSettings, saveAudioSettings);
+
+const isAUpdateKeyboardAction = isFulfilled(
+  resetKeyboardSettings,
+  saveKeyboardSettings,
 );
 
 const settingsSlice = createSlice({
@@ -46,13 +65,6 @@ const settingsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(saveAudioSettings.fulfilled, (state, action) => {
-      state.data.audio = action.payload;
-    });
-    builder.addCase(saveKeyboardSettings.fulfilled, (state, action) => {
-      state.data.keyboard = action.payload;
-    });
-
     builder.addCase(initialize.fulfilled, (state, action) => {
       if (!state.initialized) {
         state.initialized = true;
@@ -68,11 +80,19 @@ const settingsSlice = createSlice({
       }
     });
 
+    builder.addMatcher(isAUpdateAudioAction, (state, action) => {
+      state.data.audio = action.payload;
+    });
+    builder.addMatcher(isAUpdateKeyboardAction, (state, action) => {
+      state.data.keyboard = action.payload;
+    });
+
     builder.addMatcher(isAPendingAction, (state) => {
       state.processing = true;
     });
     builder.addMatcher(isARejectedAction, (state, action) => {
       state.error = action.error;
+      state.processing = false;
     });
     builder.addMatcher(isAFulfilledAction, (state) => {
       state.processing = false;

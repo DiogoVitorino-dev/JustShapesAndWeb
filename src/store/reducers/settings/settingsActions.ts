@@ -21,22 +21,26 @@ const initialize = createAsyncThunk<Settings | null, void, AppThunkOptions>(
 
 const saveAudioSettings = createAsyncThunk<
   AudioSettings,
-  AudioSettings,
+  Partial<AudioSettings>,
   AppThunkOptions
->("settings/saveAudioSettings", async (audioSetting, { getState }) => {
-  const value = getState().settings.data;
-  await SettingsDatabaseProvider.set({ ...value, audio: audioSetting });
-  return audioSetting;
+>("settings/saveAudioSettings", async (partialSettings, { getState }) => {
+  const { audio, ...others } = getState().settings.data;
+  const newSettings: AudioSettings = { ...audio, ...partialSettings };
+
+  await SettingsDatabaseProvider.set({ ...others, audio: newSettings });
+  return newSettings;
 });
 
 const saveKeyboardSettings = createAsyncThunk<
   KeyboardSettings,
-  KeyboardSettings,
+  Partial<KeyboardSettings>,
   AppThunkOptions
->("settings/saveKeyboardSettings", async (keyboardSettings, { getState }) => {
-  const value = getState().settings.data;
-  await SettingsDatabaseProvider.set({ ...value, keyboard: keyboardSettings });
-  return keyboardSettings;
+>("settings/saveKeyboardSettings", async (partialSettings, { getState }) => {
+  const { keyboard, ...others } = getState().settings.data;
+  const newSettings: KeyboardSettings = { ...keyboard, ...partialSettings };
+
+  await SettingsDatabaseProvider.set({ ...others, keyboard: newSettings });
+  return newSettings;
 });
 
 const resetKeyboardSettings = createAsyncThunk<
@@ -52,7 +56,21 @@ const resetKeyboardSettings = createAsyncThunk<
   return DefaultSettings.keyboard;
 });
 
+const resetAudioSettings = createAsyncThunk<
+  AudioSettings,
+  void,
+  AppThunkOptions
+>("settings/resetAudioSettings", async (_, { getState }) => {
+  const value = getState().settings.data;
+  await SettingsDatabaseProvider.set({
+    ...value,
+    audio: DefaultSettings.audio,
+  });
+  return DefaultSettings.audio;
+});
+
 export const SettingsActions = {
+  resetAudioSettings,
   resetKeyboardSettings,
   saveAudioSettings,
   saveKeyboardSettings,
