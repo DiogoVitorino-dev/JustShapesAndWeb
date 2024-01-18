@@ -19,7 +19,7 @@ export default function Audio() {
     play();
   };
   const handlePlay = () => {
-    loadAndPlay(require("@/assets/audio/sona.mp3"));
+    loadAndPlay(require("@/audio/testAssets/musicTest_1.mp3"));
   };
   const handleSetProgress = () => {
     setProgress(progressValue);
