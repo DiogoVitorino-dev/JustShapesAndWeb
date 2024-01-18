@@ -23,7 +23,7 @@ export type PlaybackGetProgress = () => Promise<number>;
 export type PlaybackSetProgress = (progress: number) => Promise<void>;
 
 /**
- * @param volume A number between 0.0 (silence) and 1.0 (maximum volume).
+ * @param volume A number between 0.0 (silence) and 100.0 (maximum volume).
  */
 export type PlaybackSetVolume = (volume: number) => Promise<void>;
 

@@ -11,6 +11,8 @@ import {
   PlaybackLoadAndPlay,
 } from "./audio.types";
 
+import { MathUtils } from "@/utils/mathUtils";
+
 export function useAudioSystem() {
   const [player] = useState<Sound>(new Sound());
   const [status, setStatus] = useState<PlaybackStatus>(0);
@@ -72,6 +74,11 @@ export function useAudioSystem() {
 
   const setVolume: PlaybackSetVolume = async (volume) => {
     try {
+      volume = MathUtils.interpolate(
+        volume,
+        { min: 0, max: 100 },
+        { min: 0, max: 1 },
+      );
       await player.setVolumeAsync(volume);
     } catch (error: any) {
       setError(new Error(error.message));

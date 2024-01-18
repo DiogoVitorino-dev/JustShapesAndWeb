@@ -34,7 +34,7 @@ export default function MobileControl({ onMove, velocity }: MobileControlProp) {
   useAnimatedReaction(
     (): ControlData => ({ jumping: jump.value, ...data.value }),
     (current, previous) => {
-      if (current !== previous) {
+      if (JSON.stringify(current) !== JSON.stringify(previous)) {
         onMove(current);
       }
     },

@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
-import { useSoundEffectsContext } from "@/audio/sound/soundEffectProvider";
-import { View } from "@/components/Themed";
+import { useSoundContext } from "@/audio/sound";
 
 export default function Audio() {
   const [progressValue, setProgressValue] = useState(0);
   const [volumeValue, setVolumeValue] = useState("1");
   const { getProgress, pause, play, setProgress, setVolume, loadAndPlay } =
-    useSoundEffectsContext();
+    useSoundContext();
 
   const handleGetProgress = async () => {
     setProgressValue((await getProgress()) || -1);

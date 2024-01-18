@@ -12,7 +12,7 @@ import {
 import { RunnableAnimation, StylizedAnimation } from "../animations.type";
 
 import { AnimatedStyleApp } from "@/constants/types";
-import { MathUtils } from "@/scripts/utils/mathUtils";
+import { MathUtils } from "@/utils/mathUtils";
 
 export type ShakeImpact = "start" | "end" | "all";
 

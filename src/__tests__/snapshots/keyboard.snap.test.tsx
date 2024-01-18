@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { render } from "@testing-library/react-native";
+import { render } from "../testsUtils";
 
-import Keyboard from "@/controllers/keyboard";
+import Keyboard from "@/controllers/web";
 
 describe("Keyboard controller - Snapshot test", () => {
   it("should render correctly", () => {

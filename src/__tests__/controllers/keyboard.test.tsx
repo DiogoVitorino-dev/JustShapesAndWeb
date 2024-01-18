@@ -2,9 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { act, render } from "@testing-library/react-native";
-
-import Keyboard, { KeyboardData } from "@/controllers/keyboard";
+import { act, render } from "@/__tests__/testsUtils";
+import Keyboard, { KeyboardData } from "@/controllers/web";
 
 const defaultKeys = {
   up: "w",

@@ -12,7 +12,7 @@ import Animated, {
 
 import { JoystickData, JoystickProp } from "..";
 
-import { AnglesUtils } from "@/scripts/utils/angleUtils";
+import { AnglesUtils } from "@/utils/angleUtils";
 
 interface AnalogicProp extends JoystickProp {}
 

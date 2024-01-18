@@ -1,6 +1,6 @@
-import { MathUtils } from "@/scripts/utils/mathUtils";
+import { MathUtils } from "@/utils/mathUtils";
 
-describe("testing random - Math Utils tests", () => {
+describe("Testing random - Math Utils tests", () => {
   it("Should generate a random number between min and max", () => {
     const { random } = MathUtils;
     let tests = 10000;
@@ -15,5 +15,13 @@ describe("testing random - Math Utils tests", () => {
 
       tests -= 1;
     }
+  });
+});
+
+describe("Testing interpolate - Math Utils tests", () => {
+  it("Should interpolate a value between the minimum and maximum range", () => {
+    const { interpolate } = MathUtils;
+    const test_1 = interpolate(20, { min: 0, max: 100 }, { min: 0, max: 1 });
+    expect(test_1).toBe(0.2);
   });
 });
