@@ -1,5 +1,5 @@
 import { Sound } from "expo-av/build/Audio";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 
 import { useAudioSystem } from "@/audio";
 import {
@@ -7,6 +7,8 @@ import {
   PlaybackProps,
   PlaybackStatus,
 } from "@/audio/audio.types";
+import { useAppSelector } from "@/store/hooks";
+import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
 export interface SoundContext extends PlaybackFunctions, PlaybackProps {}
 
@@ -29,6 +31,14 @@ interface ProviderProps {
 
 export default function SoundProvider({ children }: ProviderProps) {
   const value = useAudioSystem();
+
+  const soundVolume = useAppSelector(
+    SettingsSelectors.selectAudioSettings,
+  ).soundVolume;
+
+  useEffect(() => {
+    value.setVolume(soundVolume);
+  }, [soundVolume]);
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }
