@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mobile Control - Snapshot mobile control test should render correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "flex-end",
+      "flex": 1,
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "indigo",
+          "height": "50%",
+          "justifyContent": "center",
+          "width": "30%",
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      collapsable={false}
+      style={
+        [
+          {
+            "borderRadius": 50,
+            "height": 100,
+            "width": 100,
+          },
+          {
+            "alignItems": "center",
+            "backgroundColor": "tomato",
+            "justifyContent": "center",
+            "zIndex": 1000,
+          },
+        ]
+      }
+      testID="pan"
+    >
+      <View
+        animatedStyle={
+          {
+            "value": {
+              "transform": [
+                {
+                  "translateX": 0,
+                },
+                {
+                  "translateY": 0,
+                },
+              ],
+            },
+          }
+        }
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "cyan",
+            "borderRadius": 50,
+            "height": 40,
+            "transform": [
+              {
+                "translateX": 0,
+              },
+              {
+                "translateY": 0,
+              },
+            ],
+            "width": 40,
+          }
+        }
+      />
+    </View>
+  </View>
+  <View
+    collapsable={false}
+    style={
+      {
+        "height": "100%",
+        "width": "50%",
+      }
+    }
+  >
+    <View
+      animatedStyle={
+        {
+          "value": {
+            "left": 0,
+            "opacity": 0,
+            "top": 0,
+            "transform": [
+              {
+                "scale": 1,
+              },
+            ],
+          },
+        }
+      }
+      collapsable={false}
+      style={
+        {
+          "borderColor": "lime",
+          "borderRadius": 25,
+          "borderWidth": 3,
+          "height": 50,
+          "left": 0,
+          "opacity": 0,
+          "top": 0,
+          "transform": [
+            {
+              "scale": 1,
+            },
+          ],
+          "width": 50,
+          "zIndex": 1000,
+        }
+      }
+    />
+  </View>
+</View>
+`;

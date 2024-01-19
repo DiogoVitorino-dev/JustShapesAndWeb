@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Area Button - Snapshot mobile control test should render correctly 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "height": "100%",
+      "width": "50%",
+    }
+  }
+>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "left": 0,
+          "opacity": 0,
+          "top": 0,
+          "transform": [
+            {
+              "scale": 1,
+            },
+          ],
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "borderColor": "lime",
+        "borderRadius": 25,
+        "borderWidth": 3,
+        "height": 50,
+        "left": 0,
+        "opacity": 0,
+        "top": 0,
+        "transform": [
+          {
+            "scale": 1,
+          },
+        ],
+        "width": 50,
+        "zIndex": 1000,
+      }
+    }
+  />
+</View>
+`;

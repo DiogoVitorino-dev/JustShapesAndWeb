@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Analogic Joystick - Snapshot mobile controller test should render correctly 1`] = `
+exports[`Analogic Directional - Snapshot mobile controller test should render correctly 1`] = `
 <View
   style={
     [

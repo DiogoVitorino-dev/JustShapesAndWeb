@@ -2,33 +2,42 @@ import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { useAnimatedReaction, useSharedValue } from "react-native-reanimated";
 
-import AreaButton from "./buttons/area";
-import AnalogicJoystick from "./directional/analogic";
-import { ControlData, ControlProp, Directional } from "../controllers.type";
+import { AreaButton } from "./buttons";
+import { AnalogicDirectional } from "./directional";
+import {
+  ControlData,
+  ControlProp,
+  Directional,
+  Jumpable,
+} from "../controllers.type";
 
-interface MobileControlProp extends ControlProp {}
-
-export interface JoystickData extends Directional {}
-
-export interface JoystickProp {
+export interface DirectionalData extends Directional {}
+export interface DirectionalProps {
   size?: number;
   velocity?: number;
-  onMove?: (data: JoystickData) => void;
+  onMove?: (data: DirectionalData) => void;
   containerStyle?: ViewStyle;
 }
 
+export interface ButtonData extends Jumpable {}
+export interface ButtonProps {
+  onPress?: (data: ButtonData) => void;
+}
+
+interface MobileControlProp extends ControlProp {}
+
 export default function MobileControl({ onMove, velocity }: MobileControlProp) {
   const jump = useSharedValue<boolean>(false);
-  const data = useSharedValue<JoystickData>({ angle: 0, x: 0, y: 0 });
+  const data = useSharedValue<DirectionalData>({ angle: 0, x: 0, y: 0 });
 
-  const handleDirectional = (newData: JoystickData) => {
+  const handleDirectional = (newData: DirectionalData) => {
     "worklet";
     data.value = newData;
   };
 
-  const handleButtons = (pressed: boolean) => {
+  const handleButtons = ({ jumping }: ButtonData) => {
     "worklet";
-    jump.value = pressed;
+    jump.value = jumping;
   };
 
   useAnimatedReaction(
@@ -42,7 +51,7 @@ export default function MobileControl({ onMove, velocity }: MobileControlProp) {
 
   return (
     <View style={styles.container}>
-      <AnalogicJoystick onMove={handleDirectional} velocity={velocity} />
+      <AnalogicDirectional onMove={handleDirectional} velocity={velocity} />
       <AreaButton onPress={handleButtons} />
     </View>
   );

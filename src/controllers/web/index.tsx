@@ -13,12 +13,9 @@ import { ListenersUtils } from "@/utils/listenersUtils";
 
 export interface KeyboardData extends ControlData {}
 
-interface KeyboardProps extends ControlProp {}
+interface WebControlProps extends ControlProp {}
 
-export default function KeyboardControl({
-  onMove,
-  velocity = 3,
-}: KeyboardProps) {
+export default function WebControl({ onMove, velocity = 3 }: WebControlProps) {
   const up = useSharedValue(0);
   const down = useSharedValue(0);
   const left = useSharedValue(0);

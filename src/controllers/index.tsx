@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform } from "react-native";
 
 import { ControlProp } from "./controllers.type";
 import MobileControl from "./mobile";
-import KeyboardControl from "./web";
+import WebControl from "./web";
 
 interface ControllerProp extends ControlProp {}
 
@@ -13,7 +13,7 @@ export default function Controller({ onMove, velocity }: ControllerProp) {
       {Platform.OS === "ios" || Platform.OS === "android" ? (
         <MobileControl onMove={onMove} velocity={velocity} />
       ) : (
-        <KeyboardControl onMove={onMove} velocity={velocity} />
+        <WebControl onMove={onMove} velocity={velocity} />
       )}
     </View>
   );

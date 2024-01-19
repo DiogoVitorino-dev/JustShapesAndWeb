@@ -3,8 +3,6 @@ import { RenderOptions, render } from "@testing-library/react-native";
 import React, { JSXElementConstructor, ReactElement } from "react";
 import { Provider } from "react-redux";
 
-import MusicProvider from "@/audio/music";
-import SoundProvider from "@/audio/sound";
 import { store } from "@/store";
 
 type ReactChildren = ReactElement<any, string | JSXElementConstructor<any>>;
@@ -16,11 +14,7 @@ interface WrapperProps {
 const AllTheProviders = ({ children }: WrapperProps) => {
   return (
     <Provider store={store}>
-      <ThemeProvider value={DefaultTheme}>
-        <MusicProvider>
-          <SoundProvider>{children}</SoundProvider>
-        </MusicProvider>
-      </ThemeProvider>
+      <ThemeProvider value={DefaultTheme}>{children}</ThemeProvider>
     </Provider>
   );
 };

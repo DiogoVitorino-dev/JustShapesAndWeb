@@ -10,13 +10,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { JoystickData, JoystickProp } from "..";
+import { DirectionalProps, DirectionalData } from "..";
 
 import { AnglesUtils } from "@/utils/angleUtils";
 
-interface AnalogicProp extends JoystickProp {}
+interface AnalogicProp extends DirectionalProps {}
 
-export default function AnalogicJoystick({
+export function AnalogicDirectional({
   size = 100,
   velocity = 10,
   onMove,
@@ -26,7 +26,7 @@ export default function AnalogicJoystick({
   const pointerSize = size / 2.5;
   const pos = useSharedValue({ x: 0, y: 0 });
 
-  const normalizeData = ({ angle, x, y }: JoystickData): JoystickData => {
+  const normalizeData = ({ angle, x, y }: DirectionalData): DirectionalData => {
     "worklet";
 
     // adjusting to velocity range
@@ -65,7 +65,7 @@ export default function AnalogicJoystick({
     .onFinalize(() => {
       updatePointerPosition(0, 0);
     })
-    .withTestId("joystickAnalogicPan");
+    .withTestId("directionalAnalogicPan");
 
   const pointerAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -85,7 +85,7 @@ export default function AnalogicJoystick({
   }));
 
   useAnimatedReaction(
-    (): JoystickData => {
+    (): DirectionalData => {
       const angle = AnglesUtils.calculateAngle(pos.value.x, pos.value.y);
       return normalizeData({
         angle,

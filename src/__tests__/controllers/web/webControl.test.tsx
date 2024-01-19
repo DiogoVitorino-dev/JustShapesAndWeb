@@ -3,7 +3,7 @@
  */
 
 import { act, render } from "@/__tests__/testsUtils";
-import Keyboard, { KeyboardData } from "@/controllers/web";
+import WebControl, { KeyboardData } from "@/controllers/web";
 
 const defaultKeys = {
   up: "w",
@@ -13,14 +13,14 @@ const defaultKeys = {
   jump: " ",
 };
 
-describe("press and release default keys - Web controller tests", () => {
+describe("press and release default keys - Web control tests", () => {
   beforeEach(() => jest.useFakeTimers());
   afterEach(() => jest.useRealTimers());
 
   // Test Y
   it("Should change the Y value when pressing and releasing the UP key", async () => {
     const mockHandlerMove = jest.fn((data: KeyboardData) => data.y);
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     let event = new KeyboardEvent("keydown", { key: defaultKeys.up });
     await act(() => {
@@ -42,7 +42,7 @@ describe("press and release default keys - Web controller tests", () => {
 
   it("Should change the Y value when pressing and releasing the DOWN key", async () => {
     const mockHandlerMove = jest.fn((data: KeyboardData) => data.y);
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     let event = new KeyboardEvent("keydown", { key: defaultKeys.down });
     await act(() => {
@@ -65,7 +65,7 @@ describe("press and release default keys - Web controller tests", () => {
   // Test X
   it("Should change the X value when pressing and releasing the LEFT key", async () => {
     const mockHandlerMove = jest.fn((data: KeyboardData) => data.x);
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     let event = new KeyboardEvent("keydown", { key: defaultKeys.left });
     await act(() => {
@@ -87,7 +87,7 @@ describe("press and release default keys - Web controller tests", () => {
 
   it("Should change the X value when pressing and releasing the RIGHT key", async () => {
     const mockHandlerMove = jest.fn((data: KeyboardData) => data.x);
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     let event = new KeyboardEvent("keydown", { key: defaultKeys.right });
     await act(() => {
@@ -109,7 +109,7 @@ describe("press and release default keys - Web controller tests", () => {
 
   it("Should change the value when pressing the uppercase key.", async () => {
     const mockHandlerMove = jest.fn((data: KeyboardData) => data.y);
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     const event = new KeyboardEvent("keydown", {
       key: defaultKeys.up.toUpperCase(),
@@ -125,7 +125,7 @@ describe("press and release default keys - Web controller tests", () => {
 
   it("Should change the value when pressing and releasing the JUMP key", async () => {
     const mockHandlerMove = jest.fn((data: KeyboardData) => data.jumping);
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     let event = new KeyboardEvent("keydown", { key: defaultKeys.jump });
     await act(() => {
@@ -147,7 +147,7 @@ describe("press and release default keys - Web controller tests", () => {
   });
 });
 
-describe("Angles - Web controller tests", () => {
+describe("Angles - Web control tests", () => {
   const mockHandlerMove = jest.fn((data: KeyboardData) => data.angle);
 
   beforeEach(() => jest.useFakeTimers());
@@ -161,7 +161,7 @@ describe("Angles - Web controller tests", () => {
 
   // Angle 45° - DOWN RIGHT
   it("Should have 45° degrees when pressing DOWN and RIGHT key", async () => {
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     const event1 = new KeyboardEvent("keydown", { key: defaultKeys.down });
     const event2 = new KeyboardEvent("keydown", { key: defaultKeys.right });
@@ -178,7 +178,7 @@ describe("Angles - Web controller tests", () => {
 
   // Angle 135° - DOWN LEFT
   it("Should have 135° degrees when pressing DOWN and LEFT key", async () => {
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     const event1 = new KeyboardEvent("keydown", { key: defaultKeys.down });
     const event2 = new KeyboardEvent("keydown", { key: defaultKeys.left });
@@ -195,7 +195,7 @@ describe("Angles - Web controller tests", () => {
 
   // Angle 225° - UP LEFT
   it("Should have 225° degrees when pressing UP and LEFT key", async () => {
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     const event1 = new KeyboardEvent("keydown", { key: defaultKeys.up });
     const event2 = new KeyboardEvent("keydown", { key: defaultKeys.left });
@@ -212,7 +212,7 @@ describe("Angles - Web controller tests", () => {
 
   // Angle 315° - UP RIGHT
   it("Should have 315° degrees when pressing UP and RIGHT key", async () => {
-    render(<Keyboard velocity={100} onMove={mockHandlerMove} />);
+    render(<WebControl velocity={100} onMove={mockHandlerMove} />);
 
     const event1 = new KeyboardEvent("keydown", { key: defaultKeys.up });
     const event2 = new KeyboardEvent("keydown", { key: defaultKeys.right });

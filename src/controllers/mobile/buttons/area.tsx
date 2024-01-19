@@ -9,12 +9,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-interface AreaProps {
-  onPress: (pressing: boolean) => void;
+import { ButtonProps } from "..";
+
+interface AreaProps extends ButtonProps {
   indicatorSize?: number;
 }
 
-export default function AreaButton({ onPress, indicatorSize = 50 }: AreaProps) {
+export function AreaButton({ onPress, indicatorSize = 50 }: AreaProps) {
   const opacityIndicator = useSharedValue(0);
   const scaleIndicator = useSharedValue(1);
   const posIndicator = useSharedValue({ x: 0, y: 0 });
@@ -34,7 +35,10 @@ export default function AreaButton({ onPress, indicatorSize = 50 }: AreaProps) {
       };
     })
     .onTouchesDown(() => {
-      onPress(true);
+      if (onPress) {
+        onPress({ jumping: true });
+      }
+
       opacityIndicator.value = 1;
       scaleIndicator.value = withRepeat(
         withTiming(1.5, { duration: 300, easing: Easing.out(Easing.circle) }),
@@ -43,7 +47,9 @@ export default function AreaButton({ onPress, indicatorSize = 50 }: AreaProps) {
       );
     })
     .onTouchesUp(() => {
-      onPress(false);
+      if (onPress) {
+        onPress({ jumping: false });
+      }
       scaleIndicator.value = 1;
       opacityIndicator.value = 0;
     });
