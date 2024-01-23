@@ -8,15 +8,15 @@ import Circle, {
 
 describe("Circle model - Snapshot test", () => {
   let pos: CirclePosition;
-  let radius: CircleRadius;
+  let diameter: CircleRadius;
 
   it("Should renders correctly", () => {
     renderHook(() => {
       pos = useSharedValue({ x: 25, y: 50 });
-      radius = useSharedValue(90);
+      diameter = useSharedValue(90);
     });
 
-    const tree = render(<Circle radius={radius} position={pos} />);
+    const tree = render(<Circle diameter={diameter} position={pos} />);
 
     expect(tree.toJSON()).toMatchSnapshot();
   });

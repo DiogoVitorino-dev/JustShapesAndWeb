@@ -11,16 +11,18 @@ export type CircleRadius = SharedValue<number>;
 
 interface CircleProps {
   position: CirclePosition;
-  radius?: CircleRadius;
+  diameter: CircleRadius;
   style?: AnimatedStyleApp;
 }
 
-export default function Circle({ position, radius, style }: CircleProps) {
+export default function Circle({ position, diameter, style }: CircleProps) {
   const animatedStyle = useAnimatedStyle(() => ({
-    width: radius?.value || 20,
-    height: radius?.value || 20,
+    width: diameter.value,
+    height: diameter.value,
     top: position.value.y,
     left: position.value.x,
+    borderRadius: diameter.value / 2,
+    position: "absolute",
   }));
   return <Animated.View testID="circleModel" style={[animatedStyle, style]} />;
 }

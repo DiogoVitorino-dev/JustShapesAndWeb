@@ -9,14 +9,14 @@ import Circle, {
 
 describe("Circle - Model tests", () => {
   let pos: CirclePosition;
-  let radius: CircleRadius;
+  let diameter: CircleRadius;
 
   beforeEach(() => {
     jest.useFakeTimers();
 
     renderHook(() => {
       pos = useSharedValue({ x: 0, y: 0 });
-      radius = useSharedValue(50);
+      diameter = useSharedValue(50);
     });
   });
 
@@ -25,7 +25,9 @@ describe("Circle - Model tests", () => {
   });
 
   it("Should move a model", () => {
-    const { getByTestId } = render(<Circle radius={radius} position={pos} />);
+    const { getByTestId } = render(
+      <Circle diameter={diameter} position={pos} />,
+    );
 
     const view = getByTestId("circleModel");
 
@@ -39,10 +41,12 @@ describe("Circle - Model tests", () => {
     });
   });
 
-  it("Should change radius", () => {
-    const { getByTestId } = render(<Circle radius={radius} position={pos} />);
+  it("Should change diameter", () => {
+    const { getByTestId } = render(
+      <Circle diameter={diameter} position={pos} />,
+    );
 
-    radius.value = 90;
+    diameter.value = 90;
 
     jest.advanceTimersByTime(1500);
 
