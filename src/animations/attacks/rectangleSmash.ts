@@ -56,6 +56,17 @@ export function useRectangleSmashAnimation(
   }));
 
   const verticalAttack = () => {
+    function attack(ready?: boolean) {
+      "worklet";
+      if (ready) {
+        size.value = withTiming(
+          { width: size.value.width, height },
+          attackTimingConfig,
+        );
+      }
+    }
+
+    opacity.value = 1;
     size.value = withTiming(
       {
         width: size.value.width,
@@ -64,18 +75,19 @@ export function useRectangleSmashAnimation(
       prepareTimingConfig,
       (finished) => attack(finished),
     );
+  };
 
+  const horizontalAttack = () => {
     function attack(ready?: boolean) {
+      "worklet";
       if (ready) {
         size.value = withTiming(
-          { width: size.value.width, height },
+          { width, height: size.value.height },
           attackTimingConfig,
         );
       }
     }
-  };
 
-  const horizontalAttack = () => {
     opacity.value = 1;
     size.value = withTiming(
       {
@@ -85,15 +97,6 @@ export function useRectangleSmashAnimation(
       prepareTimingConfig,
       (finished) => attack(finished),
     );
-
-    function attack(ready?: boolean) {
-      if (ready) {
-        size.value = withTiming(
-          { width, height: size.value.height },
-          attackTimingConfig,
-        );
-      }
-    }
   };
 
   const run = () => {
