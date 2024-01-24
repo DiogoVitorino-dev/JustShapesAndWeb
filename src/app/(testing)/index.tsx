@@ -1,15 +1,27 @@
 import { StyleSheet, View } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
+import { useDerivedValue, useSharedValue } from "react-native-reanimated";
 
+import { useRectangleSmashAnimation } from "@/animations/attacks/rectangleSmash";
 import Controller from "@/controllers";
 import { ControlData } from "@/controllers/controllers.type";
+import Circle, {
+  CirclePosition,
+  CircleRadius,
+} from "@/models/geometric/circle";
+import Rectangle, {
+  RectanglePosition,
+  RectangleAngle,
+  RectangleSize,
+} from "@/models/geometric/rectangle";
 import Player from "@/models/player";
+import { useCollisionSystem } from "@/scripts/systems/collision";
+import { AnimatedCollidableObject } from "@/scripts/systems/collision/collision.types";
 import { MovableObject, useMovementSystem } from "@/scripts/systems/movement";
 
 export default function Sandbox() {
   const movementPlayer = useSharedValue<MovableObject>({
-    x: 0,
-    y: 0,
+    x: 50,
+    y: 50,
     velocityX: 0,
     velocityY: 0,
   });
@@ -25,13 +37,79 @@ export default function Sandbox() {
       velocityY: y,
     };
     anglePlayer.value = angle;
-    console.log(jumping);
   };
+
+  const hitBoxPlayer: AnimatedCollidableObject = useDerivedValue(
+    () => ({
+      shape: "RECTANGLE",
+      angle: anglePlayer.value,
+      width: 20,
+      height: 20,
+      ...MovementResult.movementPlayer.value,
+    }),
+    [anglePlayer, MovementResult.movementPlayer],
+  );
+
+  const circPosition: CirclePosition = useSharedValue({ x: 200, y: 100 });
+  const circSize: CircleRadius = useSharedValue(100);
+
+  const hitBoxCircle: AnimatedCollidableObject = useDerivedValue(
+    () => ({
+      shape: "CIRCLE",
+      diameter: circSize.value,
+      ...circPosition.value,
+    }),
+    [circPosition, circSize],
+  );
+
+  const rectPosition: RectanglePosition = useSharedValue({ x: 500, y: 100 });
+  const rectAngle: RectangleAngle = useSharedValue(0);
+  const rectSize: RectangleSize = useSharedValue({ height: 100, width: 100 });
+  const background = useSharedValue("tomato");
+
+  const smash = useRectangleSmashAnimation(rectSize, {
+    prepareDuration: 2000,
+    smashTo: "horizontal",
+  }).run();
+
+  const hitBoxRect: AnimatedCollidableObject = useDerivedValue(
+    () => ({
+      shape: "RECTANGLE",
+      angle: rectAngle.value,
+      ...rectSize.value,
+      ...rectPosition.value,
+    }),
+    [rectPosition, rectSize, rectAngle],
+  );
+
+  useCollisionSystem(
+    (collided) => {
+      background.value = collided ? "indigo" : "tomato";
+
+      console.log(collided, "sys");
+    },
+    [hitBoxPlayer],
+    [hitBoxRect, hitBoxCircle],
+  );
 
   return (
     <View style={styles.container}>
-      <Controller onMove={handleOnMove} velocity={2} />
       <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
+
+      <Rectangle
+        style={[smash.animatedStyle, { backgroundColor: background }]}
+        position={rectPosition}
+        angle={rectAngle}
+        size={rectSize}
+      />
+
+      <Circle
+        position={circPosition}
+        diameter={circSize}
+        style={[{ backgroundColor: background }]}
+      />
+
+      <Controller onMove={handleOnMove} velocity={2} />
     </View>
   );
 }
