@@ -1,5 +1,9 @@
-import { StyleSheet, View } from "react-native";
-import { useDerivedValue, useSharedValue } from "react-native-reanimated";
+import { ColorValue, StyleSheet, View } from "react-native";
+import {
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+} from "react-native-reanimated";
 
 import { useRectangleSmashAnimation } from "@/animations/attacks/rectangleSmash";
 import Controller from "@/controllers";
@@ -65,7 +69,7 @@ export default function Sandbox() {
   const rectPosition: RectanglePosition = useSharedValue({ x: 500, y: 100 });
   const rectAngle: RectangleAngle = useSharedValue(0);
   const rectSize: RectangleSize = useSharedValue({ height: 100, width: 100 });
-  const background = useSharedValue("tomato");
+  const backgroundColor = useSharedValue<ColorValue>("tomato");
 
   const smash = useRectangleSmashAnimation(rectSize, {
     prepareDuration: 2000,
@@ -84,7 +88,7 @@ export default function Sandbox() {
 
   useCollisionSystem(
     (collided) => {
-      background.value = collided ? "indigo" : "tomato";
+      backgroundColor.value = collided ? "indigo" : "tomato";
 
       console.log(collided, "sys");
     },
@@ -92,12 +96,16 @@ export default function Sandbox() {
     [hitBoxRect, hitBoxCircle],
   );
 
+  const backgroundStyle = useAnimatedStyle(() => ({
+    backgroundColor: backgroundColor.value,
+  }));
+
   return (
     <View style={styles.container}>
       <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
 
       <Rectangle
-        style={[smash.animatedStyle, { backgroundColor: background }]}
+        style={[smash.animatedStyle, backgroundStyle]}
         position={rectPosition}
         angle={rectAngle}
         size={rectSize}
@@ -106,7 +114,7 @@ export default function Sandbox() {
       <Circle
         position={circPosition}
         diameter={circSize}
-        style={[{ backgroundColor: background }]}
+        style={[backgroundStyle]}
       />
 
       <Controller onMove={handleOnMove} velocity={2} />
