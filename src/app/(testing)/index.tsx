@@ -89,8 +89,6 @@ export default function Sandbox() {
   useCollisionSystem(
     (collided) => {
       backgroundColor.value = collided ? "indigo" : "tomato";
-
-      console.log(collided, "sys");
     },
     [hitBoxPlayer],
     [hitBoxRect, hitBoxCircle],
