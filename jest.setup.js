@@ -7,6 +7,6 @@ jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock"),
 );
 
-jest.mock("./src/scripts/systems/movement/index.ts", () => ({
+jest.mock("./src/scripts/movement/useMovementSystem.ts", () => ({
   useMovementSystem: (targets) => ({ MovementResult: targets }),
 }));

@@ -18,9 +18,9 @@ import Rectangle, {
   RectangleSize,
 } from "@/models/geometric/rectangle";
 import Player from "@/models/player";
-import { useCollisionSystem } from "@/scripts/systems/collision";
-import { AnimatedCollidableObject } from "@/scripts/systems/collision/collision.types";
-import { MovableObject, useMovementSystem } from "@/scripts/systems/movement";
+import { useCollisionSystem } from "@/scripts/collision/useCollisionSystem";
+import { AnimatedCollidableObject } from "@/scripts/collision/collision.types";
+import { MovableObject, useMovementSystem } from "@/scripts/movement/useMovementSystem";
 
 export default function Sandbox() {
   const movementPlayer = useSharedValue<MovableObject>({

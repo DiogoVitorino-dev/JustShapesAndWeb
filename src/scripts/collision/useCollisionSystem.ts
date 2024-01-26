@@ -81,3 +81,5 @@ export const useCollisionSystem: CollisionSystem = (
     },
   );
 };
+
+export default useCollisionSystem;

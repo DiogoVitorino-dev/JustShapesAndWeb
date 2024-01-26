@@ -1,13 +1,13 @@
 import { renderHook } from "@testing-library/react-native";
 import { useSharedValue } from "react-native-reanimated";
 
-import { useCollisionSystem } from "@/scripts/systems/collision";
 import {
   CollidableCircle,
   CollidableRectangle,
-} from "@/scripts/systems/collision/collision.types";
+} from "@/scripts/collision/collision.types";
+import { useCollisionSystem } from "@/scripts/collision/useCollisionSystem";
 
-describe("Testing Rectangles (useCollisionSystem hook) - Collision system script tests", () => {
+describe("Testing Rectangles (useCollisionSystem) - Collision scripts tests", () => {
   const callbackMock = jest.fn((collided: boolean) => {});
   const rectangleMock: CollidableRectangle = {
     shape: "RECTANGLE",
@@ -209,7 +209,7 @@ describe("Testing Rectangles (useCollisionSystem hook) - Collision system script
 });
 
 // Circles
-describe("Testing Circles (useCollisionSystem hook) - Collision system script tests", () => {
+describe("Testing Circles (useCollisionSystem) - Collision scripts tests", () => {
   const callbackMock = jest.fn((collided: boolean) => {});
   const rectangleMock: CollidableRectangle = {
     shape: "RECTANGLE",
