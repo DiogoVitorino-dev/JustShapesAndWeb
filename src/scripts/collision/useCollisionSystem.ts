@@ -4,15 +4,31 @@ import {
   useDerivedValue,
 } from "react-native-reanimated";
 
-import { SATShapes, SatUtils } from "./SAT";
-import {
-  CollisionSystem,
-  CollisionVerifyCollision,
-  CollisionVerifyObject,
-  CollisionVerifyTarget,
-} from "./collision.types";
+import { SATShapes, SATVerification, SAT } from "./SAT";
+import { AnimatedCollidableObject, CollidableObject } from "./collision.types";
 
-// SAT
+export type CollisionCallback = (collided: boolean) => void;
+
+export type CollisionSystem = (
+  callback: CollisionCallback,
+  targets: AnimatedCollidableObject[],
+  objects: AnimatedCollidableObject[],
+) => void;
+
+export type CollisionVerifyObject = (
+  object: CollidableObject,
+  verification: SATVerification,
+) => boolean | null;
+
+export type CollisionVerifyTarget = (
+  target: CollidableObject,
+) => SATVerification | null;
+
+export type CollisionVerifyCollision = (
+  targets: CollidableObject[],
+  objects: CollidableObject[],
+) => Promise<void>;
+
 export const useCollisionSystem: CollisionSystem = (
   callback,
   targets,
@@ -34,10 +50,16 @@ export const useCollisionSystem: CollisionSystem = (
   ) => {
     return new Promise<void>((resolve) => {
       const collided = targets.some((target) => {
-        const verification = verifyTarget(target);
+        const verification = target?.ignoreCollision
+          ? null
+          : verifyTarget(target);
 
         if (verification)
-          return objects.some((object) => verifyObject(object, verification));
+          return objects.some((object) =>
+            object?.ignoreCollision
+              ? false
+              : verifyObject(object, verification),
+          );
       });
 
       callback(collided);
@@ -46,7 +68,7 @@ export const useCollisionSystem: CollisionSystem = (
   };
 
   const verifyTarget: CollisionVerifyTarget = (target) => {
-    const { verifyCircle, verifyRectangle } = SatUtils;
+    const { verifyCircle, verifyRectangle } = SAT;
 
     switch (target.shape) {
       case SATShapes.CIRCLE:

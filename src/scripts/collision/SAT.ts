@@ -13,6 +13,7 @@ import {
 import { Size, Position } from "@/constants/types";
 
 // Separating Axis Theorem (SAT) for collision detection
+// Voronoi Regions for Circles collision detection
 
 interface SATObject extends Position {}
 
@@ -110,7 +111,7 @@ const rotate = (angle: number, { x, y }: Position, center: Position) => {
   };
 };
 
-export const SatUtils = {
+export const SAT = {
   verifyCircle,
   verifyRectangle,
   createPolygonFromBox,

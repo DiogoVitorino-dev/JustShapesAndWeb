@@ -206,6 +206,42 @@ describe("Testing Rectangles (useCollisionSystem) - Collision scripts tests", ()
     expect(callbackMock).toHaveBeenNthCalledWith(1, false);
     expect(callbackMock).toHaveBeenLastCalledWith(true);
   });
+
+  it(`Rectangle shouldn't collide with ignoreCollision property`, async () => {
+    const target = renderHook(() => useSharedValue(rectangleMock));
+    const object = renderHook(() => useSharedValue(rectangleMock));
+
+    const sys = renderHook(() =>
+      useCollisionSystem(
+        callbackMock,
+        [target.result.current],
+        [object.result.current],
+      ),
+    );
+
+    const before = object.result.current.value;
+
+    object.result.current.value = {
+      ...before,
+      x: before.x + before.width,
+      angle: 0,
+    };
+    jest.advanceTimersByTime(100);
+    sys.rerender({});
+
+    const after = object.result.current.value;
+
+    jest.advanceTimersByTime(100);
+    sys.rerender({});
+
+    object.result.current.value = {
+      ...after,
+      ignoreCollision: true,
+    };
+
+    expect(callbackMock).toHaveBeenNthCalledWith(1, true);
+    expect(callbackMock).toHaveBeenLastCalledWith(false);
+  });
 });
 
 // Circles
@@ -340,5 +376,38 @@ describe("Testing Circles (useCollisionSystem) - Collision scripts tests", () =>
 
     expect(callbackMock).toHaveBeenNthCalledWith(1, false);
     expect(callbackMock).toHaveBeenLastCalledWith(true);
+  });
+
+  it(`Circle shouldn't collide with ignoreCollision property`, async () => {
+    const target = renderHook(() => useSharedValue(circleMock));
+    const object = renderHook(() => useSharedValue(circleMock));
+
+    const sys = renderHook(() =>
+      useCollisionSystem(
+        callbackMock,
+        [target.result.current],
+        [object.result.current],
+      ),
+    );
+
+    const before = object.result.current.value;
+    object.result.current.value = {
+      ...before,
+      x: before.x + before.diameter,
+    };
+    jest.advanceTimersByTime(100);
+    sys.rerender({});
+
+    const after = object.result.current.value;
+
+    object.result.current.value = {
+      ...after,
+      ignoreCollision: true,
+    };
+    jest.advanceTimersByTime(100);
+    sys.rerender({});
+
+    expect(callbackMock).toHaveBeenNthCalledWith(1, true);
+    expect(callbackMock).toHaveBeenLastCalledWith(false);
   });
 });
