@@ -18,30 +18,40 @@ import Rectangle, {
   RectangleSize,
 } from "@/models/geometric/rectangle";
 import Player from "@/models/player";
-import { useCollisionSystem } from "@/scripts/collision/useCollisionSystem";
 import { AnimatedCollidableObject } from "@/scripts/collision/collision.types";
-import { MovableObject, useMovementSystem } from "@/scripts/movement/useMovementSystem";
+import useCollisionSystem from "@/scripts/collision/useCollisionSystem";
+import { MovableObject } from "@/scripts/movement/movement.type";
+import useJump from "@/scripts/movement/useJump";
+import { useMovementSystem } from "@/scripts/movement/useMovementSystem";
 
 export default function Sandbox() {
   const movementPlayer = useSharedValue<MovableObject>({
     x: 50,
     y: 50,
-    velocityX: 0,
-    velocityY: 0,
+    speedX: 0,
+    speedY: 0,
+    size: 20,
   });
+
   const anglePlayer = useSharedValue(0);
+  const jumpPlayer = useSharedValue(false);
 
   const { MovementResult } = useMovementSystem({ movementPlayer });
 
-  const handleOnMove = ({ angle, x, y, jumping }: ControlData) => {
+  const handleOnMove = async ({ angle, x, y, jumping }: ControlData) => {
     "worklet";
+
     movementPlayer.value = {
       ...movementPlayer.value,
-      velocityX: x,
-      velocityY: y,
+
+      speedX: x,
+      speedY: y,
     };
     anglePlayer.value = angle;
+    jumpPlayer.value = jumping;
   };
+
+  const runningJump = useJump(jumpPlayer, movementPlayer);
 
   const hitBoxPlayer: AnimatedCollidableObject = useDerivedValue(
     () => ({
@@ -49,9 +59,10 @@ export default function Sandbox() {
       angle: anglePlayer.value,
       width: 20,
       height: 20,
+      ignoreCollision: runningJump.value,
       ...MovementResult.movementPlayer.value,
     }),
-    [anglePlayer, MovementResult.movementPlayer],
+    [anglePlayer, MovementResult.movementPlayer, runningJump],
   );
 
   const circPosition: CirclePosition = useSharedValue({ x: 200, y: 100 });

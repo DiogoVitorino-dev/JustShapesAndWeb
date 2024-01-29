@@ -1,33 +1,83 @@
-import { SharedValue, useFrameCallback } from "react-native-reanimated";
+import { useWindowDimensions } from "react-native";
+import { useFrameCallback } from "react-native-reanimated";
 
-import { Position } from "@/constants/types";
+import { AnimatedMoveableObject } from "./movement.type";
 
-export interface MovableObject extends Position {
-  velocityY: number;
-  velocityX: number;
-}
+import { Size } from "@/constants/types";
 
-type AnimatedMoveableObject = Record<string, SharedValue<MovableObject>>;
+export type MovementSystem = (
+  objects: AnimatedMoveableObject,
+  isActive?: boolean,
+) => { MovementResult: AnimatedMoveableObject };
 
-interface MovementSystemData {
-  MovementResult: AnimatedMoveableObject;
-}
+export const useMovementSystem: MovementSystem = (objects, isActive = true) => {
+  const window = useWindowDimensions();
 
-export function useMovementSystem(
-  targets: AnimatedMoveableObject,
-  isActive = true,
-): MovementSystemData {
-  useFrameCallback(() => {
-    Object.keys(targets).map(async (key) => {
-      targets[key].value = {
-        ...targets[key].value,
-        x: targets[key].value.x + targets[key].value.velocityX,
-        y: targets[key].value.y + targets[key].value.velocityY,
+  const getSize = (size: Size | number) => {
+    let width = 0;
+    let height = 0;
+
+    if (typeof size === "number") {
+      width = size;
+      height = size;
+    } else {
+      width = size.width;
+      height = size.height;
+    }
+    return {
+      width,
+      height,
+    };
+  };
+
+  const updatePositionX = (
+    x: number,
+    speed: number,
+    width: number,
+    ignoreLimits = false,
+  ) => {
+    const newX = x + speed;
+
+    if ((newX >= 0 && newX <= window.width - width) || ignoreLimits) {
+      x = newX;
+    }
+    return x;
+  };
+
+  const updatePositionY = (
+    y: number,
+    speed: number,
+    height: number,
+    ignoreLimits = false,
+  ) => {
+    const newY = y + speed;
+
+    if ((newY >= 0 && newY <= window.height - height) || ignoreLimits) {
+      y = newY;
+    }
+    return y;
+  };
+
+  const frameUpdater = () => {
+    Object.keys(objects).map(async (key) => {
+      const { size, speedX, speedY, x, y, ignoreSceneLimits } =
+        objects[key].value;
+
+      const { height, width } = getSize(size);
+
+      objects[key].value = {
+        ...objects[key].value,
+        x: updatePositionX(x, speedX, width, ignoreSceneLimits),
+        y: updatePositionY(y, speedY, height, ignoreSceneLimits),
       };
+
+      return objects[key];
     });
-  }, true).setActive(isActive);
+  };
+
+  useFrameCallback(frameUpdater, true).setActive(isActive);
 
   return {
-    MovementResult: targets,
+    MovementResult: objects,
   };
-}
+};
