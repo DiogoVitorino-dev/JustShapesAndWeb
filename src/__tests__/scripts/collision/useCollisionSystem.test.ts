@@ -127,13 +127,13 @@ describe("Testing Rectangles (useCollisionSystem) - Collision scripts tests", ()
 
     const after = object.result.current.value;
 
-    jest.advanceTimersByTime(100);
     sys.rerender({});
 
     object.result.current.value = {
       ...after,
       angle: 45,
     };
+    jest.advanceTimersByTime(100);
 
     expect(callbackMock).toHaveBeenNthCalledWith(1, false);
     expect(callbackMock).toHaveBeenLastCalledWith(true);
@@ -231,13 +231,13 @@ describe("Testing Rectangles (useCollisionSystem) - Collision scripts tests", ()
 
     const after = object.result.current.value;
 
-    jest.advanceTimersByTime(100);
     sys.rerender({});
 
     object.result.current.value = {
       ...after,
       ignoreCollision: true,
     };
+    jest.advanceTimersByTime(100);
 
     expect(callbackMock).toHaveBeenNthCalledWith(1, true);
     expect(callbackMock).toHaveBeenLastCalledWith(false);
