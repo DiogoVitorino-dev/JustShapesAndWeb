@@ -59,6 +59,7 @@ export const useMovementSystem: MovementSystem = (objects, isActive = true) => {
   };
 
   const frameUpdater = () => {
+    "worklet";
     Object.keys(objects).map(async (key) => {
       const { size, speedX, speedY, x, y, ignoreSceneLimits } =
         objects[key].value;

@@ -2,7 +2,7 @@
   "expo": {
     "name": "JustShapesAndWeb",
     "slug": "JustShapesAndWeb",
-    "version": "0.30.1",
+    "version": "0.30.2",
     "orientation": "landscape",
     "icon": "./src/assets/images/icon.png",
     "scheme": "myapp",
@@ -35,14 +35,21 @@
       "tsconfigPaths": true
     },
     "plugins": [
-      ["expo-font",
-      {
-        "fonts": [
-          "./src/assets/fonts/Megrim.ttf",
-          "./src/assets/fonts/MajorMonoDisplay.ttf",
-          "./src/assets/fonts/Manjari.ttf"
-        ]
-      }]
-    ]
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./src/assets/fonts/Megrim.ttf",
+            "./src/assets/fonts/MajorMonoDisplay.ttf",
+            "./src/assets/fonts/Manjari.ttf"
+          ]
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e599bca7-6115-45ce-a15c-20bca70d9a15"
+      }
+    }
   }
 }
