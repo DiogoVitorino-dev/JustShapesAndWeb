@@ -1,5 +1,5 @@
 import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
-import Animated, { SharedValue } from "react-native-reanimated";
+import { AnimatedStyle, SharedValue } from "react-native-reanimated";
 
 export interface Position {
   x: number;
@@ -18,5 +18,5 @@ export type AnimatedSize = SharedValue<Size>;
 export type AnimatedAngle = SharedValue<Angle>;
 
 export type AnimatedStyleApp = StyleProp<
-  Animated.AnimateStyle<StyleProp<ViewStyle | TextStyle | ImageStyle>>
+  AnimatedStyle<StyleProp<ViewStyle | TextStyle | ImageStyle>>
 >;
