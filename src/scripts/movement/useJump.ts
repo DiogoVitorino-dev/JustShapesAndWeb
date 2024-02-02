@@ -43,6 +43,7 @@ export const useJump: MovementJump = (jumping, speed, config) => {
     "worklet";
     isCooldown.value = true;
     setTimeout(() => {
+      "worklet";
       isCooldown.value = false;
     }, cooldown);
   };
