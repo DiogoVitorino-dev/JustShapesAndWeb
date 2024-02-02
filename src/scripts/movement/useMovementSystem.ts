@@ -14,6 +14,7 @@ export const useMovementSystem: MovementSystem = (objects, isActive = true) => {
   const window = useWindowDimensions();
 
   const getSize = (size: Size | number) => {
+    "worklet";
     let width = 0;
     let height = 0;
 
@@ -36,6 +37,7 @@ export const useMovementSystem: MovementSystem = (objects, isActive = true) => {
     width: number,
     ignoreLimits = false,
   ) => {
+    "worklet";
     const newX = x + speed;
 
     if ((newX >= 0 && newX <= window.width - width) || ignoreLimits) {
@@ -50,6 +52,7 @@ export const useMovementSystem: MovementSystem = (objects, isActive = true) => {
     height: number,
     ignoreLimits = false,
   ) => {
+    "worklet";
     const newY = y + speed;
 
     if ((newY >= 0 && newY <= window.height - height) || ignoreLimits) {
