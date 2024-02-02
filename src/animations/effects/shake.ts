@@ -22,18 +22,33 @@ export interface ShakeImpactDirection {
 }
 
 export interface ShakeImpactConfig extends ShakeImpactDirection {
-  duration?: number;
+  frequency?: number;
 }
 
 export interface ShakeAnimation extends StylizedAnimation, RunnableAnimation {}
 
+type ShakeAnimationProps = Required<Parameters<typeof useShakeAnimation>>;
+
+const InitialShakeImpactConfig: Required<ShakeImpactConfig> = {
+  frequency: 10,
+  horizontal: "all",
+  vertical: "all",
+};
+
+const [InitialDuration, InitialAmount, InitialImpact]: ShakeAnimationProps = [
+  200,
+  20,
+  InitialShakeImpactConfig,
+];
+
 export function useShakeAnimation(
-  duration = 200,
-  amount = 100,
-  impact?: ShakeImpactConfig,
+  duration: number = InitialDuration,
+  amount: number = InitialAmount,
+  impact: ShakeImpactConfig = InitialImpact,
 ): ShakeAnimation {
   const shakeY = useSharedValue(0);
   const shakeX = useSharedValue(0);
+  impact = { ...InitialImpact, ...impact };
 
   const animatedStyle: AnimatedStyleApp = useAnimatedStyle(() => ({
     transform: [{ translateX: shakeX.value }, { translateY: shakeY.value }],
@@ -41,29 +56,26 @@ export function useShakeAnimation(
 
   const run = () => {
     const springConfig: WithSpringConfig = {
-      duration: (impact?.duration || 300) / 2,
+      duration: duration / 2,
       dampingRatio: 2,
     };
 
     const timingConfig: WithTimingConfig = {
-      duration: (impact?.duration || 300) / 2,
+      duration: duration / 2,
       easing: Easing.in(Easing.bounce),
     };
 
-    const repeating = setInterval(
-      () => {
-        shakeY.value = withSequence(
-          withSpring(selectDirection(impact?.vertical), springConfig),
-          withTiming(0, timingConfig),
-        );
+    const repeating = setInterval(() => {
+      shakeY.value = withSequence(
+        withSpring(selectDirection(impact.vertical), springConfig),
+        withTiming(0, timingConfig),
+      );
 
-        shakeX.value = withSequence(
-          withSpring(selectDirection(impact?.horizontal), springConfig),
-          withTiming(0, timingConfig),
-        );
-      },
-      impact?.duration || 300,
-    );
+      shakeX.value = withSequence(
+        withSpring(selectDirection(impact.horizontal), springConfig),
+        withTiming(0, timingConfig),
+      );
+    }, impact.frequency);
 
     setTimeout(() => {
       clearInterval(repeating);
