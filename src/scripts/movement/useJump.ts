@@ -2,6 +2,7 @@ import {
   SharedValue,
   useAnimatedReaction,
   useSharedValue,
+  withDelay,
   withSequence,
   withTiming,
 } from "react-native-reanimated";
@@ -33,7 +34,7 @@ export const useJump: MovementJump = (jumping, speed, config) => {
   const speedX = useSharedValue(speed.value.speedX);
   const speedY = useSharedValue(speed.value.speedY);
   const running = useSharedValue(false);
-  const isCooldown = useSharedValue(false);
+  const isCooldown = useSharedValue(0);
 
   const multiplier = config?.multiplier || InitialValues.multiplier;
   const cooldown = config?.cooldown || InitialValues.cooldown;
@@ -41,11 +42,8 @@ export const useJump: MovementJump = (jumping, speed, config) => {
 
   const startCooldown = () => {
     "worklet";
-    isCooldown.value = true;
-    setTimeout(() => {
-      "worklet";
-      isCooldown.value = false;
-    }, cooldown);
+    isCooldown.value = 1;
+    isCooldown.value = withDelay(cooldown, withTiming(0, { duration: 0 }));
   };
 
   const finalizeJump = (finished?: boolean) => {
@@ -91,7 +89,7 @@ export const useJump: MovementJump = (jumping, speed, config) => {
     }),
     (current, previous) => {
       if (JSON.stringify(current) !== JSON.stringify(previous)) {
-        run(current.jump, current.running, current.cooldown);
+        run(current.jump, current.running, current.cooldown === 1);
       }
     },
   );
