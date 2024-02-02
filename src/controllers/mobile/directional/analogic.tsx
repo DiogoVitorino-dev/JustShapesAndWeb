@@ -12,6 +12,7 @@ import Animated, {
 
 import { DirectionalProps, DirectionalData } from "..";
 
+import Colors from "@/constants/Colors";
 import { AnglesUtils } from "@/utils/angleUtils";
 
 interface AnalogicProp extends DirectionalProps {}
@@ -133,17 +134,17 @@ const styles = StyleSheet.create({
     height: "50%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "indigo",
   },
 
   area: {
-    backgroundColor: "tomato",
+    backgroundColor: Colors.control.buttonBackground,
     alignItems: "center",
     justifyContent: "center",
+    elevation: 3,
     zIndex: 1000,
   },
 
   pointer: {
-    backgroundColor: "cyan",
+    backgroundColor: Colors.control.button,
   },
 });

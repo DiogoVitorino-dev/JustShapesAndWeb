@@ -1,4 +1,5 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 import { AnimationPlayer } from "@/animations/player";
@@ -35,18 +36,15 @@ export default function Player({ size, angle, position, style }: PlayerProps) {
   return (
     <Animated.View
       testID="playerModel"
-      style={[
-        animatedStyle,
-        playerAnimatedStyle,
-        style,
-        {
-          backgroundColor: Colors["light"].tabIconSelected,
-          borderRadius: 2,
-          position: "absolute",
-          borderLeftColor: "tomato",
-          borderLeftWidth: 3,
-        },
-      ]}
+      style={[animatedStyle, playerAnimatedStyle, styles.default, style]}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  default: {
+    backgroundColor: Colors.entity.player,
+    borderRadius: 2,
+    position: "absolute",
+  },
+});

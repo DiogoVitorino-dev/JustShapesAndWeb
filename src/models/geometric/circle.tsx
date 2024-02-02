@@ -1,9 +1,11 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
 
+import Colors from "@/constants/Colors";
 import { AnimatedPosition, AnimatedStyleApp } from "@/constants/types";
 
 export type CirclePosition = AnimatedPosition;
@@ -22,7 +24,18 @@ export default function Circle({ position, diameter, style }: CircleProps) {
     top: position.value.y,
     left: position.value.x,
     borderRadius: diameter.value / 2,
-    position: "absolute",
   }));
-  return <Animated.View testID="circleModel" style={[animatedStyle, style]} />;
+  return (
+    <Animated.View
+      testID="circleModel"
+      style={[animatedStyle, styles.default, style]}
+    />
+  );
 }
+
+const styles = StyleSheet.create({
+  default: {
+    backgroundColor: Colors.entity.enemy,
+    position: "absolute",
+  },
+});

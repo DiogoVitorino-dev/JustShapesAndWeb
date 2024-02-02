@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, StyleSheet, TextInput, View } from "react-native";
 
 import { useSoundContext } from "@/audio/sound";
+import { Text } from "@/components/shared/StyledText";
+import Colors from "@/constants/Colors";
 
 export default function Audio() {
   const [progressValue, setProgressValue] = useState(0);
@@ -30,7 +32,7 @@ export default function Audio() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{volumeValue}</Text>
+      <Text style={styles.input}>{volumeValue}</Text>
       <View style={styles.row}>
         <Button title="PLAY" onPress={handlePlay} />
         <Button title="PAUSE" onPress={handlePause} />
@@ -41,7 +43,7 @@ export default function Audio() {
         <TextInput
           value={progressValue.toString()}
           inputMode="numeric"
-          style={styles.title}
+          style={styles.input}
           onChangeText={(text) => setProgressValue(Number(text))}
         />
         <View style={styles.row}>
@@ -53,7 +55,7 @@ export default function Audio() {
       <View style={styles.column}>
         <TextInput
           value={volumeValue}
-          style={styles.title}
+          style={styles.input}
           onChangeText={(text) => setVolumeValue(text)}
         />
         <Button title="SET VOLUME" onPress={handleSetVolume} />
@@ -84,11 +86,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     flexDirection: "column",
   },
-  title: {
+  input: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "white",
-    borderColor: "white",
+    color: Colors.UI.text,
     borderWidth: 1,
+    borderColor: Colors.UI.borderColor,
   },
 });

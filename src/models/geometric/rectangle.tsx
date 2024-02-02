@@ -1,6 +1,8 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
+import Colors from "@/constants/Colors";
 import {
   AnimatedAngle,
   AnimatedPosition,
@@ -36,7 +38,14 @@ export default function Rectangle({
   return (
     <Animated.View
       testID="rectangleModel"
-      style={[animatedStyle, style, { position: "absolute" }]}
+      style={[animatedStyle, styles.default, style]}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  default: {
+    backgroundColor: Colors.entity.enemy,
+    position: "absolute",
+  },
+});

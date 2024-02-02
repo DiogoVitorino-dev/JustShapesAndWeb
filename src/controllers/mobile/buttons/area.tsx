@@ -11,6 +11,8 @@ import Animated, {
 
 import { ButtonProps } from "..";
 
+import Colors from "@/constants/Colors";
+
 interface AreaProps extends ButtonProps {
   indicatorSize?: number;
 }
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   indicator: {
-    borderColor: "lime",
+    borderColor: Colors.control.button,
     borderWidth: 3,
     zIndex: 1000,
   },
