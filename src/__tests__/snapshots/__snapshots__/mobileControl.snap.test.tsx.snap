@@ -17,7 +17,6 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
       [
         {
           "alignItems": "center",
-          "backgroundColor": "indigo",
           "height": "50%",
           "justifyContent": "center",
           "width": "30%",
@@ -37,7 +36,8 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
           },
           {
             "alignItems": "center",
-            "backgroundColor": "tomato",
+            "backgroundColor": "rgb(8, 78, 94)",
+            "elevation": 3,
             "justifyContent": "center",
             "zIndex": 1000,
           },
@@ -63,7 +63,7 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
         collapsable={false}
         style={
           {
-            "backgroundColor": "cyan",
+            "backgroundColor": "rgb(20, 210, 255)",
             "borderRadius": 50,
             "height": 40,
             "transform": [
@@ -107,7 +107,7 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
       collapsable={false}
       style={
         {
-          "borderColor": "lime",
+          "borderColor": "rgb(20, 210, 255)",
           "borderRadius": 25,
           "borderWidth": 3,
           "height": 50,

@@ -20,6 +20,7 @@ exports[`Rectangle model - Snapshot test Should renders correctly 1`] = `
   collapsable={false}
   style={
     {
+      "backgroundColor": "rgb(255, 64, 20)",
       "height": 50,
       "left": 25,
       "position": "absolute",

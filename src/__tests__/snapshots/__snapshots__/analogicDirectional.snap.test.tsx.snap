@@ -6,7 +6,6 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
     [
       {
         "alignItems": "center",
-        "backgroundColor": "indigo",
         "height": "50%",
         "justifyContent": "center",
         "width": "30%",
@@ -26,7 +25,8 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
         },
         {
           "alignItems": "center",
-          "backgroundColor": "tomato",
+          "backgroundColor": "rgb(8, 78, 94)",
+          "elevation": 3,
           "justifyContent": "center",
           "zIndex": 1000,
         },
@@ -52,7 +52,7 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
       collapsable={false}
       style={
         {
-          "backgroundColor": "cyan",
+          "backgroundColor": "rgb(20, 210, 255)",
           "borderRadius": 150,
           "height": 120,
           "transform": [

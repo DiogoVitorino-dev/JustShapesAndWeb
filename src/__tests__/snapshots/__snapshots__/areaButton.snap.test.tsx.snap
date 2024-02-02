@@ -28,7 +28,7 @@ exports[`Area Button - Snapshot mobile control test should render correctly 1`] 
     collapsable={false}
     style={
       {
-        "borderColor": "lime",
+        "borderColor": "rgb(20, 210, 255)",
         "borderRadius": 25,
         "borderWidth": 3,
         "height": 50,

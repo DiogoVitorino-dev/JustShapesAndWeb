@@ -26,9 +26,7 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
   collapsable={false}
   style={
     {
-      "backgroundColor": "#2f95dc",
-      "borderLeftColor": "tomato",
-      "borderLeftWidth": 3,
+      "backgroundColor": "rgb(20, 255, 170)",
       "borderRadius": 2,
       "height": 50,
       "left": 25,
