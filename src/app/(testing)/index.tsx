@@ -1,11 +1,12 @@
 import { ColorValue, StyleSheet, View } from "react-native";
-import {
+import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
 } from "react-native-reanimated";
 
 import { useRectangleSmashAnimation } from "@/animations/attacks/rectangleSmash";
+import { AnimationEffects } from "@/animations/effects";
 import Controller from "@/controllers";
 import { ControlData } from "@/controllers/controllers.type";
 import Circle, {
@@ -97,9 +98,13 @@ export default function Sandbox() {
     [rectPosition, rectSize, rectAngle],
   );
 
+  const { animatedStyle, run } = AnimationEffects.useShakeAnimation();
   useCollisionSystem(
     (collided) => {
       backgroundColor.value = collided ? "indigo" : "tomato";
+      if (collided) {
+        run();
+      }
     },
     [hitBoxPlayer],
     [hitBoxRect, hitBoxCircle],
@@ -111,20 +116,22 @@ export default function Sandbox() {
 
   return (
     <View style={styles.container}>
-      <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
+      <Animated.View style={[styles.container, animatedStyle]}>
+        <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
 
-      <Rectangle
-        style={[smash.animatedStyle, backgroundStyle]}
-        position={rectPosition}
-        angle={rectAngle}
-        size={rectSize}
-      />
+        <Rectangle
+          style={[smash.animatedStyle, backgroundStyle]}
+          position={rectPosition}
+          angle={rectAngle}
+          size={rectSize}
+        />
 
-      <Circle
-        position={circPosition}
-        diameter={circSize}
-        style={[backgroundStyle]}
-      />
+        <Circle
+          position={circPosition}
+          diameter={circSize}
+          style={[backgroundStyle]}
+        />
+      </Animated.View>
 
       <Controller onMove={handleOnMove} velocity={2} />
     </View>
@@ -134,7 +141,5 @@ export default function Sandbox() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
