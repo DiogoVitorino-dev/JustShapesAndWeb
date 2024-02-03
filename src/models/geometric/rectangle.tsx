@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import { useAnimatedStyle } from "react-native-reanimated";
 
+import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import {
   AnimatedAngle,
@@ -36,7 +37,7 @@ export default function Rectangle({
   }));
 
   return (
-    <Animated.View
+    <AnimatedView
       testID="rectangleModel"
       style={[animatedStyle, styles.default, style]}
     />

@@ -3,25 +3,41 @@
 exports[`Mobile Control - Snapshot mobile control test should render correctly 1`] = `
 <View
   style={
-    {
-      "alignItems": "flex-end",
-      "flex": 1,
-      "flexDirection": "row",
-      "justifyContent": "space-between",
-      "width": "100%",
-    }
+    [
+      {
+        "backgroundColor": "rgb(3, 38, 25)",
+      },
+      {
+        "alignItems": "flex-end",
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "width": "100%",
+      },
+      {
+        "backgroundColor": "transparent",
+      },
+    ]
   }
 >
   <View
     style={
       [
         {
-          "alignItems": "center",
-          "height": "50%",
-          "justifyContent": "center",
-          "width": "30%",
+          "backgroundColor": "rgb(3, 38, 25)",
         },
-        undefined,
+        [
+          {
+            "alignItems": "center",
+            "height": "50%",
+            "justifyContent": "center",
+            "width": "30%",
+          },
+          undefined,
+        ],
+        {
+          "backgroundColor": "transparent",
+        },
       ]
     }
   >
@@ -30,17 +46,22 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
       style={
         [
           {
-            "borderRadius": 50,
-            "height": 100,
-            "width": 100,
+            "backgroundColor": "rgb(3, 38, 25)",
           },
-          {
-            "alignItems": "center",
-            "backgroundColor": "rgb(8, 78, 94)",
-            "elevation": 3,
-            "justifyContent": "center",
-            "zIndex": 1000,
-          },
+          [
+            {
+              "borderRadius": 50,
+              "height": 100,
+              "width": 100,
+            },
+            {
+              "alignItems": "center",
+              "backgroundColor": "rgb(8, 78, 94)",
+              "elevation": 3,
+              "justifyContent": "center",
+              "zIndex": 1000,
+            },
+          ],
         ]
       }
       testID="pan"
@@ -83,10 +104,18 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
   <View
     collapsable={false}
     style={
-      {
-        "height": "100%",
-        "width": "50%",
-      }
+      [
+        {
+          "backgroundColor": "rgb(3, 38, 25)",
+        },
+        {
+          "height": "100%",
+          "width": "50%",
+        },
+        {
+          "backgroundColor": "transparent",
+        },
+      ]
     }
   >
     <View
@@ -107,6 +136,7 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
       collapsable={false}
       style={
         {
+          "backgroundColor": "transparent",
           "borderColor": "rgb(20, 210, 255)",
           "borderRadius": 25,
           "borderWidth": 3,

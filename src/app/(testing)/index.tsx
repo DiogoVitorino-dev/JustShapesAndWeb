@@ -1,5 +1,5 @@
-import { ColorValue, StyleSheet, View } from "react-native";
-import Animated, {
+import { ColorValue, StyleSheet } from "react-native";
+import {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -7,6 +7,7 @@ import Animated, {
 
 import { useRectangleSmashAnimation } from "@/animations/attacks/rectangleSmash";
 import { AnimationEffects } from "@/animations/effects";
+import { AnimatedView, View } from "@/components/shared";
 import Controller from "@/controllers";
 import { ControlData } from "@/controllers/controllers.type";
 import Circle, {
@@ -116,7 +117,7 @@ export default function Sandbox() {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.container, animatedStyle]}>
+      <AnimatedView style={[styles.container, animatedStyle]}>
         <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
 
         <Rectangle
@@ -131,7 +132,7 @@ export default function Sandbox() {
           diameter={circSize}
           style={[backgroundStyle]}
         />
-      </Animated.View>
+      </AnimatedView>
 
       <Controller onMove={handleOnMove} velocity={2} />
     </View>

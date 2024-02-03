@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
+import { Button, StyleSheet, TextInput } from "react-native";
 
 import { useSoundContext } from "@/audio/sound";
+import { View } from "@/components/shared";
 import { Text } from "@/components/shared/StyledText";
 import Colors from "@/constants/Colors";
 

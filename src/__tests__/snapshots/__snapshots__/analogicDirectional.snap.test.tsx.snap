@@ -5,12 +5,20 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
   style={
     [
       {
-        "alignItems": "center",
-        "height": "50%",
-        "justifyContent": "center",
-        "width": "30%",
+        "backgroundColor": "rgb(3, 38, 25)",
       },
-      undefined,
+      [
+        {
+          "alignItems": "center",
+          "height": "50%",
+          "justifyContent": "center",
+          "width": "30%",
+        },
+        undefined,
+      ],
+      {
+        "backgroundColor": "transparent",
+      },
     ]
   }
 >
@@ -19,17 +27,22 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
     style={
       [
         {
-          "borderRadius": 150,
-          "height": 300,
-          "width": 300,
+          "backgroundColor": "rgb(3, 38, 25)",
         },
-        {
-          "alignItems": "center",
-          "backgroundColor": "rgb(8, 78, 94)",
-          "elevation": 3,
-          "justifyContent": "center",
-          "zIndex": 1000,
-        },
+        [
+          {
+            "borderRadius": 150,
+            "height": 300,
+            "width": 300,
+          },
+          {
+            "alignItems": "center",
+            "backgroundColor": "rgb(8, 78, 94)",
+            "elevation": 3,
+            "justifyContent": "center",
+            "zIndex": 1000,
+          },
+        ],
       ]
     }
     testID="pan"

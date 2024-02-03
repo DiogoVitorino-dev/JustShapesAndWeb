@@ -1,8 +1,9 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import { useAnimatedStyle } from "react-native-reanimated";
 
 import { AnimationPlayer } from "@/animations/player";
+import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import {
   AnimatedAngle,
@@ -34,7 +35,7 @@ export default function Player({ size, angle, position, style }: PlayerProps) {
   }));
 
   return (
-    <Animated.View
+    <AnimatedView
       testID="playerModel"
       style={[animatedStyle, playerAnimatedStyle, styles.default, style]}
     />

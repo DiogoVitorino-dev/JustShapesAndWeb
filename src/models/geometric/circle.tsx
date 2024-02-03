@@ -1,10 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import Animated, {
-  SharedValue,
-  useAnimatedStyle,
-} from "react-native-reanimated";
+import { SharedValue, useAnimatedStyle } from "react-native-reanimated";
 
+import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { AnimatedPosition, AnimatedStyleApp } from "@/constants/types";
 
@@ -26,7 +24,7 @@ export default function Circle({ position, diameter, style }: CircleProps) {
     borderRadius: diameter.value / 2,
   }));
   return (
-    <Animated.View
+    <AnimatedView
       testID="circleModel"
       style={[animatedStyle, styles.default, style]}
     />

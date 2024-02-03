@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, {
+import {
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -11,6 +11,7 @@ import Animated, {
 
 import { ButtonProps } from "..";
 
+import { AnimatedView, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
 
 interface AreaProps extends ButtonProps {
@@ -65,8 +66,9 @@ export function AreaButton({ onPress, indicatorSize = 50 }: AreaProps) {
 
   return (
     <GestureDetector gesture={tap}>
-      <View style={styles.area}>
-        <Animated.View
+      <View style={styles.area} transparent>
+        <AnimatedView
+          transparent
           style={[
             indicatorAnimatedStyle,
             styles.indicator,

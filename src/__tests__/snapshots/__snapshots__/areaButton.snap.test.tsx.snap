@@ -4,10 +4,18 @@ exports[`Area Button - Snapshot mobile control test should render correctly 1`] 
 <View
   collapsable={false}
   style={
-    {
-      "height": "100%",
-      "width": "50%",
-    }
+    [
+      {
+        "backgroundColor": "rgb(3, 38, 25)",
+      },
+      {
+        "height": "100%",
+        "width": "50%",
+      },
+      {
+        "backgroundColor": "transparent",
+      },
+    ]
   }
 >
   <View
@@ -28,6 +36,7 @@ exports[`Area Button - Snapshot mobile control test should render correctly 1`] 
     collapsable={false}
     style={
       {
+        "backgroundColor": "transparent",
         "borderColor": "rgb(20, 210, 255)",
         "borderRadius": 25,
         "borderWidth": 3,

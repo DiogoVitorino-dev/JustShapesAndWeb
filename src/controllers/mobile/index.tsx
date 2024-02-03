@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 import { useAnimatedReaction, useSharedValue } from "react-native-reanimated";
 
 import { AreaButton } from "./buttons";
@@ -10,6 +10,8 @@ import {
   Directional,
   Jumpable,
 } from "../controllers.type";
+
+import { View } from "@/components/shared";
 
 export interface DirectionalData extends Directional {}
 export interface DirectionalProps {
@@ -50,7 +52,7 @@ export default function MobileControl({ onMove, velocity }: MobileControlProp) {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} transparent>
       <AnalogicDirectional onMove={handleDirectional} velocity={velocity} />
       <AreaButton onPress={handleButtons} />
     </View>

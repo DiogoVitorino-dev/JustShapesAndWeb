@@ -1,15 +1,17 @@
 import React from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 import { ControlProp } from "./controllers.type";
 import MobileControl from "./mobile";
 import WebControl from "./web";
 
+import { View } from "@/components/shared";
+
 interface ControllerProp extends ControlProp {}
 
 export default function Controller({ onMove, velocity }: ControllerProp) {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} transparent>
       {Platform.OS === "ios" || Platform.OS === "android" ? (
         <MobileControl onMove={onMove} velocity={velocity} />
       ) : (
