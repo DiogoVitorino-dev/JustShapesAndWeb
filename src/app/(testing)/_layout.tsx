@@ -30,7 +30,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="(chambers)"
+        name="chambers"
         options={{
           title: "Test Chambers",
           headerShown: false,
