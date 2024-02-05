@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
     color: Colors.UI.text,
   },
   fontMegrim: { fontFamily: "Megrim" },
-  fontManjari: { fontFamily: "Manjari" },
+  fontManjari: { fontFamily: "Manjari", marginBottom: -3 },
   fontMajor: { fontFamily: "MajorMonoDisplay" },
 });
