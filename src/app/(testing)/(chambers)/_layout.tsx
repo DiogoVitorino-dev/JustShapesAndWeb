@@ -10,6 +10,12 @@ export default function ChambersLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="audioHook"
+        options={{
+          title: "Audio Hook chamber",
+        }}
+      />
     </Stack>
   );
 }

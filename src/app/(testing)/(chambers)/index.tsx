@@ -66,15 +66,24 @@ const ListHeader = () => (
   </View>
 );
 
-enum SectionsNames {}
+enum SectionsNames {
+  Audio,
+}
 
-const Sections: Record<keyof typeof SectionsNames, SectionHeader> = {};
+const Sections: Record<keyof typeof SectionsNames, SectionHeader> = {
+  Audio: { title: "Audio", icon: "music" },
+};
 
 export default function TestChamberList() {
   const router = useRouter();
   const handleOnPress = ({ to }: SectionData) => router.push(to);
 
-  const chambers: ListData[] = [];
+  const chambers: ListData[] = [
+    {
+      section: Sections.Audio,
+      data: [{ name: "Audio Hook", to: "/audioHook" }],
+    },
+  ];
 
   return (
     <SafeAreaView style={styles.container}>

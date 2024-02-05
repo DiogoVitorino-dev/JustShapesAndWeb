@@ -28,14 +28,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="globe" color={color} />,
         }}
       />
-      <Tabs.Screen
-        name="audio"
-        options={{
-          title: "Audio Test",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="music" color={color} />,
-        }}
-      />
 
       <Tabs.Screen
         name="(chambers)"
