@@ -87,17 +87,20 @@ export function AnalogicDirectional({
   }));
 
   useAnimatedReaction(
-    (): DirectionalData => {
-      const angle = AnglesUtils.calculateAngle(pos.value.x, pos.value.y);
-      return normalizeData({
-        angle,
-        x: pos.value.x,
-        y: pos.value.y,
-      });
+    () => {
+      return pos.value.x;
     },
     (currentValue, previousValue) => {
       if (currentValue !== previousValue && onMove) {
-        onMove(currentValue);
+        const angle = AnglesUtils.calculateAngle(pos.value.x, pos.value.y);
+
+        const data = normalizeData({
+          angle,
+          x: pos.value.x,
+          y: pos.value.y,
+        });
+
+        onMove(data);
       }
     },
   );

@@ -16,6 +16,12 @@ export default function ChambersLayout() {
           title: "Audio Hook chamber",
         }}
       />
+      <Stack.Screen
+        name="controllerAnalogicDirectional"
+        options={{
+          title: "Analogic Directional chamber",
+        }}
+      />
     </Stack>
   );
 }
