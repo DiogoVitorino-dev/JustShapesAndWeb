@@ -26,16 +26,6 @@ const LinkButton = ({ href, title, color, icon }: LinkButtonProps) => (
 );
 
 export default function ChooseSection() {
-  const router = useRouter();
-  useFocusEffect(() => {
-    // ------ Must be empty before commit ------
-    const autoPush: Href<string> | undefined =
-      "/chambers/controllerAnalogicDirectional";
-    if (autoPush) {
-      router.push(autoPush);
-    }
-  });
-
   return (
     <View style={styles.container}>
       <View style={styles.containerButtons}>
