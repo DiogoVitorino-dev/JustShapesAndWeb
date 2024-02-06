@@ -1,140 +1,52 @@
-import { ColorValue, StyleSheet } from "react-native";
-import {
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-} from "react-native-reanimated";
+import { FontAwesome } from "@expo/vector-icons";
+import { Href, Link, useFocusEffect, useRouter } from "expo-router";
+import React from "react";
+import { StyleSheet } from "react-native";
 
-import { useRectangleSmashAnimation } from "@/animations/attacks/rectangleSmash";
-import { AnimationEffects } from "@/animations/effects";
-import { AnimatedView, View } from "@/components/shared";
-import Controller from "@/controllers";
-import { ControlData } from "@/controllers/controllers.type";
-import Circle, {
-  CirclePosition,
-  CircleRadius,
-} from "@/models/geometric/circle";
-import Rectangle, {
-  RectanglePosition,
-  RectangleAngle,
-  RectangleSize,
-} from "@/models/geometric/rectangle";
-import Player from "@/models/player";
-import { AnimatedCollidableObject } from "@/scripts/collision/collision.types";
-import useCollisionSystem from "@/scripts/collision/useCollisionSystem";
-import { MovableObject } from "@/scripts/movement/movement.type";
-import useJump from "@/scripts/movement/useJump";
-import { useMovementSystem } from "@/scripts/movement/useMovementSystem";
+import { Text, View } from "@/components/shared";
+import Colors, { Pink } from "@/constants/Colors";
 
-export default function Sandbox() {
-  const movementPlayer = useSharedValue<MovableObject>({
-    x: 50,
-    y: 50,
-    speedX: 0,
-    speedY: 0,
-    size: 20,
+interface LinkButtonProps {
+  href: Href<string>;
+  title: string;
+  icon?: React.ComponentProps<typeof FontAwesome>["name"];
+  color?: string;
+}
+const LinkButton = ({ href, title, color, icon }: LinkButtonProps) => (
+  <Link href={href}>
+    <View transparent style={styles.linkButton}>
+      <FontAwesome
+        name={icon || "wrench"}
+        color={color || Colors.UI.tint}
+        size={48}
+      />
+      <Text style={[styles.linkButtonText]}>{title}</Text>
+    </View>
+  </Link>
+);
+
+export default function ChooseSection() {
+  const router = useRouter();
+  useFocusEffect(() => {
+    // ------ Must be empty before commit ------
+    const autoPush: Href<string> | undefined =
+      "/chambers/controllerAnalogicDirectional";
+    if (autoPush) {
+      router.push(autoPush);
+    }
   });
-
-  const anglePlayer = useSharedValue(0);
-  const jumpPlayer = useSharedValue(false);
-
-  const { MovementResult } = useMovementSystem({ movementPlayer });
-
-  const handleOnMove = async ({ angle, x, y, jumping }: ControlData) => {
-    "worklet";
-
-    movementPlayer.value = {
-      ...movementPlayer.value,
-
-      speedX: x,
-      speedY: y,
-    };
-    anglePlayer.value = angle;
-    jumpPlayer.value = jumping;
-  };
-
-  const runningJump = useJump(jumpPlayer, movementPlayer);
-
-  const hitBoxPlayer: AnimatedCollidableObject = useDerivedValue(
-    () => ({
-      shape: "RECTANGLE",
-      angle: anglePlayer.value,
-      width: 20,
-      height: 20,
-      ignoreCollision: runningJump.value,
-      ...MovementResult.movementPlayer.value,
-    }),
-    [anglePlayer, MovementResult.movementPlayer, runningJump],
-  );
-
-  const circPosition: CirclePosition = useSharedValue({ x: 200, y: 100 });
-  const circSize: CircleRadius = useSharedValue(100);
-
-  const hitBoxCircle: AnimatedCollidableObject = useDerivedValue(
-    () => ({
-      shape: "CIRCLE",
-      diameter: circSize.value,
-      ...circPosition.value,
-    }),
-    [circPosition, circSize],
-  );
-
-  const rectPosition: RectanglePosition = useSharedValue({ x: 500, y: 100 });
-  const rectAngle: RectangleAngle = useSharedValue(0);
-  const rectSize: RectangleSize = useSharedValue({ height: 100, width: 100 });
-  const backgroundColor = useSharedValue<ColorValue>("tomato");
-
-  const smash = useRectangleSmashAnimation(rectSize, {
-    prepareDuration: 2000,
-    smashTo: "horizontal",
-  }).run();
-
-  const hitBoxRect: AnimatedCollidableObject = useDerivedValue(
-    () => ({
-      shape: "RECTANGLE",
-      angle: rectAngle.value,
-      ...rectSize.value,
-      ...rectPosition.value,
-    }),
-    [rectPosition, rectSize, rectAngle],
-  );
-
-  const { animatedStyle, run } = AnimationEffects.useShakeAnimation();
-  useCollisionSystem(
-    (collided) => {
-      backgroundColor.value = collided ? "indigo" : "tomato";
-      if (collided) {
-        run();
-      }
-    },
-    [hitBoxPlayer],
-    [hitBoxRect, hitBoxCircle],
-  );
-
-  const backgroundStyle = useAnimatedStyle(() => ({
-    backgroundColor: backgroundColor.value,
-  }));
 
   return (
     <View style={styles.container}>
-      <AnimatedView style={[styles.container, animatedStyle]}>
-        <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
-
-        <Rectangle
-          style={[smash.animatedStyle, backgroundStyle]}
-          position={rectPosition}
-          angle={rectAngle}
-          size={rectSize}
+      <View style={styles.containerButtons}>
+        <LinkButton href="/sandbox" title="Sandbox" icon="globe" />
+        <LinkButton
+          href="/chambers/"
+          title="Test Chambers"
+          icon="connectdevelop"
+          color={Pink["100"]}
         />
-
-        <Circle
-          position={circPosition}
-          diameter={circSize}
-          style={[backgroundStyle]}
-        />
-      </AnimatedView>
-
-      <Controller onMove={handleOnMove} velocity={2} />
+      </View>
     </View>
   );
 }
@@ -142,5 +54,26 @@ export default function Sandbox() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  containerButtons: {
+    width: "100%",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+
+  linkButton: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  linkButtonText: {
+    marginTop: 4,
+    elevation: 5,
   },
 });

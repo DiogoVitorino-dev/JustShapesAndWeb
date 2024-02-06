@@ -1,44 +1,32 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs } from "expo-router";
-
-import Colors from "../../constants/Colors";
+import { Stack } from "expo-router";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={22} style={{ marginBottom: -3 }} {...props} />;
-}
 
-export default function TabLayout() {
+export default function TestingLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors.UI.tabIconSelected,
-      }}
-    >
-      <Tabs.Screen
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen
         name="index"
         options={{
-          title: "Sandbox",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="globe" color={color} />,
+          title: "Choose Section",
         }}
       />
 
-      <Tabs.Screen
+      <Stack.Screen
+        name="sandbox"
+        options={{
+          title: "Sandbox",
+        }}
+      />
+
+      <Stack.Screen
         name="chambers"
         options={{
           title: "Test Chambers",
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="industry" color={color} />
-          ),
         }}
       />
-    </Tabs>
+    </Stack>
   );
 }
