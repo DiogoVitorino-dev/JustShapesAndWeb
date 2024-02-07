@@ -2,54 +2,86 @@
 
 exports[`Area Button - Snapshot mobile control test should render correctly 1`] = `
 <View
-  collapsable={false}
-  style={
-    [
-      {
-        "backgroundColor": "rgb(3, 38, 25)",
-      },
-      {
-        "height": "100%",
-        "width": "50%",
-      },
-      {
-        "backgroundColor": "transparent",
-      },
-    ]
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
   }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  onTouchMove={[Function]}
+  style={
+    {
+      "height": "100%",
+      "position": "absolute",
+      "width": "50%",
+    }
+  }
+  testID="pressableArea"
 >
   <View
     animatedStyle={
       {
         "value": {
-          "left": 0,
           "opacity": 0,
-          "top": 0,
           "transform": [
             {
-              "scale": 1,
+              "translateX": 0,
+            },
+            {
+              "translateY": 0,
+            },
+            {
+              "scale": 0,
             },
           ],
         },
       }
     }
     collapsable={false}
+    pointerEvents="none"
     style={
       {
         "backgroundColor": "transparent",
         "borderColor": "rgb(20, 210, 255)",
-        "borderRadius": 25,
+        "borderRadius": 35,
         "borderWidth": 3,
-        "height": 50,
-        "left": 0,
+        "height": 70,
         "opacity": 0,
-        "top": 0,
         "transform": [
           {
-            "scale": 1,
+            "translateX": 0,
+          },
+          {
+            "translateY": 0,
+          },
+          {
+            "scale": 0,
           },
         ],
-        "width": 50,
+        "width": 70,
         "zIndex": 1000,
       }
     }
