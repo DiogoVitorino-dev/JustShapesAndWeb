@@ -92,6 +92,10 @@ export default function TestChamberList() {
           name: "Debug Analogic Directional",
           to: "/chambers/controllerAnalogicDirectional",
         },
+        {
+          name: "Debug Area Button",
+          to: "/chambers/controllerAreaButton",
+        },
       ],
     },
   ];
@@ -151,6 +155,7 @@ const styles = StyleSheet.create({
     width: 500,
     justifyContent: "center",
     paddingLeft: 10,
+    marginBottom: 8,
     borderRadius: 5,
   },
   itemText: {

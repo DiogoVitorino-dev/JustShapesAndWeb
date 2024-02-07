@@ -22,6 +22,12 @@ export default function ChambersLayout() {
           title: "Analogic Directional chamber",
         }}
       />
+      <Stack.Screen
+        name="controllerAreaButton"
+        options={{
+          title: "Area Button chamber",
+        }}
+      />
     </Stack>
   );
 }
