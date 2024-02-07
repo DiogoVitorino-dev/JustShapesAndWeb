@@ -83,18 +83,20 @@ export default function TestChamberList() {
   const chambers: ListData[] = [
     {
       section: Sections.Audio,
-      data: [{ name: "Audio Hook", to: "/chambers/audioHook" }],
+      data: [
+        { name: "Audio Hook", to: "/chambers/analogicDirectionalChamber" },
+      ],
     },
     {
       section: Sections.Controllers,
       data: [
         {
-          name: "Debug Analogic Directional",
-          to: "/chambers/controllerAnalogicDirectional",
+          name: "Analogic Directional",
+          to: "/chambers/analogicDirectionalChamber",
         },
         {
-          name: "Debug Area Button",
-          to: "/chambers/controllerAreaButton",
+          name: "Area Button",
+          to: "/(testing)/chambers/areaButtonChamber",
         },
       ],
     },

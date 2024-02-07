@@ -11,19 +11,19 @@ export default function ChambersLayout() {
         }}
       />
       <Stack.Screen
-        name="audioHook"
+        name="useAudioSystemChamber"
         options={{
           title: "Audio Hook chamber",
         }}
       />
       <Stack.Screen
-        name="controllerAnalogicDirectional"
+        name="analogicDirectionalChamber"
         options={{
           title: "Analogic Directional chamber",
         }}
       />
       <Stack.Screen
-        name="controllerAreaButton"
+        name="areaButtonChamber"
         options={{
           title: "Area Button chamber",
         }}

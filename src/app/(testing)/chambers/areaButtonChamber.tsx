@@ -11,7 +11,7 @@ import { AnimatedView } from "@/components/shared";
 import { ButtonData } from "@/controllers/mobile";
 import { AreaButton } from "@/controllers/mobile/buttons";
 
-export default function ControllerAreaButton() {
+export default function AreaButtonChamber() {
   const moveObject = useSharedValue(300);
   const animatedStyle = useAnimatedStyle(() => ({
     left: withRepeat(withTiming(moveObject.value, { duration: 500 }), -1, true),

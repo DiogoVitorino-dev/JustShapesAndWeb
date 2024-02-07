@@ -5,7 +5,7 @@ import { useSoundContext } from "@/audio/sound";
 import { View, Text } from "@/components/shared";
 import Colors from "@/constants/Colors";
 
-export default function Audio() {
+export default function UseAudioSystemChamber() {
   const [progressValue, setProgressValue] = useState(0);
   const [volumeValue, setVolumeValue] = useState("1");
   const { getProgress, pause, play, setProgress, setVolume, loadAndPlay } =
