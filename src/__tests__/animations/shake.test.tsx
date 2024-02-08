@@ -16,7 +16,7 @@ describe("Shake effect - Animation tests", () => {
 
   it("Should run animation", () => {
     renderHook(() => {
-      anim = useShakeAnimation(1000, 100, { duration: 500 });
+      anim = useShakeAnimation(1000, 100, { frequency: 2 });
     });
 
     const { root } = render(<Animated.View style={anim.animatedStyle} />);
@@ -43,7 +43,7 @@ describe("Shake effect - Animation tests", () => {
   it("Should only shake to LEFT edge on Horizontal axis", () => {
     renderHook(() => {
       anim = useShakeAnimation(1000, 100, {
-        duration: 500,
+        frequency: 2,
         horizontal: "start",
       });
     });
@@ -66,7 +66,7 @@ describe("Shake effect - Animation tests", () => {
   it("Should only shake to RIGHT edge on Horizontal axis", () => {
     renderHook(() => {
       anim = useShakeAnimation(1000, 100, {
-        duration: 500,
+        frequency: 2,
         horizontal: "end",
       });
     });
@@ -89,7 +89,7 @@ describe("Shake effect - Animation tests", () => {
   it("Should only shake to TOP edge on Vertical axis", () => {
     renderHook(() => {
       anim = useShakeAnimation(1000, 100, {
-        duration: 500,
+        frequency: 2,
         vertical: "start",
       });
     });
@@ -112,7 +112,7 @@ describe("Shake effect - Animation tests", () => {
   it("Should only shake to BOTTOM edge on Vertical axis", () => {
     renderHook(() => {
       anim = useShakeAnimation(1000, 100, {
-        duration: 500,
+        frequency: 2,
         vertical: "end",
       });
     });
@@ -131,4 +131,6 @@ describe("Shake effect - Animation tests", () => {
     style = getAnimatedStyle(root);
     expect(style.transform[1].translateY).toBe(0);
   });
+
+  test.todo("Another animation shouldn't run before the previous one finishes");
 });

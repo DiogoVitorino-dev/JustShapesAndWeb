@@ -4,6 +4,7 @@ import {
   WithTimingConfig,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withSequence,
   withSpring,
   withTiming,
@@ -17,11 +18,20 @@ import { MathUtils } from "@/utils/mathUtils";
 export type ShakeImpact = "start" | "end" | "all";
 
 export interface ShakeImpactDirection {
+  /**
+   * Sets the impact side to left (Start), right (End), or both sides (All).
+   */
   horizontal?: ShakeImpact;
+  /**
+   * Sets the impact side to up (Start), down (End), or both sides (All).
+   */
   vertical?: ShakeImpact;
 }
 
 export interface ShakeImpactConfig extends ShakeImpactDirection {
+  /**
+   * Multiplier that defines the frequency of impacts
+   */
   frequency?: number;
 }
 
@@ -30,7 +40,7 @@ export interface ShakeAnimation extends StylizedAnimation, RunnableAnimation {}
 type ShakeAnimationProps = Required<Parameters<typeof useShakeAnimation>>;
 
 const InitialShakeImpactConfig: Required<ShakeImpactConfig> = {
-  frequency: 10,
+  frequency: 1,
   horizontal: "all",
   vertical: "all",
 };
@@ -40,6 +50,13 @@ const [InitialDuration, InitialAmount, InitialImpact]: ShakeAnimationProps = [
   20,
   InitialShakeImpactConfig,
 ];
+/**
+ *
+ * @param duration Duration of the entire animation.
+ * @param amount The maximum value that will determine how much the impact will displace, in pixels.
+ * @param impact Setting for the impacts.
+ * @returns An `animatedStyle` and `run` function to start the animation. Note: `run` function also returns the `animatedStyle`.
+ */
 
 export function useShakeAnimation(
   duration: number = InitialDuration,
@@ -48,6 +65,7 @@ export function useShakeAnimation(
 ): ShakeAnimation {
   const shakeY = useSharedValue(0);
   const shakeX = useSharedValue(0);
+  const debounce = useSharedValue(0);
   impact = { ...InitialImpact, ...impact };
 
   const animatedStyle: AnimatedStyleApp = useAnimatedStyle(() => ({
@@ -55,31 +73,35 @@ export function useShakeAnimation(
   }));
 
   const run = () => {
-    const springConfig: WithSpringConfig = {
-      duration: duration / 2,
-      dampingRatio: 2,
-    };
+    if (!debounce.value) {
+      debounce.value = 1;
+      const springConfig: WithSpringConfig = {
+        duration: duration / 2,
+        dampingRatio: 2,
+      };
 
-    const timingConfig: WithTimingConfig = {
-      duration: duration / 2,
-      easing: Easing.in(Easing.bounce),
-    };
+      const timingConfig: WithTimingConfig = {
+        duration: duration / 2,
+        easing: Easing.in(Easing.bounce),
+      };
 
-    const repeating = setInterval(() => {
-      shakeY.value = withSequence(
-        withSpring(selectDirection(impact.vertical), springConfig),
-        withTiming(0, timingConfig),
-      );
+      const repeating = setInterval(() => {
+        shakeY.value = withSequence(
+          withSpring(selectDirection(impact.vertical), springConfig),
+          withTiming(0, timingConfig),
+        );
 
-      shakeX.value = withSequence(
-        withSpring(selectDirection(impact.horizontal), springConfig),
-        withTiming(0, timingConfig),
-      );
-    }, impact.frequency);
+        shakeX.value = withSequence(
+          withSpring(selectDirection(impact.horizontal), springConfig),
+          withTiming(0, timingConfig),
+        );
+      }, duration / impact!.frequency!);
 
-    setTimeout(() => {
-      clearInterval(repeating);
-    }, duration);
+      debounce.value = withDelay(duration, withTiming(0, { duration: 0 }));
+      setTimeout(() => {
+        clearInterval(repeating);
+      }, duration);
+    }
 
     return { animatedStyle };
   };
