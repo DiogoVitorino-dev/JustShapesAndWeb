@@ -28,6 +28,12 @@ export default function ChambersLayout() {
           title: "Area Button chamber",
         }}
       />
+      <Stack.Screen
+        name="animationShakeChamber"
+        options={{
+          title: "Shake Animation chamber",
+        }}
+      />
     </Stack>
   );
 }

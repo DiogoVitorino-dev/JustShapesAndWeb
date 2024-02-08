@@ -69,11 +69,13 @@ const ListHeader = () => (
 enum SectionsNames {
   Audio,
   Controllers,
+  Animations,
 }
 
 const Sections: Record<keyof typeof SectionsNames, SectionHeader> = {
   Audio: { title: "Audio", icon: "music" },
   Controllers: { title: "Controllers", icon: "gamepad" },
+  Animations: { title: "Animations", icon: "video-camera" },
 };
 
 export default function TestChamberList() {
@@ -98,6 +100,12 @@ export default function TestChamberList() {
           name: "Area Button",
           to: "/(testing)/chambers/areaButtonChamber",
         },
+      ],
+    },
+    {
+      section: Sections.Animations,
+      data: [
+        { name: "Shaker Animation", to: "/chambers/animationShakeChamber" },
       ],
     },
   ];
