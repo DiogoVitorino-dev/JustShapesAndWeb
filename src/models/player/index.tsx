@@ -10,7 +10,7 @@ import {
   AnimatedSize,
   AnimatedPosition,
   AnimatedStyleApp,
-} from "@/constants/types";
+} from "@/constants/commonTypes";
 
 export type PlayerSize = AnimatedSize;
 export type PlayerPosition = AnimatedPosition;

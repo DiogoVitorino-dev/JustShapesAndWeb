@@ -11,7 +11,7 @@ import { ButtonProps } from "..";
 
 import { AnimatedView, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import { Position } from "@/constants/types";
+import { Position } from "@/constants/commonTypes";
 
 interface AreaProps extends ButtonProps {
   indicatorSize?: number;

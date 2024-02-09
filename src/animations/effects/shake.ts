@@ -11,7 +11,7 @@ import {
 
 import { RunnableAnimation, StylizedAnimation } from "../animations.type";
 
-import { AnimatedStyleApp } from "@/constants/types";
+import { AnimatedStyleApp } from "@/constants/commonTypes";
 import { useDebounceValueUI } from "@/utils/debounceUtils";
 import { MathUtils } from "@/utils/mathUtils";
 

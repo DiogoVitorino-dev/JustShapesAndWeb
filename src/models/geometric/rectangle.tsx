@@ -9,7 +9,7 @@ import {
   AnimatedPosition,
   AnimatedSize,
   AnimatedStyleApp,
-} from "@/constants/types";
+} from "@/constants/commonTypes";
 
 export type RectanglePosition = AnimatedPosition;
 export type RectangleSize = AnimatedSize;

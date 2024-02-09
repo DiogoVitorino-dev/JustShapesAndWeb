@@ -4,7 +4,7 @@ import { SharedValue, useAnimatedStyle } from "react-native-reanimated";
 
 import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import { AnimatedPosition, AnimatedStyleApp } from "@/constants/types";
+import { AnimatedPosition, AnimatedStyleApp } from "@/constants/commonTypes";
 
 export type CirclePosition = AnimatedPosition;
 export type CircleRadius = SharedValue<number>;

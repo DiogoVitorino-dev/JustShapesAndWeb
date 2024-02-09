@@ -1,4 +1,4 @@
-import { Angle, Position } from "@/constants/types";
+import { Angle, Position } from "@/constants/commonTypes";
 
 export interface Directional extends Position {
   angle: Angle;

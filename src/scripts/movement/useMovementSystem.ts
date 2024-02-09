@@ -3,7 +3,7 @@ import { useFrameCallback } from "react-native-reanimated";
 
 import { AnimatedMoveableObject } from "./movement.type";
 
-import { Size } from "@/constants/types";
+import { Size } from "@/constants/commonTypes";
 
 export type MovementSystem = (
   objects: AnimatedMoveableObject,

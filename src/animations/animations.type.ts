@@ -1,4 +1,4 @@
-import { AnimatedStyleApp } from "@/constants/types";
+import { AnimatedStyleApp } from "@/constants/commonTypes";
 
 export interface StylizedAnimation {
   animatedStyle: AnimatedStyleApp;

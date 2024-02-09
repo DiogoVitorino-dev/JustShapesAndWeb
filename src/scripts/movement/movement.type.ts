@@ -1,6 +1,6 @@
 import { SharedValue } from "react-native-reanimated";
 
-import { Position, Size } from "@/constants/types";
+import { Position, Size } from "@/constants/commonTypes";
 
 export interface MovementSpeed {
   speedY: number;

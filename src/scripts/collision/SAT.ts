@@ -10,7 +10,7 @@ import {
   Response,
 } from "sat";
 
-import { Size, Position } from "@/constants/types";
+import { Size, Position } from "@/constants/commonTypes";
 
 // Separating Axis Theorem (SAT) for collision detection
 // Voronoi Regions for Circles collision detection
