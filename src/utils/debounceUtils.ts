@@ -1,4 +1,4 @@
-import { runOnUI, useSharedValue } from "react-native-reanimated";
+import { useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 
 /**
  * Specify a duration during which the returned ``SharedValue`` will be set to true.
@@ -7,19 +7,16 @@ import { runOnUI, useSharedValue } from "react-native-reanimated";
  */
 
 export const useDebounceValueUI = (timeout: number) => {
-  const debounce = useSharedValue(false);
+  const debounce = useSharedValue(0);
 
-  const runTimer = runOnUI(() => {
+  const runTimer = () => {
     "worklet";
 
     if (!debounce.value) {
-      debounce.value = true;
-      setTimeout(() => {
-        "worklet";
-        debounce.value = false;
-      }, timeout);
+      debounce.value = 1;
+      debounce.value = withDelay(timeout, withTiming(0, { duration: 0 }));
     }
-  });
+  };
 
   return { debounce, runTimer };
 };
