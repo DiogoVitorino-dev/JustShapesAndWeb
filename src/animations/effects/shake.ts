@@ -4,7 +4,6 @@ import {
   WithTimingConfig,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withSequence,
   withSpring,
   withTiming,
@@ -13,6 +12,7 @@ import {
 import { RunnableAnimation, StylizedAnimation } from "../animations.type";
 
 import { AnimatedStyleApp } from "@/constants/types";
+import { useDebounceValueUI } from "@/utils/debounceUtils";
 import { MathUtils } from "@/utils/mathUtils";
 
 export type ShakeImpact = "start" | "end" | "all";
@@ -65,7 +65,7 @@ export function useShakeAnimation(
 ): ShakeAnimation {
   const shakeY = useSharedValue(0);
   const shakeX = useSharedValue(0);
-  const debounce = useSharedValue(0);
+  const { debounce, runTimer } = useDebounceValueUI(duration);
   impact = { ...InitialImpact, ...impact };
 
   const animatedStyle: AnimatedStyleApp = useAnimatedStyle(() => ({
@@ -74,7 +74,6 @@ export function useShakeAnimation(
 
   const run = () => {
     if (!debounce.value) {
-      debounce.value = 1;
       const springConfig: WithSpringConfig = {
         duration: duration / 2,
         dampingRatio: 2,
@@ -97,7 +96,7 @@ export function useShakeAnimation(
         );
       }, duration / impact!.frequency!);
 
-      debounce.value = withDelay(duration, withTiming(0, { duration: 0 }));
+      runTimer();
       setTimeout(() => {
         clearInterval(repeating);
       }, duration);
