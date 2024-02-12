@@ -70,12 +70,14 @@ enum SectionsNames {
   Audio,
   Controllers,
   Animations,
+  Scripts,
 }
 
 const Sections: Record<keyof typeof SectionsNames, SectionHeader> = {
   Audio: { title: "Audio", icon: "music" },
   Controllers: { title: "Controllers", icon: "gamepad" },
   Animations: { title: "Animations", icon: "video-camera" },
+  Scripts: { title: "Scripts", icon: "code" },
 };
 
 export default function TestChamberList() {
@@ -106,6 +108,12 @@ export default function TestChamberList() {
       section: Sections.Animations,
       data: [
         { name: "Shaker Animation", to: "/chambers/animationShakeChamber" },
+      ],
+    },
+    {
+      section: Sections.Scripts,
+      data: [
+        { name: "Collision System", to: "/chambers/useCollisionSystemChamber" },
       ],
     },
   ];

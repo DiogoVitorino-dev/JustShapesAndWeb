@@ -34,6 +34,12 @@ export default function ChambersLayout() {
           title: "Shake Animation chamber",
         }}
       />
+      <Stack.Screen
+        name="useCollisionSystemChamber"
+        options={{
+          title: "Collision System chamber",
+        }}
+      />
     </Stack>
   );
 }
