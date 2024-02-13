@@ -12,4 +12,6 @@ export interface MovableObject extends Position, MovementSpeed {
   ignoreSceneLimits?: boolean;
 }
 
-export type AnimatedMoveableObject = Record<string, SharedValue<MovableObject>>;
+type Mutate<Type> = { -readonly [Property in keyof Type]: Type[Property] };
+
+export type AnimatedMoveableObject = Mutate<SharedValue<MovableObject>>;

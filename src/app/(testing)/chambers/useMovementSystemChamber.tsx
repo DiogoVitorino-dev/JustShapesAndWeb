@@ -35,7 +35,7 @@ export default function UseMovementSystemChamber() {
     mov.value.speedX = 3;
   };
 
-  
+  useMovementSystem(mov);
   return (
     <View style={styles.container}>
       <View style={styles.controls}>

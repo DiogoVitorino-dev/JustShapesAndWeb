@@ -5,13 +5,25 @@ import { AnimatedMoveableObject } from "./movement.type";
 
 import { Size } from "@/constants/commonTypes";
 
-export type MovementSystem = (
-  objects: AnimatedMoveableObject,
-  isActive?: boolean,
-) => { MovementResult: AnimatedMoveableObject };
+export type MovementSystem = (...objects: AnimatedMoveableObject[]) => void;
 
-export const useMovementSystem: MovementSystem = (objects, isActive = true) => {
+export const useMovementSystem: MovementSystem = (...objects) => {
   const window = useWindowDimensions();
+
+  const updatePositionX = (
+    x: number,
+    speed: number,
+    width: number,
+    ignoreLimits = false,
+  ) => {
+    "worklet";
+    const newX = x + speed;
+
+    if ((newX >= 0 && newX <= window.width - width) || ignoreLimits) {
+      x = newX;
+    }
+    return x;
+  };
 
   const getSize = (size: Size | number) => {
     "worklet";
@@ -31,21 +43,6 @@ export const useMovementSystem: MovementSystem = (objects, isActive = true) => {
     };
   };
 
-  const updatePositionX = (
-    x: number,
-    speed: number,
-    width: number,
-    ignoreLimits = false,
-  ) => {
-    "worklet";
-    const newX = x + speed;
-
-    if ((newX >= 0 && newX <= window.width - width) || ignoreLimits) {
-      x = newX;
-    }
-    return x;
-  };
-
   const updatePositionY = (
     y: number,
     speed: number,
@@ -63,25 +60,18 @@ export const useMovementSystem: MovementSystem = (objects, isActive = true) => {
 
   const frameUpdater = () => {
     "worklet";
-    Object.keys(objects).map(async (key) => {
-      const { size, speedX, speedY, x, y, ignoreSceneLimits } =
-        objects[key].value;
+    objects.forEach((object) => {
+      const { size, speedX, speedY, x, y, ignoreSceneLimits } = object.value;
 
       const { height, width } = getSize(size);
 
-      objects[key].value = {
-        ...objects[key].value,
+      object.value = {
+        ...object.value,
         x: updatePositionX(x, speedX, width, ignoreSceneLimits),
         y: updatePositionY(y, speedY, height, ignoreSceneLimits),
       };
-
-      return objects[key];
     });
   };
 
-  useFrameCallback(frameUpdater, true).setActive(isActive);
-
-  return {
-    MovementResult: objects,
-  };
+  return useFrameCallback(frameUpdater, true);
 };

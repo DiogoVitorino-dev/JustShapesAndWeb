@@ -38,7 +38,7 @@ export default function Sandbox() {
   const anglePlayer = useSharedValue(0);
   const jumpPlayer = useSharedValue(false);
 
-  const { MovementResult } = useMovementSystem({ movementPlayer });
+  useMovementSystem(movementPlayer);
 
   const handleOnMove = async ({ angle, x, y, jumping }: ControlData) => {
     "worklet";
@@ -62,9 +62,10 @@ export default function Sandbox() {
       width: 20,
       height: 20,
       ignoreCollision: runningJump.value,
-      ...MovementResult.movementPlayer.value,
+      x: movementPlayer.value.x,
+      y: movementPlayer.value.y,
     }),
-    [anglePlayer, MovementResult.movementPlayer, runningJump],
+    [anglePlayer, movementPlayer, runningJump],
   );
 
   const circPosition: CirclePosition = useSharedValue({ x: 200, y: 100 });
@@ -118,7 +119,7 @@ export default function Sandbox() {
   return (
     <View style={styles.container}>
       <AnimatedView style={[styles.container, animatedStyle]}>
-        <Player position={MovementResult.movementPlayer} angle={anglePlayer} />
+        <Player position={movementPlayer} angle={anglePlayer} />
 
         <Rectangle
           style={[smash.animatedStyle, backgroundStyle]}
