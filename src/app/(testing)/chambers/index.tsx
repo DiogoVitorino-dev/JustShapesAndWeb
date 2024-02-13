@@ -114,6 +114,7 @@ export default function TestChamberList() {
       section: Sections.Scripts,
       data: [
         { name: "Collision System", to: "/chambers/useCollisionSystemChamber" },
+        { name: "Movement System", to: "/chambers/useMovementSystemChamber" },
       ],
     },
   ];
