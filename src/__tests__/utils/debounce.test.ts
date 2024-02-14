@@ -1,4 +1,4 @@
-import { act, renderHook } from "@testing-library/react-native";
+import { renderHook } from "@testing-library/react-native";
 
 import { useDebounceValueUI } from "@/utils/debounceUtils";
 
@@ -13,7 +13,7 @@ describe("testing useDebounceValueUI - Debounce Utils tests", () => {
     jest.advanceTimersByTime(500);
     expect(debounce.result.current.debounce.value).toBeTruthy();
 
-    jest.advanceTimersByTime(500);
+    jest.advanceTimersByTime(501);
     expect(debounce.result.current.debounce.value).toBeFalsy();
 
     debounce.result.current.runTimer();
