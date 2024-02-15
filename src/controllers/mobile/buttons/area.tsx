@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import {
   useAnimatedStyle,
@@ -15,9 +15,10 @@ import { Position } from "@/constants/commonTypes";
 
 interface AreaProps extends ButtonProps {
   indicatorSize?: number;
+  style?: ViewStyle;
 }
 
-export function AreaButton({ onPress, indicatorSize = 70 }: AreaProps) {
+export function AreaButton({ onPress, style, indicatorSize = 70 }: AreaProps) {
   const opacityIndicator = useSharedValue(0);
   const scaleIndicator = useSharedValue(1);
   const posIndicator = useSharedValue<Position>({ x: 0, y: 0 });
@@ -67,7 +68,7 @@ export function AreaButton({ onPress, indicatorSize = 70 }: AreaProps) {
 
   return (
     <GestureDetector gesture={tap}>
-      <View style={styles.area} transparent>
+      <View style={[styles.area, style]} transparent>
         <AnimatedView
           transparent
           style={[
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
   area: {
     width: "50%",
     height: "100%",
+    position: "absolute",
   },
   indicator: {
     borderColor: Colors.control.button,
