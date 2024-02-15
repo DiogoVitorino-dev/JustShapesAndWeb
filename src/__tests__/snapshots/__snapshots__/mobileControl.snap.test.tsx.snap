@@ -108,10 +108,14 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
         {
           "backgroundColor": "rgb(3, 38, 25)",
         },
-        {
-          "height": "100%",
-          "width": "50%",
-        },
+        [
+          {
+            "height": "100%",
+            "position": "absolute",
+            "width": "50%",
+          },
+          undefined,
+        ],
         {
           "backgroundColor": "transparent",
         },
