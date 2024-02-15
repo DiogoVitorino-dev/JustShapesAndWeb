@@ -26,14 +26,6 @@ const LinkButton = ({ href, title, color, icon }: LinkButtonProps) => (
 );
 
 export default function ChooseSection() {
-  /*const router = useRouter();
-  useFocusEffect(() => {
-    const autoPush: Href<string> | undefined =
-      "/chambers/animationShakeChamber";
-    if (autoPush) {
-      router.push(autoPush);
-    }
-  });*/
   return (
     <View style={styles.container}>
       <View style={styles.containerButtons}>
