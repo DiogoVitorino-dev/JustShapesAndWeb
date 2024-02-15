@@ -127,28 +127,32 @@ describe("testing useKeyListener - Web Listeners Utils tests", () => {
 
 describe("testing listenKey - Web Listeners Utils tests", () => {
   const { listenKey, MouseKeys } = ListenersUtils.web;
+  const callback = jest.fn((key) => {});
+
+  afterEach(() => callback.mockClear());
 
   it("Should return a pressed key", async () => {
-    const key = listenKey();
+    listenKey(callback);
 
     window.dispatchEvent(new KeyboardEvent("keydown", { key: "a" }));
-    expect(await key).toEqual("a");
+    expect(callback).toHaveBeenCalledWith("a");
   });
 
-  it("Should return a pressed mouse button", () => {
-    listenKey().then((key) => expect(key).toEqual(MouseKeys.LEFT_BUTTON));
-    window.dispatchEvent(new MouseEvent("mousedown", { button: 0 }));
+  it.each([
+    [0, MouseKeys.LEFT_BUTTON],
+    [1, MouseKeys.RIGHT_BUTTON],
+    [2, MouseKeys.MIDDLE_BUTTON],
+  ])("Should return a pressed mouse button", (button, expectedKey) => {
+    listenKey(callback);
 
-    listenKey().then((key) => expect(key).toEqual(MouseKeys.RIGHT_BUTTON));
-    window.dispatchEvent(new MouseEvent("mousedown", { button: 1 }));
-
-    listenKey().then((key) => expect(key).toEqual(MouseKeys.MIDDLE_BUTTON));
-    window.dispatchEvent(new MouseEvent("mousedown", { button: 2 }));
+    window.dispatchEvent(new MouseEvent("mousedown", { button }));
+    expect(callback).toHaveBeenCalledWith(expectedKey);
   });
 
   it("Should cancel the listener", async () => {
-    const key = listenKey();
+    listenKey(callback);
+
     window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
-    expect(await key).toBeNull();
+    expect(callback).toHaveBeenCalledWith(null);
   });
 });
