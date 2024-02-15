@@ -7,13 +7,14 @@ import {
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 
 import MusicProvider from "@/audio/music";
 import SoundProvider from "@/audio/sound";
+import HeadphoneHint from "@/components/menu/headphoneHint";
 import { store } from "@/store";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
@@ -24,14 +25,14 @@ export {
 } from "expo-router";
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
+  // Ensure that reloading on modal keeps a back button present.
   initialRouteName: "(testing)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const [animationFinished, setAnimationFinished] = useState(false);
   const [loaded, error] = useFonts({
     Megrim: require("@/assets/fonts/Megrim.ttf"),
     MajorMonoDisplay: require("@/assets/fonts/MajorMonoDisplay.ttf"),
@@ -45,13 +46,17 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && animationFinished) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, animationFinished]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded || !animationFinished) {
+    return (
+      <GestureHandlerRootView style={{ height: "100%", width: "100%" }}>
+        <HeadphoneHint onAnimationFinished={() => setAnimationFinished(true)} />
+      </GestureHandlerRootView>
+    );
   }
 
   return (
