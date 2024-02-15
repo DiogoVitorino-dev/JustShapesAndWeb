@@ -11,7 +11,9 @@ export type KeyListener = (
   keys: string[],
 ) => { removeListener: () => void };
 
-export type ListenKey = () => Promise<string | null>;
+export type ListenKey = (callback: (key: string | null) => void) => {
+  removeListener: () => void;
+};
 
 // Internal
 type ListenerCallback<EventType> = (
@@ -139,42 +141,43 @@ export const useKeyListener: KeyListener = (callback, keys) => {
   };
 };
 
-export const listenKey: ListenKey = () =>
-  new Promise((resolve) => {
-    const options: ListenerOptions = { capture: true };
+export const listenKey: ListenKey = (callback) => {
+  const options: ListenerOptions = { capture: true };
 
-    const keyboard = keyboardListener((_, ev) => {
-      removeListeners();
+  const keyboard = keyboardListener((_, ev) => {
+    removeListeners();
 
-      if (ev.key !== "Escape") {
-        resolve(ev.key.toLowerCase());
-      }
-      resolve(null);
-    }, options);
-
-    const mouse = mouseListener((_, ev) => {
-      removeListeners();
-
-      switch (ev.button) {
-        case 0:
-          resolve(MouseKeys.LEFT_BUTTON);
-          break;
-
-        case 1:
-          resolve(MouseKeys.RIGHT_BUTTON);
-          break;
-
-        case 2:
-          resolve(MouseKeys.MIDDLE_BUTTON);
-          break;
-
-        default:
-          resolve(null);
-      }
-    }, options);
-
-    function removeListeners() {
-      mouse.removeListener();
-      keyboard.removeListener();
+    if (ev.key !== "Escape") {
+      callback(ev.key.toLowerCase());
     }
-  });
+    callback(null);
+  }, options);
+
+  const mouse = mouseListener((_, ev) => {
+    removeListeners();
+
+    switch (ev.button) {
+      case 0:
+        callback(MouseKeys.LEFT_BUTTON);
+        break;
+
+      case 1:
+        callback(MouseKeys.RIGHT_BUTTON);
+        break;
+
+      case 2:
+        callback(MouseKeys.MIDDLE_BUTTON);
+        break;
+
+      default:
+        callback(null);
+    }
+  }, options);
+
+  function removeListeners() {
+    mouse.removeListener();
+    keyboard.removeListener();
+  }
+
+  return { removeListener: removeListeners };
+};
