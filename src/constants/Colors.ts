@@ -56,8 +56,7 @@ const UI = {
   background: Green["15"],
   tint: Green["100"],
   borderColor: Black["15"],
-  tabIconDefault: Black["40"],
-  tabIconSelected: Green["80"],
+  backdrop: Green["40"],
 };
 
 const entity = {

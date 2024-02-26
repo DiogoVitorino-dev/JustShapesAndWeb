@@ -88,6 +88,7 @@ function RootLayoutNav() {
       <MusicProvider>
         <SoundProvider>
           <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="(testing)" options={{ headerShown: false }} />
           </Stack>
         </SoundProvider>
