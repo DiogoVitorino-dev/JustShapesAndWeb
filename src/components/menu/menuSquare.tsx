@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useWindowDimensions, Easing } from "react-native";
+import { useWindowDimensions } from "react-native";
 import {
   WithTimingConfig,
   useSharedValue,
-  runOnUI,
   withTiming,
   useAnimatedStyle,
+  Easing,
 } from "react-native-reanimated";
 
 import { AnimatedView } from "../shared";
@@ -19,13 +19,13 @@ type SquareEasing = Pick<WithTimingConfig, "duration" | "easing">;
 export default function MenuSquare() {
   const { random } = MathUtils;
   const window = useWindowDimensions();
-  const duration = random(5000, 10000);
+  const duration = random(8000, 20000);
 
   const top = useSharedValue<number>(random(0, window.height));
   const left = useSharedValue<number>(random(0, window.width));
   const angle = useSharedValue<Angle>(random(-360, 360));
-  const width = useSharedValue<number>(random(0, 200));
-  const height = useSharedValue<number>(random(0, 200));
+  const width = useSharedValue<number>(random(0, window.width / 5));
+  const height = useSharedValue<number>(random(0, window.height / 5));
 
   const easing: SquareEasing = {
     duration,
@@ -36,14 +36,14 @@ export default function MenuSquare() {
     easing: Easing.inOut(Easing.ease),
   };
 
-  const run = runOnUI(() => {
+  const run = () => {
     "worklet";
     top.value = withTiming(random(0, window.height), easing);
     left.value = withTiming(random(0, window.width), easing);
-    width.value = withTiming(random(100, 200), easing);
-    height.value = withTiming(random(100, 200), easing);
+    width.value = withTiming(random(100, window.width / 5), easing);
+    height.value = withTiming(random(100, window.height / 5), easing);
     angle.value = withTiming(random(-360, 360), easingAngle);
-  });
+  };
 
   useEffect(() => {
     run();
