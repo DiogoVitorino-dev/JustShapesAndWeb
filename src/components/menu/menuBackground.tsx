@@ -1,12 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  Easing,
-  runOnUI,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import MenuSquare from "./menuSquare";
@@ -19,15 +13,6 @@ type MenuBackgroundProps = React.ComponentProps<typeof View>;
 export default function MenuBackground(props: MenuBackgroundProps) {
   const scale = useSharedValue(1);
 
-  const bounceAnimation = runOnUI(() => {
-    "worklet";
-    scale.value = withRepeat(
-      withTiming(1.03, { duration: 300, easing: Easing.out(Easing.exp) }),
-      -1,
-      true,
-    );
-  });
-
   const createSquares = () => {
     const squares: React.JSX.Element[] = [];
     for (let index = 0; index < 9; index++) {
@@ -35,10 +20,6 @@ export default function MenuBackground(props: MenuBackgroundProps) {
     }
     return squares;
   };
-
-  useEffect(() => {
-    bounceAnimation();
-  }, []);
 
   return (
     <SafeAreaView style={styles.root}>
