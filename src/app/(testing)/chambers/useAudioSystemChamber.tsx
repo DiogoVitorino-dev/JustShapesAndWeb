@@ -21,7 +21,7 @@ export default function UseAudioSystemChamber() {
     play();
   };
   const handlePlay = () => {
-    loadAndPlay(require("@/audio/testAssets/musicTest_1.mp3"));
+    
   };
   const handleSetProgress = () => {
     setProgress(progressValue);
