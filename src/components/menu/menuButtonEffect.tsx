@@ -1,30 +1,51 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { useAnimatedRef, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import React, { forwardRef } from "react";
+import { ColorValue, Platform } from "react-native";
+import Svg, { Rect, SvgProps } from "react-native-svg";
 
-import { AnimatedView } from "../shared";
-
-import Colors from "@/constants/Colors";
-import { Size } from "@/constants/commonTypes";
-
-interface ButtonMenuEffectProps {
-  children?: React.ReactNode;
+interface CustomSvgProps extends SvgProps {
+  fillBackdrop?: ColorValue;
 }
 
-export default function ButtonMenuEffect({ children }: ButtonMenuEffectProps) {
-  const ref = useAnimatedRef();
-  const size = useSharedValue<Size>({ width: 0, height: 0 });
-  const transRightX = useSharedValue(0);
-  const transLeftX = useSharedValue(0);
+const ButtonMenuEffect = forwardRef<Svg, CustomSvgProps>(
+  ({ fill, scale, fillBackdrop, ...props }, ref) => {
+    return (
+      <Svg
+        {...props}
+        width="90%"
+        height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        ref={ref}
+      >
+        <Rect
+          width="50%"
+          height="100%"
+          fill={fillBackdrop || "#000"}
+          strokeWidth={1}
+          stroke={fillBackdrop}
+          scale={scale}
+        />
 
-  const animatedStyle = useAnimatedStyle(()=>({
+        {Platform.OS === "web" ? (
+          <Svg style={{ transform: [{ skewX: "25deg" }] }}>
+            <Rect
+              width="50%"
+              height="100%"
+              fill={fill || "#000"}
+              scale={scale}
+            />
+          </Svg>
+        ) : (
+          <Rect
+            width="50%"
+            height="100%"
+            fill={fill || "#000"}
+            skewX={25}
+            scale={scale}
+          />
+        )}
+      </Svg>
+    );
+  },
+);
 
-  }))
-  return (
-    
-  );
-}
-
-const styles = StyleSheet.create({
-  
-});
+export default ButtonMenuEffect;

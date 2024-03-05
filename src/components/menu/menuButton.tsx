@@ -1,68 +1,152 @@
-import React from "react";
-import { StyleSheet, Pressable } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Pressable,
+  ViewStyle,
+  useWindowDimensions,
+} from "react-native";
 import Animated, {
+  Easing,
+  WithSpringConfig,
+  WithTimingConfig,
+  runOnJS,
   runOnUI,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
-  withDelay,
   withRepeat,
+  withSpring,
   withTiming,
 } from "react-native-reanimated";
 
-import { AnimatedView, TextTitle } from "../shared";
+import ButtonMenuEffect from "./menuButtonEffect";
+import { AnimatedView, TextTitle, View } from "../shared";
 
 import Colors from "@/constants/Colors";
-import { Size } from "@/constants/commonTypes";
+
+const opacityConfig: WithTimingConfig = {
+  duration: 150,
+  easing: Easing.out(Easing.exp),
+};
+
+const paddingConfig: WithSpringConfig = {
+  duration: 1000,
+};
 
 interface ButtonMenuProps {
   onPress?: () => void;
   title?: string;
+  index?: number;
+  style?: ViewStyle;
 }
 
-export default function ButtonMenu({ onPress, title }: ButtonMenuProps) {
+export default function ButtonMenu({
+  onPress,
+  title,
+  style,
+  index = 0,
+}: ButtonMenuProps) {
+  const { width } = useWindowDimensions();
+  const padding = ((width / 15) * (index + 1)) / 2.1 + width / 15;
+  const paddingExpanded = padding * 2;
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-  const paddingRight = useSharedValue(30);
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const [disabled, setDisabled] = useState(false);
+  const paddingRight = useSharedValue(padding);
+  const opacity = useSharedValue(1);
+
+  const animatedButtonStyle = useAnimatedStyle(() => ({
     paddingRight: paddingRight.value,
   }));
 
-  const onHoverIn = () => {
+  const animatedRootStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  const startPaddingAnimation = runOnUI(
+    (toValue: number, onAnimationFinish?: () => void) => {
+      "worklet";
+      paddingRight.value = withSpring(toValue, paddingConfig, (fin) => {
+        if (fin && onAnimationFinish) {
+          runOnJS(onAnimationFinish)();
+        }
+      });
+    },
+  );
+
+  const handleHoverIn = () => {
     "worklet";
-    paddingRight.value = withTiming(60, { duration: 90 });
+    startPaddingAnimation(paddingExpanded);
   };
 
-  const onHoverOut = () => {
+  const handleHoverOut = () => {
     "worklet";
-    paddingRight.value = withTiming(30, { duration: 30 });
+    startPaddingAnimation(padding);
+  };
+
+  const handlePress = () => {
+    "worklet";
+    setDisabled(true);
+
+    const callWhenAnimationFinished = () => {
+      setDisabled(false);
+      if (onPress) {
+        onPress();
+      }
+    };
+
+    if (paddingRight.value === padding) {
+      startPaddingAnimation(paddingExpanded, callWhenAnimationFinished);
+    } else {
+      startPaddingAnimation(padding, callWhenAnimationFinished);
+    }
+
+    opacity.value = withRepeat(withTiming(0.4, opacityConfig), 4, true);
   };
 
   return (
-    <AnimatedPressable
-      style={[styles.button, animatedStyle]}
-      onHoverIn={onHoverIn}
-      onHoverOut={onHoverOut}
-    >
-      <AnimatedView style={styles.content}>
-        <TextTitle style={styles.text}>{title}</TextTitle>
-      </AnimatedView>
-    </AnimatedPressable>
+    <AnimatedView transparent style={[styles.root, animatedRootStyle, style]}>
+      <AnimatedPressable
+        style={[styles.button, animatedButtonStyle]}
+        onHoverIn={handleHoverIn}
+        onHoverOut={handleHoverOut}
+        onPress={handlePress}
+        disabled={disabled}
+      >
+        <AnimatedView transparent style={styles.content}>
+          <TextTitle style={styles.text}>{title}</TextTitle>
+        </AnimatedView>
+      </AnimatedPressable>
+      <View transparent style={styles.containerEffect}>
+        <ButtonMenuEffect
+          fill={Colors.UI.text}
+          fillBackdrop={Colors.UI.backdrop}
+        />
+      </View>
+    </AnimatedView>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    maxWidth: "100%",
+    flexDirection: "row",
+  },
   button: {
-    width:"auto",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 40,
     backgroundColor: Colors.UI.backdrop,
   },
   content: {
-    width:"auto",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.UI.backdrop,
+  },
+
+  containerEffect: {
+    width: "20%",
+    flexDirection: "row",
+    height: "100%",
   },
 
   text: {

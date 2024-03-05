@@ -69,8 +69,17 @@ const control = {
   buttonBackground: Blue["40"],
 };
 
+const Menu = {
+  title: {
+    default: White["100"],
+    variant_1: Green[100],
+    variant_2: Blue[100],
+  },
+};
+
 export default {
   UI,
+  Menu,
   entity,
   control,
 };

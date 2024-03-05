@@ -1,16 +1,51 @@
+import { BlurView } from "expo-blur";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, useWindowDimensions } from "react-native";
 
-import ButtonMenu from "@/components/menu/menuButton";
 import MenuBackground from "@/components/menu/menuBackground";
-import { View } from "@/components/shared";
+import ButtonMenu from "@/components/menu/menuButton";
+import { TextTitle, View } from "@/components/shared";
+import Colors from "@/constants/Colors";
 
 export default function Menu() {
+  const { height } = useWindowDimensions();
   return (
     <MenuBackground style={styles.container}>
-      <View>
-
-      <ButtonMenu title="Jogar" />
+      <View transparent style={styles.containerButtons}>
+        <ButtonMenu
+          title="Jogar"
+          style={{ marginVertical: 18, height: height / 5 }}
+        />
+        <ButtonMenu
+          title="Opções"
+          index={1}
+          style={{ marginVertical: 18, height: height / 5 }}
+        />
+      </View>
+      <View transparent style={styles.containerTitle}>
+        <BlurView
+          style={styles.blur}
+          experimentalBlurMethod="dimezisBlurView"
+          blurReductionFactor={4}
+          intensity={20}
+        >
+          <TextTitle
+            style={styles.title}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+          >
+            <Text>Just </Text>
+            <Text style={styles.titleVariant}>Shapes</Text>
+          </TextTitle>
+          <TextTitle
+            style={styles.title}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+          >
+            <Text>& </Text>
+            <Text style={styles.titleVariant2}>Web</Text>
+          </TextTitle>
+        </BlurView>
       </View>
     </MenuBackground>
   );
@@ -19,6 +54,42 @@ export default function Menu() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  buttons: {
+    marginVertical: 18,
+  },
+
+  containerButtons: {
+    flex: 1.5,
+    justifyContent: "center",
+  },
+
+  containerTitle: {
+    flex: 1,
+  },
+
+  blur: {
+    flex: 1,
+    borderRadius: 10,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+
+  title: {
+    fontSize: 55,
+    textAlign: "center",
+    color: Colors.Menu.title.default,
+  },
+
+  titleVariant: {
+    color: Colors.Menu.title.variant_1,
+  },
+
+  titleVariant2: {
+    color: Colors.Menu.title.variant_2,
   },
 });
