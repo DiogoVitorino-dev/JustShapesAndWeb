@@ -1,5 +1,6 @@
-import { BlurView } from "expo-blur";
-import React from "react";
+import { BlurView, ExperimentalBlurMethod } from "expo-blur";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useState } from "react";
 import { StyleSheet, Text, useWindowDimensions } from "react-native";
 import { FadingTransition } from "react-native-reanimated";
 
@@ -11,7 +12,20 @@ import Colors from "@/constants/Colors";
 const layoutAnimation = FadingTransition.duration(100);
 
 export default function Menu() {
+  const [blur, setBlur] = useState<ExperimentalBlurMethod>("none");
   const { height } = useWindowDimensions();
+
+  useFocusEffect(
+    useCallback(() => {
+      setTimeout(() => {
+        setBlur("dimezisBlurView");
+      }, 100);
+      return () => {
+        setBlur("none");
+      };
+    }, []),
+  );
+
   return (
     <MenuBackground layout={layoutAnimation} style={styles.container}>
       <View transparent style={styles.containerButtons}>
@@ -28,7 +42,7 @@ export default function Menu() {
       <View transparent style={styles.containerTitle}>
         <BlurView
           style={styles.blur}
-          experimentalBlurMethod="dimezisBlurView"
+          experimentalBlurMethod={blur}
           blurReductionFactor={4}
           intensity={20}
         >
