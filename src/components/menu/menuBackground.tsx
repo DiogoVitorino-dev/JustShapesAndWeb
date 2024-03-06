@@ -4,11 +4,11 @@ import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import MenuSquare from "./menuSquare";
-import { AnimatedView, View } from "../shared";
+import { AnimatedView } from "../shared";
 
 import Colors from "@/constants/Colors";
 
-type MenuBackgroundProps = React.ComponentProps<typeof View>;
+type MenuBackgroundProps = React.ComponentProps<typeof AnimatedView>;
 
 export default function MenuBackground(props: MenuBackgroundProps) {
   const scale = useSharedValue(1);
@@ -23,7 +23,7 @@ export default function MenuBackground(props: MenuBackgroundProps) {
 
   return (
     <SafeAreaView style={styles.root}>
-      <View transparent {...props} />
+      <AnimatedView transparent {...props} />
       <AnimatedView
         style={[styles.containerGeometry, { transform: [{ scale }] }]}
       >

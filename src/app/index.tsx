@@ -1,16 +1,19 @@
 import { BlurView } from "expo-blur";
 import React from "react";
 import { StyleSheet, Text, useWindowDimensions } from "react-native";
+import { FadingTransition } from "react-native-reanimated";
 
 import MenuBackground from "@/components/menu/menuBackground";
 import ButtonMenu from "@/components/menu/menuButton";
 import { TextTitle, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
 
+const layoutAnimation = FadingTransition.duration(100);
+
 export default function Menu() {
   const { height } = useWindowDimensions();
   return (
-    <MenuBackground style={styles.container}>
+    <MenuBackground layout={layoutAnimation} style={styles.container}>
       <View transparent style={styles.containerButtons}>
         <ButtonMenu
           title="Jogar"
