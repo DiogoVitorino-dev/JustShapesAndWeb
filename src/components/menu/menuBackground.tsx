@@ -1,17 +1,21 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import MenuSquare from "./menuSquare";
-import { AnimatedView } from "../shared";
+import { AnimatedView, View } from "../shared";
 
 import Colors from "@/constants/Colors";
 
 type MenuBackgroundProps = React.ComponentProps<typeof AnimatedView>;
 
-export default function MenuBackground(props: MenuBackgroundProps) {
+export default function MenuBackground({
+  style,
+  ...props
+}: MenuBackgroundProps) {
   const scale = useSharedValue(1);
+  const insets = useSafeAreaInsets();
 
   const createSquares = () => {
     const squares: React.JSX.Element[] = [];
@@ -22,14 +26,14 @@ export default function MenuBackground(props: MenuBackgroundProps) {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
-      <AnimatedView transparent {...props} />
+    <View style={styles.root}>
+      <AnimatedView transparent style={[{ ...insets }, style]} {...props} />
       <AnimatedView
         style={[styles.containerGeometry, { transform: [{ scale }] }]}
       >
         {createSquares()}
       </AnimatedView>
-    </SafeAreaView>
+    </View>
   );
 }
 
