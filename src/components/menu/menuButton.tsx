@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Pressable,
@@ -13,6 +13,7 @@ import Animated, {
   runOnUI,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withRepeat,
   withSpring,
   withTiming,
@@ -51,7 +52,7 @@ export default function ButtonMenu({
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
   const [disabled, setDisabled] = useState(false);
-  const paddingRight = useSharedValue(padding);
+  const paddingRight = useSharedValue(0);
   const opacity = useSharedValue(1);
 
   const animatedButtonStyle = useAnimatedStyle(() => ({
@@ -72,6 +73,18 @@ export default function ButtonMenu({
       });
     },
   );
+
+  const initialAnimation = runOnUI(() => {
+    "worklet";
+    paddingRight.value = withDelay(
+      100 * index,
+      withSpring(padding, paddingConfig),
+    );
+  });
+
+  useEffect(() => {
+    initialAnimation();
+  }, []);
 
   const handleHoverIn = () => {
     "worklet";
