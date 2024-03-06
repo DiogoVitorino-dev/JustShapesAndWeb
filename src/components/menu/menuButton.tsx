@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useState } from "react";
 import {
   StyleSheet,
   Pressable,
@@ -74,7 +75,7 @@ export default function ButtonMenu({
     },
   );
 
-  const initialAnimation = runOnUI(() => {
+  const entryAnimation = runOnUI(() => {
     "worklet";
     paddingRight.value = withDelay(
       100 * index,
@@ -82,9 +83,19 @@ export default function ButtonMenu({
     );
   });
 
-  useEffect(() => {
-    initialAnimation();
-  }, []);
+  const exitAnimation = runOnUI(() => {
+    "worklet";
+    paddingRight.value = withDelay(100 * index, withSpring(0, paddingConfig));
+  });
+
+  useFocusEffect(
+    useCallback(() => {
+      entryAnimation();
+      return () => {
+        exitAnimation();
+      };
+    }, []),
+  );
 
   const handleHoverIn = () => {
     "worklet";
