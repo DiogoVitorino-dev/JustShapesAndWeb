@@ -1,7 +1,7 @@
 {
   "name": "justshapesandweb",
   "main": "expo-router/entry",
-  "version": "0.38.7",
+  "version": "0.38.8",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -36,7 +36,8 @@
     "react-redux": "^9.0.4",
     "sat": "^0.9.0",
     "react-native-svg": "14.1.0",
-    "expo-blur": "~12.9.2"
+    "expo-blur": "~12.9.2",
+    "@react-native-community/slider": "4.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

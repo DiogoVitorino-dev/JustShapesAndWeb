@@ -4,22 +4,36 @@ import Animated, { AnimatedProps } from "react-native-reanimated";
 
 import Colors from "@/constants/Colors";
 
-interface StyledTextProp extends TextProps {}
+interface StyledTextProp extends TextProps {
+  secondary?: boolean;
+}
 
 type Animatable<T extends object> = AnimatedProps<T>;
 
-const DefaultText = ({ children, style, ...others }: StyledTextProp) => (
-  <NativeText {...others} style={[styles.default, style]}>
+const DefaultText = ({
+  children,
+  secondary,
+  style,
+  ...others
+}: StyledTextProp) => (
+  <NativeText
+    {...others}
+    style={[secondary ? styles.secondary : styles.primary, style]}
+  >
     {children}
   </NativeText>
 );
 
 const DefaultAnimatedText = ({
   children,
+  secondary,
   style,
   ...others
 }: Animatable<StyledTextProp>) => (
-  <Animated.Text {...others} style={[styles.default, style]}>
+  <Animated.Text
+    {...others}
+    style={[secondary ? styles.secondary : styles.primary, style]}
+  >
     {children}
   </Animated.Text>
 );
@@ -49,9 +63,13 @@ export const AnimatedText = {
 };
 
 const styles = StyleSheet.create({
-  default: {
+  primary: {
     fontSize: 22,
     color: Colors.UI.text,
+  },
+  secondary: {
+    fontSize: 18,
+    color: Colors.UI.subtext,
   },
   fontMegrim: { fontFamily: "Megrim" },
   fontManjari: { fontFamily: "Manjari", marginBottom: -3 },

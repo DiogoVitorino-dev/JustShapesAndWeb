@@ -53,6 +53,7 @@ export const Black = {
 
 const UI = {
   text: White["100"],
+  subtext: White["60"],
   background: Green["15"],
   tint: Green["100"],
   borderColor: Black["15"],
