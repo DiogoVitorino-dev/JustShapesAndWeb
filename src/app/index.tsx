@@ -1,6 +1,5 @@
-import { BlurView, ExperimentalBlurMethod } from "expo-blur";
-import { useFocusEffect } from "expo-router";
-import React, { useCallback, useState } from "react";
+import { BlurView } from "expo-blur";
+import React from "react";
 import { StyleSheet, Text, useWindowDimensions } from "react-native";
 import { FadingTransition } from "react-native-reanimated";
 
@@ -8,23 +7,13 @@ import MenuBackground from "@/components/menu/menuBackground";
 import ButtonMenu from "@/components/menu/menuButton";
 import { TextTitle, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
+import useAndroidBlur from "@/hooks/useAndroidBlur";
 
 const layoutAnimation = FadingTransition.duration(100);
 
 export default function Menu() {
-  const [blur, setBlur] = useState<ExperimentalBlurMethod>("none");
   const { height } = useWindowDimensions();
-
-  useFocusEffect(
-    useCallback(() => {
-      setTimeout(() => {
-        setBlur("dimezisBlurView");
-      }, 100);
-      return () => {
-        setBlur("none");
-      };
-    }, []),
-  );
+  const { experimentalBlurMethod } = useAndroidBlur();
 
   return (
     <MenuBackground layout={layoutAnimation} style={styles.container}>
@@ -39,12 +28,13 @@ export default function Menu() {
           style={{ marginVertical: 18, height: height / 5 }}
         />
       </View>
+
       <View transparent style={styles.containerTitle}>
         <BlurView
           style={styles.blur}
-          experimentalBlurMethod={blur}
           blurReductionFactor={4}
           intensity={20}
+          experimentalBlurMethod={experimentalBlurMethod}
         >
           <TextTitle
             style={styles.title}
@@ -54,6 +44,7 @@ export default function Menu() {
             <Text>Just </Text>
             <Text style={styles.titleVariant}>Shapes</Text>
           </TextTitle>
+
           <TextTitle
             style={styles.title}
             numberOfLines={1}
