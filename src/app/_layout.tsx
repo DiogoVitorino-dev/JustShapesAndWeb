@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import MusicProvider from "@/audio/music";
 import SoundProvider from "@/audio/sound";
 import HeadphoneHint from "@/components/menu/headphoneHint";
+import Colors from "@/constants/Colors";
 import { store } from "@/store";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
 
@@ -25,6 +26,17 @@ export {
 export const unstable_settings = {
   // Ensure that reloading on modal keeps a back button present.
   initialRouteName: "(testing)",
+};
+
+export const defaultStackScreenOptions: React.ComponentProps<
+  typeof Stack
+>["screenOptions"] = {
+  headerStyle: { backgroundColor: Colors.UI.backdrop },
+  headerTintColor: Colors.UI.text,
+  headerTitleAlign: "center",
+  headerTitleStyle: { fontFamily: "Manjari" },
+  statusBarStyle: "inverted",
+  statusBarTranslucent: true,
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
