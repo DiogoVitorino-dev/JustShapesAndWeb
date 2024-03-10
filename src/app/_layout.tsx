@@ -6,7 +6,7 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
@@ -15,7 +15,6 @@ import MusicProvider from "@/audio/music";
 import SoundProvider from "@/audio/sound";
 import HeadphoneHint from "@/components/menu/headphoneHint";
 import { store } from "@/store";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
 
 export {
@@ -39,16 +38,22 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const initializedSettings = store.getState().settings.initialized;
+
+  useEffect(() => {
+    store.dispatch(SettingsActions.initialize());
+  }, []);
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
-    if (loaded && animationFinished) {
+    if (loaded && animationFinished && initializedSettings) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, animationFinished]);
+  }, [loaded, animationFinished, initializedSettings]);
 
   if (!loaded || !animationFinished) {
     return (
@@ -69,17 +74,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const dispatch = useAppDispatch();
-
-  const initializedSettings = useAppSelector(
-    (state) => state.settings.initialized,
-  );
-
-  useEffect(() => {
-    if (!initializedSettings) {
-      dispatch(SettingsActions.initialize());
-    }
-  }, []);
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
@@ -87,8 +81,6 @@ function RootLayoutNav() {
         <SoundProvider>
           <Stack
             screenOptions={{
-              statusBarStyle: "inverted",
-              statusBarTranslucent: true,
               headerShown: false,
             }}
           >
