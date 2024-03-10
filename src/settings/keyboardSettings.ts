@@ -1,37 +1,32 @@
 import { MouseKeys } from "@/utils/listenersUtils/webListeners";
 
-export interface GameCommands {
-  up: string;
-  left: string;
-  down: string;
-  right: string;
-  jump: string;
+export enum GameCommands {
+  UP,
+  LEFT,
+  DOWN,
+  RIGHT,
+  JUMP,
 }
 
 export interface KeyboardKeys {
-  primary: GameCommands;
-  alternative: GameCommands;
+  primary?: string | MouseKeys;
+  alternative?: string | MouseKeys;
+}
+
+export interface KeyboardCommand extends KeyboardKeys {
+  command: keyof typeof GameCommands;
 }
 
 export interface KeyboardSettings {
-  keys: KeyboardKeys;
+  keys: KeyboardCommand[];
 }
 
 export const DefaultKeyboardSettings: KeyboardSettings = {
-  keys: {
-    primary: {
-      up: "w",
-      left: "a",
-      down: "s",
-      right: "d",
-      jump: " ",
-    },
-    alternative: {
-      up: "ArrowUp",
-      left: "ArrowLeft",
-      down: "ArrowDown",
-      right: "ArrowRight",
-      jump: MouseKeys.LEFT_BUTTON,
-    },
-  },
+  keys: [
+    { command: "UP", primary: "w", alternative: "ArrowUp" },
+    { command: "LEFT", primary: "a", alternative: "ArrowLeft" },
+    { command: "DOWN", primary: "s", alternative: "ArrowDown" },
+    { command: "RIGHT", primary: "d", alternative: "ArrowRight" },
+    { command: "JUMP", primary: " ", alternative: MouseKeys.LEFT_BUTTON },
+  ],
 };

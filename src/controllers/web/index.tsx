@@ -22,9 +22,9 @@ export default function WebControl({ onMove, velocity = 3 }: WebControlProps) {
   const right = useSharedValue(0);
   const jumping = useSharedValue<boolean>(false);
 
-  const { alternative, primary } = useAppSelector(
-    SettingsSelectors.selectKeyboardSettings,
-  ).keys;
+  const { DOWN, JUMP, LEFT, RIGHT, UP } = useAppSelector(
+    SettingsSelectors.selectGameCommands,
+  );
 
   const increaseOnKeypress = (animV: SharedValue<number>, pressed: boolean) => {
     "worklet";
@@ -49,25 +49,25 @@ export default function WebControl({ onMove, velocity = 3 }: WebControlProps) {
   //DOWN
   useKeyListener(
     (pressed) => increaseOnKeypress(down, pressed),
-    [primary.down, alternative.down],
+    [DOWN.primary, DOWN.alternative],
   );
 
   //RIGHT
   useKeyListener(
     (pressed) => increaseOnKeypress(right, pressed),
-    [primary.right, alternative.right],
+    [RIGHT.primary, RIGHT.alternative],
   );
 
   // LEFT
   useKeyListener(
     (pressed) => decreaseOnKeypress(left, pressed),
-    [primary.left, alternative.left],
+    [LEFT.primary, LEFT.alternative],
   );
 
   // UP
   useKeyListener(
     (pressed) => decreaseOnKeypress(up, pressed),
-    [primary.up, alternative.up],
+    [UP.primary, UP.alternative],
   );
 
   //JUMP
@@ -75,7 +75,7 @@ export default function WebControl({ onMove, velocity = 3 }: WebControlProps) {
     (pressed) => {
       jumping.value = pressed;
     },
-    [primary.jump, alternative.jump],
+    [JUMP.primary, JUMP.alternative],
   );
 
   const limitDiagonalVelocity = (x: number, y: number) => {

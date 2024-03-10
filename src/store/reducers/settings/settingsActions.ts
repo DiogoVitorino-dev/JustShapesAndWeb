@@ -9,10 +9,11 @@ import { AppThunkOptions } from "@/store";
 const initialize = createAsyncThunk<Settings | null, void, AppThunkOptions>(
   "settings/initialize",
   async (_) => {
-    const settings = await SettingsDatabaseProvider.get();
+    let settings = await SettingsDatabaseProvider.get();
 
     if (!settings) {
       await SettingsDatabaseProvider.set(DefaultSettings);
+      settings = DefaultSettings;
     }
 
     return settings;
@@ -37,7 +38,25 @@ const saveKeyboardSettings = createAsyncThunk<
   AppThunkOptions
 >("settings/saveKeyboardSettings", async (partialSettings, { getState }) => {
   const { keyboard, ...others } = getState().settings.data;
-  const newSettings: KeyboardSettings = { ...keyboard, ...partialSettings };
+  let keys: KeyboardSettings["keys"] = keyboard.keys;
+  let newSettings: KeyboardSettings = { ...keyboard, ...partialSettings, keys };
+
+  //Handle new keys
+  if (partialSettings.keys && partialSettings.keys.length > 0) {
+    keys = keys.map((value) => {
+      // find the command to replace
+      const newKey = partialSettings.keys?.find(
+        (newValue) => newValue.command === value.command,
+      );
+
+      if (newKey) {
+        return { ...value, ...newKey };
+      }
+      return value;
+    });
+  }
+
+  newSettings = { ...newSettings, keys };
 
   await SettingsDatabaseProvider.set({ ...others, keyboard: newSettings });
   return newSettings;

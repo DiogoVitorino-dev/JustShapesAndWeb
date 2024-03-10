@@ -8,7 +8,7 @@ export enum MouseKeys {
 
 export type KeyListener = (
   callback: (pressing: boolean, key: string) => void,
-  keys: string[],
+  keys: (string | undefined)[],
 ) => { removeListener: () => void };
 
 export type ListenKey = (callback: (key: string | null) => void) => {
