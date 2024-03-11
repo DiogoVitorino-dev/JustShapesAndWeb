@@ -78,7 +78,7 @@ const Menu = {
   },
 };
 
-const options = {
+const settings = {
   iconItem: Green["100"],
 };
 
@@ -87,5 +87,5 @@ export default {
   Menu,
   entity,
   control,
-  options,
+  settings,
 };
