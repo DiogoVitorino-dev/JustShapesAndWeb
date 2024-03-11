@@ -8,7 +8,7 @@ import MenuBackground from "@/components/menu/menuBackground";
 import ButtonMenu from "@/components/menu/menuButton";
 import { TextTitle, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import useAndroidBlur from "@/hooks/useAndroidBlur";
+import { useAndroidBlur } from "@/hooks";
 
 const layoutAnimation = FadingTransition.duration(100);
 

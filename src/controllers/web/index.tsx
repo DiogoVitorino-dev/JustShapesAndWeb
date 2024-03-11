@@ -6,7 +6,7 @@ import {
 
 import { ControlData, ControlProp } from "../controllers.type";
 
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 import { AnglesUtils } from "@/utils/angleUtils";
 import { ListenersUtils } from "@/utils/listenersUtils";

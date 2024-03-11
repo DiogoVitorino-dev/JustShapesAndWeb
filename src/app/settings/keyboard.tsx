@@ -11,7 +11,7 @@ import KeyboardBindingModal, {
 } from "@/components/settings/keyboard/keyboardBindingModal";
 import { View } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
 const entering =

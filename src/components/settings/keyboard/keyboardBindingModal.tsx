@@ -4,13 +4,12 @@ import { Modal, StyleSheet, useWindowDimensions } from "react-native";
 
 import { Text, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import useAndroidBlur from "@/hooks/useAndroidBlur";
+import { useAndroidBlur, useAppDispatch } from "@/hooks";
 import {
   GameCommands,
   KeyboardCommand,
   KeyboardKeys,
 } from "@/settings/keyboardSettings";
-import { useAppDispatch } from "@/store/hooks";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
 import { ListenersUtils } from "@/utils/listenersUtils";
 

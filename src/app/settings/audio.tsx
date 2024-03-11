@@ -4,7 +4,7 @@ import { SlideInLeft } from "react-native-reanimated";
 
 import AudioVolume from "@/components/settings/audio/audioVolume";
 import { SafeArea } from "@/components/shared";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 

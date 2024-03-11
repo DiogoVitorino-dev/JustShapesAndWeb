@@ -3,7 +3,7 @@ import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Platform } from "react-native";
 
-export default function useAndroidBlur() {
+export function useAndroidBlur() {
   const [blur, setBlur] = useState<ExperimentalBlurMethod>("none");
 
   useFocusEffect(

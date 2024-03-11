@@ -7,7 +7,7 @@ import {
   PlaybackProps,
   PlaybackStatus,
 } from "@/audio/audio.types";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
 export interface SoundContext extends PlaybackFunctions, PlaybackProps {}
