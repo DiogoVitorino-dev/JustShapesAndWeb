@@ -21,10 +21,11 @@ export const SafeArea = ({
   ...others
 }: SafeAreaViewProps) => {
   const insets = useSafeAreaInsets();
-  const styleArray: StyleProp<ViewStyle> = [styles.default, style];
+  const styleArray: StyleProp<ViewStyle> = [styles.default];
   const contentStyleArray: StyleProp<ViewStyle> = [
     { ...insets },
     styles.default,
+    style,
   ];
 
   if (transparent) {
@@ -33,8 +34,10 @@ export const SafeArea = ({
   }
 
   return (
-    <DefaultView {...others} style={styleArray}>
-      <DefaultView style={contentStyleArray}>{children}</DefaultView>
+    <DefaultView style={styleArray}>
+      <DefaultView {...others} style={contentStyleArray}>
+        {children}
+      </DefaultView>
     </DefaultView>
   );
 };
