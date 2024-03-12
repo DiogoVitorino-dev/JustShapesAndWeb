@@ -1,3 +1,4 @@
+import { Stack } from "expo-router";
 import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native";
 import { AnimatedStyle, SharedValue } from "react-native-reanimated";
 
@@ -20,3 +21,8 @@ export type AnimatedAngle = SharedValue<Angle>;
 export type AnimatedStyleApp = StyleProp<
   AnimatedStyle<StyleProp<ViewStyle | TextStyle | ImageStyle>>
 >;
+
+export type StackScreenOptions = Pick<
+  React.ComponentProps<typeof Stack>,
+  "screenOptions"
+>["screenOptions"];
