@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Platform, StyleSheet } from "react-native";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
+import { useSoundContext } from "@/audio/sound";
 import CommandListItem, {
   CommandListItemData,
   CommandListItemPress,
@@ -23,13 +24,16 @@ export default function Keyboard() {
   const [modalData, setModalData] = useState<KeyboardListenerModalData>();
   const [data, setData] = useState<CommandListItemData[]>([]);
   const { keys } = useAppSelector(SettingsSelectors.selectKeyboardSettings);
+  const { play } = useSoundContext();
 
-  const handlePress: CommandListItemPress = (key, command) => {
+  const handlePress: CommandListItemPress = async (key, command) => {
     setModalData({ key, command });
+    await play("openNestedMenu");
   };
 
-  const handleModalDismiss = () => {
+  const handleModalDismiss = async () => {
     setModalData(undefined);
+    await play("closeNestedMenu");
   };
 
   useEffect(() => {

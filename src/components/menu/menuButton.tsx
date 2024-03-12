@@ -23,6 +23,7 @@ import Animated, {
 import ButtonMenuEffect from "./menuButtonEffect";
 import { AnimatedView, TextTitle, View } from "../shared";
 
+import { useSoundContext } from "@/audio/sound";
 import Colors from "@/constants/Colors";
 
 const opacityConfig: WithTimingConfig = {
@@ -51,6 +52,7 @@ export default function ButtonMenu({
   const padding = ((width / 15) * (index + 1)) / 2.1 + width / 15;
   const paddingExpanded = padding * 2;
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+  const { play } = useSoundContext();
 
   const [disabled, setDisabled] = useState(false);
   const paddingRight = useSharedValue(0);
@@ -127,11 +129,17 @@ export default function ButtonMenu({
     opacity.value = withRepeat(withTiming(0.4, opacityConfig), 4, true);
   };
 
+  const hoverAudio = async () => {
+    //play("hover")
+  };
+
   return (
     <AnimatedView transparent style={[styles.root, animatedRootStyle, style]}>
       <AnimatedPressable
         style={[styles.button, animatedButtonStyle]}
-        onHoverIn={handleHoverIn}
+        onHoverIn={async () => {
+          hoverAudio().finally(handleHoverIn);
+        }}
         onHoverOut={handleHoverOut}
         onPress={handlePress}
         disabled={disabled}

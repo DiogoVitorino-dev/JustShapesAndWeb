@@ -2,6 +2,7 @@ import React from "react";
 import { Platform, StyleSheet } from "react-native";
 import { SlideInLeft } from "react-native-reanimated";
 
+import { useSoundContext } from "@/audio/sound";
 import AudioVolume from "@/components/settings/audio/audioVolume";
 import { SafeArea } from "@/components/shared";
 import { useAppDispatch, useAppSelector } from "@/hooks";
@@ -17,13 +18,17 @@ export default function Audio() {
   const { musicVolume, soundVolume } = useAppSelector(
     SettingsSelectors.selectAudioSettings,
   );
+  const { play } = useSoundContext();
+  const handleVolumeSound = () => play("volume");
 
-  const handleMusicVolume = (musicVolume: number) => {
-    dispatch(SettingsActions.saveAudioSettings({ musicVolume }));
+  const handleMusicVolume = async (musicVolume: number) => {
+    await handleVolumeSound();
+    await dispatch(SettingsActions.saveAudioSettings({ musicVolume })).unwrap();
   };
 
-  const handleSoundVolume = (soundVolume: number) => {
-    dispatch(SettingsActions.saveAudioSettings({ soundVolume }));
+  const handleSoundVolume = async (soundVolume: number) => {
+    await handleVolumeSound();
+    await dispatch(SettingsActions.saveAudioSettings({ soundVolume })).unwrap();
   };
 
   return (

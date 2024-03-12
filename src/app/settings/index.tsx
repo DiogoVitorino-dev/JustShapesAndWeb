@@ -4,6 +4,7 @@ import { Platform, StyleSheet } from "react-native";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { useSoundContext } from "@/audio/sound";
 import SettingItem, {
   SettingItemPress,
 } from "@/components/settings/settingItem";
@@ -36,9 +37,14 @@ const entryExitAnimation =
 export default function SettingsList() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { play } = useSoundContext();
 
-  const handlePressItem: SettingItemPress = (to) => {
+  const handlePressItem: SettingItemPress = async (to) => {
     router.push(to);
+  };
+
+  const handleHover = async () => {
+    await play("hover");
   };
 
   return (
@@ -48,9 +54,14 @@ export default function SettingsList() {
         style={[{ ...insets }, styles.list]}
         entering={entryExitAnimation}
         exiting={entryExitAnimation}
-        renderItem={({ item }) =>
-          SettingItem({ ...item, onPress: handlePressItem })
-        }
+        renderItem={({ item, index }) => (
+          <SettingItem
+            {...item}
+            index={index}
+            onPress={handlePressItem}
+            onHoverIn={handleHover}
+          />
+        )}
       />
     </View>
   );
