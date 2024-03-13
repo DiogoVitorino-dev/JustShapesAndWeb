@@ -11,15 +11,15 @@ export default function SettingsLayout() {
   const sound = useSoundContext();
 
   const transitionStart = async () => {
-    await sound.play("openNestedMenu");
+    await sound.play("open-nested-menu");
   };
 
   const beforeRemove = async () => {
-    await sound.play("closeMenu");
+    await sound.play("close-menu");
   };
 
   const beforeRemoveScreen = async () => {
-    await sound.play("closeNestedMenu");
+    await sound.play("close-nested-menu");
   };
 
   return (

@@ -8,7 +8,7 @@ import Colors from "@/constants/Colors";
 export default function UseAudioSystemChamber() {
   const [progressValue, setProgressValue] = useState(0);
   const [volumeValue, setVolumeValue] = useState("1");
-  const { getProgress, pause, play, setProgress, setVolume, loadAndPlay } =
+  const { getProgress, pause, play, setProgress, setVolume, load } =
     useSoundContext();
 
   const handleGetProgress = async () => {
@@ -18,7 +18,7 @@ export default function UseAudioSystemChamber() {
     pause();
   };
   const handleResume = () => {
-    play();
+    play("start");
   };
   const handlePlay = () => {
     

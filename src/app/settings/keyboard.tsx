@@ -28,12 +28,12 @@ export default function Keyboard() {
 
   const handlePress: CommandListItemPress = async (key, command) => {
     setModalData({ key, command });
-    await play("openNestedMenu");
+    await play("open-nested-menu");
   };
 
   const handleModalDismiss = async () => {
     setModalData(undefined);
-    await play("closeNestedMenu");
+    await play("close-nested-menu");
   };
 
   useEffect(() => {

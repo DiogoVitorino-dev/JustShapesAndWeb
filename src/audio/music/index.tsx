@@ -1,22 +1,26 @@
-import { Sound } from "expo-av/build/Audio";
+import { useAssets } from "expo-asset";
 import React, { createContext, useContext, useEffect } from "react";
 
 import { useAudioSystem } from "@/audio";
-import {
-  PlaybackFunctions,
-  PlaybackProps,
-  PlaybackStatus,
-} from "@/audio/audio.types";
+import { AudioFunctions, AudioProps, AudioStatus } from "@/audio/audio.types";
 import { useAppSelector } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
-export interface MusicContext extends PlaybackFunctions, PlaybackProps {}
+const gameAssets = {};
+
+export type MusicList = keyof typeof gameAssets;
+
+type MusicAudioFunctions = Omit<AudioFunctions, "play">;
+
+export interface MusicContext extends MusicAudioFunctions, AudioProps {
+  play: (name: MusicList) => Promise<void>;
+}
 
 const Context = createContext<MusicContext>({
-  status: PlaybackStatus.IDLE,
-  player: new Sound(),
+  status: AudioStatus.IDLE,
+  playlist: [],
   pause: async () => {},
-  loadAndPlay: async () => {},
+  load: async () => {},
   setProgress: async () => {},
   getProgress: async () => -1,
   play: async () => {},
@@ -31,6 +35,13 @@ interface ProviderProps {
 
 export default function MusicProvider({ children }: ProviderProps) {
   const value = useAudioSystem();
+  const [assets] = useAssets(Object.values(gameAssets));
+
+  useEffect(() => {
+    if (assets) {
+      value.load(assets);
+    }
+  }, [assets]);
 
   const musicVolume = useAppSelector(
     SettingsSelectors.selectAudioSettings,
@@ -40,5 +51,17 @@ export default function MusicProvider({ children }: ProviderProps) {
     value.setVolume(musicVolume);
   }, [musicVolume]);
 
-  return <Context.Provider value={value}>{children}</Context.Provider>;
+  const handlePlay = async (name: MusicList) => {
+    if (assets && Object.hasOwn(gameAssets, name)) {
+      value.play(
+        assets.find((data) => data.name.replace(/\.[^/.]+$/, "") === name),
+      );
+    }
+  };
+
+  return (
+    <Context.Provider value={{ ...value, play: handlePlay }}>
+      {children}
+    </Context.Provider>
+  );
 }

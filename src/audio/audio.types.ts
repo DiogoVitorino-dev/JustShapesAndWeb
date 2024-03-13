@@ -1,43 +1,43 @@
-import { AVPlaybackSource } from "expo-av";
-import { Sound } from "expo-av/build/Audio";
+import { Asset } from "expo-asset";
 
-export enum PlaybackStatus {
+export enum AudioStatus {
   IDLE = 0,
-  LOADED = 1,
+  READY = 1,
   BUFFERING = 2,
   PLAYING = 3,
   FINISHED = 4,
 }
 
-export type PlaybackPlay = () => Promise<void>;
-export type PlaybackPause = () => Promise<void>;
-export type PlaybackLoadAndPlay = (
-  source: AVPlaybackSource,
-  autoplay?: boolean,
-) => Promise<void>;
-export type PlaybackGetProgress = () => Promise<number>;
+export type AudioTrack = Asset;
+
+export type AudioPlaylist = AudioTrack[];
+
+export type AudioPlay = (track?: Asset) => Promise<void>;
+export type AudioPause = () => Promise<void>;
+export type AudioLoad = (assets: Asset[]) => Promise<void>;
+export type AudioGetProgress = () => Promise<number>;
 
 /**
- * @param progress The current position of playback in milliseconds.
+ * @param progress The current position of Audio in milliseconds.
  */
-export type PlaybackSetProgress = (progress: number) => Promise<void>;
+export type AudioSetProgress = (progress: number) => Promise<void>;
 
 /**
  * @param volume A number between 0.0 (silence) and 100.0 (maximum volume).
  */
-export type PlaybackSetVolume = (volume: number) => Promise<void>;
+export type AudioSetVolume = (volume: number) => void;
 
-export interface PlaybackProps {
-  status: PlaybackStatus;
-  player: Sound;
-  error?: Error;
+export interface AudioProps {
+  status: AudioStatus;
+  track?: AudioTrack;
+  playlist: AudioPlaylist;
 }
 
-export interface PlaybackFunctions {
-  play: PlaybackPlay;
-  pause: PlaybackPause;
-  loadAndPlay: PlaybackLoadAndPlay;
-  setProgress: PlaybackSetProgress;
-  setVolume: PlaybackSetVolume;
-  getProgress: PlaybackGetProgress;
+export interface AudioFunctions {
+  play: AudioPlay;
+  pause: AudioPause;
+  load: AudioLoad;
+  setProgress: AudioSetProgress;
+  setVolume: AudioSetVolume;
+  getProgress: AudioGetProgress;
 }
