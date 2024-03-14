@@ -1,4 +1,4 @@
-import { NavigationProp } from "@react-navigation/native";
+import { router } from "expo-router";
 import React from "react";
 import { StyleSheet, Pressable, View, Text } from "react-native";
 
@@ -15,12 +15,10 @@ type NativeHeaderBackButton = Exclude<
 type RouterParams = Parameters<Extract<StackScreenOptions, Function>>[0];
 type HeaderBackButtonParams = Parameters<NativeHeaderBackButton>[0];
 
-type Navigation = NavigationProp<ReactNavigation.RootParamList>;
-
 export interface HeaderBackButtonProps
   extends HeaderBackButtonParams,
     RouterParams {
-  onPress?: () => Awaited<Promise<void>>;
+  onPress?: () => Promise<void>;
 }
 
 export function HeaderBackButton({
@@ -29,15 +27,14 @@ export function HeaderBackButton({
   canGoBack,
   label,
   tintColor,
-  ...others
+  navigation,
 }: HeaderBackButtonProps) {
-  const navigation: Navigation = others.navigation;
-
   const handlePress = async () => {
+    if (onPress) await onPress();
     if (canGoBack) {
-      if (onPress) await onPress();
-
       navigation.goBack();
+    } else {
+      router.replace("/");
     }
   };
 
