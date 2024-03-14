@@ -39,6 +39,7 @@ interface ButtonMenuProps {
   onPress?: () => void;
   title?: string;
   index?: number;
+  isStart?: boolean;
   style?: ViewStyle;
 }
 
@@ -46,6 +47,7 @@ export default function ButtonMenu({
   onPress,
   title,
   style,
+  isStart = false,
   index = 0,
 }: ButtonMenuProps) {
   const { width } = useWindowDimensions();
@@ -132,6 +134,7 @@ export default function ButtonMenu({
   const hoverAudio = async () => {
     //play("hover")
   };
+  const pressAudio = async () => (isStart ? play("start") : play("open-menu"));
 
   return (
     <AnimatedView transparent style={[styles.root, animatedRootStyle, style]}>
@@ -141,7 +144,9 @@ export default function ButtonMenu({
           hoverAudio().finally(handleHoverIn);
         }}
         onHoverOut={handleHoverOut}
-        onPress={handlePress}
+        onPress={async () => {
+          pressAudio().finally(handlePress);
+        }}
         disabled={disabled}
       >
         <AnimatedView transparent style={styles.content}>

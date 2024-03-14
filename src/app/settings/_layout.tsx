@@ -10,7 +10,7 @@ import { HeaderBackButton } from "@/components/shared";
 export default function SettingsLayout() {
   const sound = useSoundContext();
 
-  const transitionStart = async () => {
+  const focus = async () => {
     await sound.play("open-nested-menu");
   };
 
@@ -24,7 +24,6 @@ export default function SettingsLayout() {
 
   return (
     <Stack
-      screenListeners={{ transitionStart }}
       screenOptions={(routeProps) => ({
         ...defaultStackScreenOptions,
         headerLeft: (props) => <HeaderBackButton {...routeProps} {...props} />,
@@ -38,14 +37,14 @@ export default function SettingsLayout() {
       {Platform.OS === "web" ? (
         <Stack.Screen
           name="keyboard"
-          listeners={{ beforeRemove: beforeRemoveScreen }}
+          listeners={{ focus, beforeRemove: beforeRemoveScreen }}
           options={{ title: "Teclado" }}
         />
       ) : null}
 
       <Stack.Screen
         name="audio"
-        listeners={{ beforeRemove: beforeRemoveScreen }}
+        listeners={{ focus, beforeRemove: beforeRemoveScreen }}
         options={{ title: "Audio" }}
       />
     </Stack>

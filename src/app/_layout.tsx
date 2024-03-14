@@ -12,7 +12,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 
 import MusicProvider from "@/audio/music";
-import SoundProvider, { useSoundContext } from "@/audio/sound";
+import SoundProvider from "@/audio/sound";
 import HeadphoneHint from "@/components/menu/headphoneHint";
 import Colors from "@/constants/Colors";
 import { store } from "@/store";
@@ -90,11 +90,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const sound = useSoundContext();
-
-  const transitionStart = async () => {
-    await sound.play("start");
-  };
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
@@ -104,7 +99,7 @@ function RootLayoutNav() {
         }}
       >
         <Stack.Screen name="index" />
-        <Stack.Screen name="settings" listeners={{ transitionStart }} />
+        <Stack.Screen name="settings" />
         <Stack.Screen name="(testing)" />
       </Stack>
     </ThemeProvider>

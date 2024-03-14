@@ -26,6 +26,7 @@ export default function Menu() {
       <View transparent style={styles.containerButtons}>
         <ButtonMenu
           title="Jogar"
+          isStart
           style={{ marginVertical: 18, height: height / 5 }}
         />
         <ButtonMenu
