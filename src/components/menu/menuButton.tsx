@@ -6,7 +6,7 @@ import {
   ViewStyle,
   useWindowDimensions,
 } from "react-native";
-import Animated, {
+import {
   Easing,
   WithSpringConfig,
   WithTimingConfig,
@@ -53,15 +53,14 @@ export default function ButtonMenu({
   const { width } = useWindowDimensions();
   const padding = ((width / 15) * (index + 1)) / 2.1 + width / 15;
   const paddingExpanded = padding * 2;
-  const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
   const { play } = useSoundContext();
 
   const [disabled, setDisabled] = useState(false);
-  const paddingRight = useSharedValue(0);
+  const horizontalScale = useSharedValue(0);
   const opacity = useSharedValue(1);
 
-  const animatedButtonStyle = useAnimatedStyle(() => ({
-    paddingRight: paddingRight.value,
+  const animatedTextStyle = useAnimatedStyle(() => ({
+    marginRight: horizontalScale.value,
   }));
 
   const animatedRootStyle = useAnimatedStyle(() => ({
@@ -71,7 +70,7 @@ export default function ButtonMenu({
   const startPaddingAnimation = runOnUI(
     (toValue: number, onAnimationFinish?: () => void) => {
       "worklet";
-      paddingRight.value = withSpring(toValue, paddingConfig, (fin) => {
+      horizontalScale.value = withSpring(toValue, paddingConfig, (fin) => {
         if (fin && onAnimationFinish) {
           runOnJS(onAnimationFinish)();
         }
@@ -81,7 +80,7 @@ export default function ButtonMenu({
 
   const entryAnimation = runOnUI(() => {
     "worklet";
-    paddingRight.value = withDelay(
+    horizontalScale.value = withDelay(
       100 * index,
       withSpring(padding, paddingConfig),
     );
@@ -89,7 +88,10 @@ export default function ButtonMenu({
 
   const exitAnimation = runOnUI(() => {
     "worklet";
-    paddingRight.value = withDelay(100 * index, withSpring(0, paddingConfig));
+    horizontalScale.value = withDelay(
+      100 * index,
+      withSpring(0, paddingConfig),
+    );
   });
 
   useFocusEffect(
@@ -122,7 +124,7 @@ export default function ButtonMenu({
       }
     };
 
-    if (paddingRight.value === padding) {
+    if (horizontalScale.value === padding) {
       startPaddingAnimation(paddingExpanded, callWhenAnimationFinished);
     } else {
       startPaddingAnimation(padding, callWhenAnimationFinished);
@@ -131,15 +133,13 @@ export default function ButtonMenu({
     opacity.value = withRepeat(withTiming(0.4, opacityConfig), 4, true);
   };
 
-  const hoverAudio = async () => {
-    //play("hover")
-  };
+  const hoverAudio = async () => play("hover");
   const pressAudio = async () => (isStart ? play("start") : play("open-menu"));
 
   return (
     <AnimatedView transparent style={[styles.root, animatedRootStyle, style]}>
-      <AnimatedPressable
-        style={[styles.button, animatedButtonStyle]}
+      <Pressable
+        style={styles.button}
         onHoverIn={async () => {
           hoverAudio().finally(handleHoverIn);
         }}
@@ -149,11 +149,11 @@ export default function ButtonMenu({
         }}
         disabled={disabled}
       >
-        <AnimatedView transparent style={styles.content}>
+        <AnimatedView transparent style={[styles.content, animatedTextStyle]}>
           <TextTitle style={styles.text}>{title}</TextTitle>
         </AnimatedView>
-      </AnimatedPressable>
-      <View transparent style={styles.containerEffect}>
+      </Pressable>
+      <View transparent style={[styles.containerEffect]}>
         <ButtonMenuEffect
           fill={Colors.UI.text}
           fillBackdrop={Colors.UI.backdrop}
