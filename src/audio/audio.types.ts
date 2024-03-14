@@ -1,11 +1,11 @@
 import { Asset } from "expo-asset";
 
 export enum AudioStatus {
-  IDLE = 0,
-  READY = 1,
-  BUFFERING = 2,
-  PLAYING = 3,
-  FINISHED = 4,
+  IDLE = "idle",
+  READY = "ready",
+  BUFFERING = "buffering",
+  PLAYING = "playing",
+  FINISHED = "finished",
 }
 
 export type AudioTrack = Asset;
