@@ -1,5 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { Href, Link, useFocusEffect, useRouter } from "expo-router";
+import { Href, Link } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
 

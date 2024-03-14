@@ -23,11 +23,6 @@ export {
   ErrorBoundary,
 } from "expo-router";
 
-export const unstable_settings = {
-  // Ensure that reloading on modal keeps a back button present.
-  initialRouteName: "(testing)",
-};
-
 export const defaultStackScreenOptions: React.ComponentProps<
   typeof Stack
 >["screenOptions"] = {
@@ -38,8 +33,6 @@ export const defaultStackScreenOptions: React.ComponentProps<
   statusBarStyle: "inverted",
   statusBarTranslucent: true,
 };
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 
 export default function RootLayout() {
   const [animationFinished, setAnimationFinished] = useState(false);
@@ -100,7 +93,7 @@ function RootLayoutNav() {
       >
         <Stack.Screen name="index" />
         <Stack.Screen name="settings" />
-        <Stack.Screen name="(testing)" />
+        {__DEV__ ? <Stack.Screen name="(testing)" /> : null}
       </Stack>
     </ThemeProvider>
   );

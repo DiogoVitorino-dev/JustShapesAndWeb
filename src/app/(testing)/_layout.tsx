@@ -6,7 +6,7 @@ import { Stack } from "expo-router";
 
 export default function TestingLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack>
       <Stack.Screen
         name="index"
         options={{
@@ -18,6 +18,7 @@ export default function TestingLayout() {
         name="sandbox"
         options={{
           title: "Sandbox",
+          headerShown: false,
         }}
       />
 

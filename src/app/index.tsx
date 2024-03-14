@@ -1,6 +1,5 @@
 import { BlurView } from "expo-blur";
-import { useRouter } from "expo-router";
-import React, { useCallback } from "react";
+import React from "react";
 import { StyleSheet, Text, useWindowDimensions } from "react-native";
 import { FadingTransition } from "react-native-reanimated";
 
@@ -15,11 +14,6 @@ const layoutAnimation = FadingTransition.duration(100);
 export default function Menu() {
   const { height } = useWindowDimensions();
   const { experimentalBlurMethod } = useAndroidBlur();
-  const router = useRouter();
-
-  const pressOptions = useCallback(() => {
-    router.push("/settings");
-  }, [router]);
 
   return (
     <MenuBackground layout={layoutAnimation} style={styles.container}>
@@ -33,8 +27,16 @@ export default function Menu() {
           title="Opções"
           index={1}
           style={{ marginVertical: 18, height: height / 5 }}
-          onPress={pressOptions}
+          href="/settings/"
         />
+        {__DEV__ ? (
+          <ButtonMenu
+            title="Testing"
+            index={2}
+            style={{ marginVertical: 18, height: height / 5 }}
+            href="/(testing)"
+          />
+        ) : null}
       </View>
       <View transparent style={styles.containerTitle}>
         <BlurView
