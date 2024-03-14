@@ -1,4 +1,4 @@
-import { useFocusEffect } from "expo-router";
+import { Href, useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
   StyleSheet,
@@ -36,7 +36,7 @@ const paddingConfig: WithSpringConfig = {
 };
 
 interface ButtonMenuProps {
-  onPress?: () => void;
+  href?: Href<string>;
   title?: string;
   index?: number;
   isStart?: boolean;
@@ -44,13 +44,14 @@ interface ButtonMenuProps {
 }
 
 export default function ButtonMenu({
-  onPress,
   title,
   style,
+  href,
   isStart = false,
   index = 0,
 }: ButtonMenuProps) {
   const { width } = useWindowDimensions();
+  const router = useRouter();
   const padding = ((width / 15) * (index + 1)) / 2.1 + width / 15;
   const paddingExpanded = padding * 2;
   const { play } = useSoundContext();
@@ -119,8 +120,8 @@ export default function ButtonMenu({
 
     const callWhenAnimationFinished = () => {
       setDisabled(false);
-      if (onPress) {
-        onPress();
+      if (href) {
+        router.push(href);
       }
     };
 
