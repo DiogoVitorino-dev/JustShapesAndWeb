@@ -10,11 +10,8 @@ export enum AudioStatus {
 
 export type AudioTrack = Asset;
 
-export type AudioPlaylist = AudioTrack[];
-
-export type AudioPlay = (track?: Asset) => Promise<void>;
+export type AudioPlay = (track?: AudioTrack) => Promise<void>;
 export type AudioPause = () => Promise<void>;
-export type AudioLoad = (assets: Asset[]) => Promise<void>;
 export type AudioGetProgress = () => Promise<number>;
 
 /**
@@ -30,13 +27,11 @@ export type AudioSetVolume = (volume: number) => void;
 export interface AudioProps {
   status: AudioStatus;
   track?: AudioTrack;
-  playlist: AudioPlaylist;
 }
 
 export interface AudioFunctions {
   play: AudioPlay;
   pause: AudioPause;
-  load: AudioLoad;
   setProgress: AudioSetProgress;
   setVolume: AudioSetVolume;
   getProgress: AudioGetProgress;

@@ -1,4 +1,4 @@
-import { Sound } from "expo-av/build/Audio";
+import { Audio } from "expo-av";
 import { useEffect, useMemo, useState } from "react";
 
 import {
@@ -8,52 +8,46 @@ import {
   AudioPlay,
   AudioSetProgress,
   AudioSetVolume,
-  AudioLoad,
-  AudioPlaylist,
   AudioTrack,
 } from "./audio.types";
 
 import { MathUtils } from "@/utils/mathUtils";
 
 export function useAudioSystem() {
-  const [player] = useState<Sound>(new Sound());
+  const [sound, setSound] = useState(new Audio.Sound());
   const [volumeTrack, setVolumeTrack] = useState(0.5);
   const [status, setStatus] = useState<AudioStatus>(AudioStatus.IDLE);
-  const [playlist, setPlaylist] = useState<AudioPlaylist>([]);
   const [track, setTrack] = useState<AudioTrack | undefined>();
-
-  const load: AudioLoad = async (audios) => {
-    if (audios.length > 0) {
-      setPlaylist(audios);
-      await loadTrack(audios[0]);
-    }
-  };
 
   const pause: AudioPause = async () => {
     switch (status) {
       case AudioStatus.PLAYING:
-        await player.pauseAsync();
+        await sound.pauseAsync();
         break;
     }
   };
 
   const play: AudioPlay = async (newTrack) => {
     if (newTrack) {
-      if (newTrack.hash !== track?.hash) {
-        await loadTrack(newTrack);
-      } else {
-        await player.setPositionAsync(0);
-      }
+      const { sound } = await Audio.Sound.createAsync(newTrack, {
+        shouldPlay: true,
+        volume: volumeTrack,
+      });
+      setSound(sound);
+      setTrack(newTrack);
+    } else if (
+      status !== AudioStatus.BUFFERING &&
+      status !== AudioStatus.IDLE
+    ) {
+      await sound.playAsync();
     }
-
-    await player.playAsync();
   };
 
   const setProgress: AudioSetProgress = async (progress) => {
     switch (status) {
       case AudioStatus.READY:
       case AudioStatus.PLAYING:
-        await player.setPositionAsync(progress);
+        await sound.setPositionAsync(progress);
         break;
     }
   };
@@ -65,7 +59,7 @@ export function useAudioSystem() {
   };
 
   const getProgress: AudioGetProgress = async () => {
-    const currentStatus = await player.getStatusAsync();
+    const currentStatus = await sound.getStatusAsync();
     if (currentStatus.isLoaded) {
       return currentStatus.positionMillis;
     }
@@ -73,12 +67,12 @@ export function useAudioSystem() {
     return -1;
   };
 
-  const init = () => {
-    player.setOnPlaybackStatusUpdate(statusListener(player));
+  const setListener = (sound: Audio.Sound) => {
+    sound.setOnPlaybackStatusUpdate(statusListener(sound));
   };
 
-  const statusListener = (player: Sound) =>
-    (player._onPlaybackStatusUpdate = (status) => {
+  const statusListener = (sound: Audio.Sound) =>
+    (sound._onPlaybackStatusUpdate = (status) => {
       if (status.isLoaded) {
         if (status.isBuffering) {
           setStatus(AudioStatus.BUFFERING);
@@ -94,34 +88,20 @@ export function useAudioSystem() {
       }
     });
 
-  const loadTrack = async (newTrack: AudioTrack) => {
-    if (status === AudioStatus.PLAYING) {
-      await player.stopAsync();
-    }
-    if (status !== AudioStatus.IDLE) {
-      await player.unloadAsync();
-    }
-
-    await player.loadAsync(newTrack, { volume: volumeTrack });
-    setTrack(newTrack);
-  };
-
   useEffect(() => {
-    init();
-  }, []);
+    setListener(sound);
+  }, [sound]);
 
   return useMemo(
     () => ({
-      playlist,
       status,
       track,
       play,
       pause,
-      load,
       setProgress,
       setVolume,
       getProgress,
     }),
-    [track, status, playlist],
+    [status, track],
   );
 }

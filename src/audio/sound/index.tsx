@@ -27,9 +27,7 @@ export interface SoundContext extends SoundAudioFunctions, AudioProps {
 
 const Context = createContext<SoundContext>({
   status: AudioStatus.IDLE,
-  playlist: [],
   pause: async () => {},
-  load: async () => {},
   setProgress: async () => {},
   getProgress: async () => -1,
   play: async () => {},
@@ -45,12 +43,6 @@ interface ProviderProps {
 export default function SoundProvider({ children }: ProviderProps) {
   const value = useAudioSystem();
   const [assets] = useAssets(Object.values(menuAssets));
-
-  useEffect(() => {
-    if (assets) {
-      value.load(assets);
-    }
-  }, [assets]);
 
   const soundVolume = useAppSelector(
     SettingsSelectors.selectAudioSettings,
