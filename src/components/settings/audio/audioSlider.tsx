@@ -13,7 +13,6 @@ const thumb = require("@/assets/images/thumb.png");
 export interface AudioSliderProps extends SliderProps {}
 
 export const SLIDER_MARGIN = 16;
-const THUMB_OVERFLOW = 15;
 
 export default function AudioSlider({
   onValueChange,
@@ -41,13 +40,7 @@ export default function AudioSlider({
   }, [value]);
 
   return (
-    <View
-      transparent
-      style={[
-        styles.thumbFix,
-        { height: size?.height ? size.height + THUMB_OVERFLOW : undefined },
-      ]}
-    >
+    <View transparent onLayout={handleLayout} style={[styles.thumbFix]}>
       <ImageBackground
         source={maximumTrack}
         imageStyle={[
@@ -74,22 +67,20 @@ export default function AudioSlider({
           source={miniumTrack}
           imageStyle={{ height: size?.height, width: size?.width }}
         />
-
-        <Slider
-          onLayout={handleLayout}
-          value={valueState}
-          thumbImage={thumb}
-          maximumValue={100}
-          minimumValue={0}
-          step={10}
-          onValueChange={handleOnValueChange}
-          maximumTrackTintColor="transparent"
-          minimumTrackTintColor="transparent"
-          thumbTintColor="transparent"
-          tapToSeek
-          {...props}
-        />
       </ImageBackground>
+      <Slider
+        value={valueState}
+        thumbImage={thumb}
+        maximumValue={100}
+        minimumValue={0}
+        step={10}
+        onValueChange={handleOnValueChange}
+        maximumTrackTintColor="transparent"
+        minimumTrackTintColor="transparent"
+        thumbTintColor="transparent"
+        tapToSeek
+        {...props}
+      />
     </View>
   );
 }

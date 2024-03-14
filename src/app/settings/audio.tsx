@@ -54,10 +54,13 @@ export default function Audio() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     justifyContent: "space-evenly",
     flexDirection: "column",
+    alignItems: "center",
   },
   volume: {
     marginBottom: 18,
+    marginHorizontal: "auto",
   },
 });

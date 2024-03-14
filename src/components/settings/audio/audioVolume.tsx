@@ -58,7 +58,6 @@ export default function AudioVolume({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "space-around",
   },
   containerText: {
