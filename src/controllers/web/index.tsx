@@ -6,10 +6,9 @@ import {
 
 import { ControlData, ControlProp } from "../controllers.type";
 
-import { useAppSelector } from "@/hooks";
+import { useAppSelector, useKeyListener } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 import { AnglesUtils } from "@/utils/angleUtils";
-import { ListenersUtils } from "@/utils/listenersUtils";
 
 export interface KeyboardData extends ControlData {}
 
@@ -43,8 +42,6 @@ export default function WebControl({ onMove, velocity = 3 }: WebControlProps) {
       animV.value = 0;
     }
   };
-
-  const { useKeyListener } = ListenersUtils.web;
 
   //DOWN
   useKeyListener(

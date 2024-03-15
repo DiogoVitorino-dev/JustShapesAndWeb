@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-
 export enum MouseKeys {
   LEFT_BUTTON = "LMB",
   RIGHT_BUTTON = "RMB",
   MIDDLE_BUTTON = "MMB",
 }
-
-export type KeyListener = (
-  callback: (pressing: boolean, key: string) => void,
-  keys: (string | undefined)[],
-) => { removeListener: () => void };
 
 export type ListenKey = (callback: (key: string | null) => void) => {
   removeListener: () => void;
@@ -30,7 +23,7 @@ type Listener<EventType, KeyType> = (
   options?: ListenerOptions<KeyType>,
 ) => { removeListener: () => void };
 
-const keyboardListener: Listener<KeyboardEvent, string> = (
+export const keyboardListener: Listener<KeyboardEvent, string> = (
   callback,
   options,
 ) => {
@@ -64,7 +57,10 @@ const keyboardListener: Listener<KeyboardEvent, string> = (
   };
 };
 
-const mouseListener: Listener<MouseEvent, MouseKeys> = (callback, options) => {
+export const mouseListener: Listener<MouseEvent, MouseKeys> = (
+  callback,
+  options,
+) => {
   const handleEvent = (event: MouseEvent) => {
     // Any key
     if (!options?.key) {
@@ -100,43 +96,6 @@ const mouseListener: Listener<MouseEvent, MouseKeys> = (callback, options) => {
     removeListener: () => {
       window.removeEventListener("mousedown", onMousedownEvent, options);
       window.removeEventListener("mouseup", onMouseupEvent, options);
-    },
-  };
-};
-
-// Publics
-export const useKeyListener: KeyListener = (callback, keys) => {
-  const removeListenersList: (() => void)[] = [];
-
-  useEffect(() => {
-    keys.forEach((key) => {
-      if (key) {
-        switch (key) {
-          case MouseKeys.LEFT_BUTTON:
-          case MouseKeys.RIGHT_BUTTON:
-          case MouseKeys.MIDDLE_BUTTON:
-            removeListenersList.push(
-              mouseListener((pressing) => callback(pressing, key), { key })
-                .removeListener,
-            );
-            break;
-
-          default:
-            removeListenersList.push(
-              keyboardListener((pressing) => callback(pressing, key), {
-                key,
-              }).removeListener,
-            );
-            break;
-        }
-      }
-    });
-
-    return () => removeListenersList.forEach((remove) => remove());
-  }, [callback, keys]);
-  return {
-    removeListener: () => {
-      removeListenersList.forEach((remove) => remove());
     },
   };
 };
