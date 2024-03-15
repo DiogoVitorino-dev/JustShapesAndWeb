@@ -1,12 +1,10 @@
-import { render, renderHook } from "@testing-library/react-native";
+import { act, render, renderHook } from "@testing-library/react-native";
 import Animated from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
-import { ShakeAnimation, useShakeAnimation } from "@/animations/effects/shake";
+import { useShakeAnimation } from "@/animations/effects/shake";
 
 describe("Shake effect - Animation tests", () => {
-  let anim: ShakeAnimation;
-
   beforeEach(() => {
     jest.useFakeTimers();
   });
@@ -15,13 +13,17 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should run animation", () => {
-    renderHook(() => {
-      anim = useShakeAnimation(1000, 100, { frequency: 2 });
+    const anim = renderHook(() =>
+      useShakeAnimation(1000, 100, { frequency: 2 }),
+    );
+
+    const { root } = render(
+      <Animated.View style={anim.result.current.animatedStyle} />,
+    );
+
+    act(() => {
+      anim.result.current.run();
     });
-
-    const { root } = render(<Animated.View style={anim.animatedStyle} />);
-
-    anim.run();
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -41,16 +43,20 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should only shake to LEFT edge on Horizontal axis", () => {
-    renderHook(() => {
-      anim = useShakeAnimation(1000, 100, {
+    const anim = renderHook(() =>
+      useShakeAnimation(1000, 100, {
         frequency: 2,
         horizontal: "start",
-      });
+      }),
+    );
+
+    const { root } = render(
+      <Animated.View style={anim.result.current.animatedStyle} />,
+    );
+
+    act(() => {
+      anim.result.current.run();
     });
-
-    const { root } = render(<Animated.View style={anim.animatedStyle} />);
-
-    anim.run();
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -64,16 +70,20 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should only shake to RIGHT edge on Horizontal axis", () => {
-    renderHook(() => {
-      anim = useShakeAnimation(1000, 100, {
+    const anim = renderHook(() =>
+      useShakeAnimation(1000, 100, {
         frequency: 2,
         horizontal: "end",
-      });
+      }),
+    );
+
+    const { root } = render(
+      <Animated.View style={anim.result.current.animatedStyle} />,
+    );
+
+    act(() => {
+      anim.result.current.run();
     });
-
-    const { root } = render(<Animated.View style={anim.animatedStyle} />);
-
-    anim.run();
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -87,16 +97,20 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should only shake to TOP edge on Vertical axis", () => {
-    renderHook(() => {
-      anim = useShakeAnimation(1000, 100, {
+    const anim = renderHook(() =>
+      useShakeAnimation(1000, 100, {
         frequency: 2,
         vertical: "start",
-      });
+      }),
+    );
+
+    const { root } = render(
+      <Animated.View style={anim.result.current.animatedStyle} />,
+    );
+
+    act(() => {
+      anim.result.current.run();
     });
-
-    const { root } = render(<Animated.View style={anim.animatedStyle} />);
-
-    anim.run();
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -110,16 +124,20 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should only shake to BOTTOM edge on Vertical axis", () => {
-    renderHook(() => {
-      anim = useShakeAnimation(1000, 100, {
+    const anim = renderHook(() =>
+      useShakeAnimation(1000, 100, {
         frequency: 2,
         vertical: "end",
-      });
+      }),
+    );
+
+    const { root } = render(
+      <Animated.View style={anim.result.current.animatedStyle} />,
+    );
+
+    act(() => {
+      anim.result.current.run();
     });
-
-    const { root } = render(<Animated.View style={anim.animatedStyle} />);
-
-    anim.run();
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);

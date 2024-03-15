@@ -12,7 +12,7 @@ import {
 import { RunnableAnimation, StylizedAnimation } from "../animations.type";
 
 import { AnimatedStyleApp } from "@/constants/commonTypes";
-import { useTimeoutValue } from "@/hooks";
+import { useTimeoutUI } from "@/hooks";
 import { MathUtils } from "@/utils/mathUtils";
 
 export type ShakeImpact = "start" | "end" | "all";
@@ -65,7 +65,7 @@ export function useShakeAnimation(
 ): ShakeAnimation {
   const shakeY = useSharedValue(0);
   const shakeX = useSharedValue(0);
-  const timer = useTimeoutValue(duration);
+  const timer = useTimeoutUI(duration);
   impact = { ...InitialImpact, ...impact };
 
   const animatedStyle: AnimatedStyleApp = useAnimatedStyle(() => ({
@@ -73,7 +73,7 @@ export function useShakeAnimation(
   }));
 
   const run = () => {
-    if (timer.value) {
+    if (!timer.result.value) {
       const springConfig: WithSpringConfig = {
         duration: duration / 2,
         dampingRatio: 2,
