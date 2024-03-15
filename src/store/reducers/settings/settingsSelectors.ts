@@ -1,16 +1,28 @@
-import { GameCommands, KeyboardKeys } from "@/settings/keyboardSettings";
+import { createSelector } from "@reduxjs/toolkit";
+
+import {
+  GameCommands,
+  KeyboardCommand,
+  KeyboardKeys,
+} from "@/settings/keyboardSettings";
 import { RootState } from "@/store";
 
 export const selectKeyboardSettings = (state: RootState) =>
   state.settings.data.keyboard;
 
-export const selectGameCommands = (state: RootState) => {
-  let commands!: Record<keyof typeof GameCommands, KeyboardKeys>;
-  state.settings.data.keyboard.keys.forEach(({ command, ...others }) => {
-    commands[command] = { ...others };
-  });
-  return commands;
-};
+type GameCommandsObject = Record<keyof typeof GameCommands, KeyboardKeys>;
+export const selectGameCommands = createSelector(
+  (state: RootState) => state.settings.data.keyboard.keys,
+  (keys: KeyboardCommand[]) => {
+    return keys.reduce(
+      (prev, { command, ...others }) => ({
+        ...prev,
+        [command]: others,
+      }),
+      {} as GameCommandsObject,
+    );
+  },
+);
 
 export const selectAudioSettings = (state: RootState) =>
   state.settings.data.audio;
