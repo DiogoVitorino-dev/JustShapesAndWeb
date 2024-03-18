@@ -92,7 +92,7 @@ export function AnalogicDirectional({
     },
     (currentValue, previousValue) => {
       if (currentValue !== previousValue && onMove) {
-        const angle = AnglesUtils.calculateAngle(pos.value.x, pos.value.y);
+        const angle = AnglesUtils.getAngleFromPosition(pos.value.x, pos.value.y);
 
         const data = normalizeData({
           angle,

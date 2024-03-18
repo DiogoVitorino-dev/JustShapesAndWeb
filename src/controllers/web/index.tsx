@@ -99,7 +99,7 @@ export default function WebControl({ onMove, velocity = 3 }: WebControlProps) {
         x,
         y,
         jumping: jumping.value,
-        angle: AnglesUtils.calculateAngle(x, y),
+        angle: AnglesUtils.getAngleFromPosition(x, y),
       };
     },
     (currentValue, previousValue) => {
