@@ -5,7 +5,7 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 
-import { useRectangleSmashAnimation } from "@/animations/attacks/rectangleSmash";
+import { AnimatedAttacks } from "@/animations/attacks";
 import { AnimationEffects } from "@/animations/effects";
 import { AnimatedView, View } from "@/components/shared";
 import Controller from "@/controllers";
@@ -14,11 +14,7 @@ import Circle, {
   CirclePosition,
   CircleRadius,
 } from "@/models/geometric/circle";
-import Rectangle, {
-  RectanglePosition,
-  RectangleAngle,
-  RectangleSize,
-} from "@/models/geometric/rectangle";
+import { RectanglePosition } from "@/models/geometric/rectangle";
 import Player from "@/models/player";
 import { AnimatedCollidableObject } from "@/scripts/collision/collision.types";
 import useCollisionSystem from "@/scripts/collision/useCollisionSystem";
@@ -81,24 +77,7 @@ export default function Sandbox() {
   );
 
   const rectPosition: RectanglePosition = useSharedValue({ x: 500, y: 100 });
-  const rectAngle: RectangleAngle = useSharedValue(0);
-  const rectSize: RectangleSize = useSharedValue({ height: 100, width: 100 });
   const backgroundColor = useSharedValue<ColorValue>("tomato");
-
-  const smash = useRectangleSmashAnimation(rectSize, {
-    prepareDuration: 2000,
-    smashTo: "horizontal",
-  }).run();
-
-  const hitBoxRect: AnimatedCollidableObject = useDerivedValue(
-    () => ({
-      shape: "RECTANGLE",
-      angle: rectAngle.value,
-      ...rectSize.value,
-      ...rectPosition.value,
-    }),
-    [rectPosition, rectSize, rectAngle],
-  );
 
   const { animatedStyle, run } = AnimationEffects.useShakeAnimation();
   useCollisionSystem(
@@ -109,7 +88,7 @@ export default function Sandbox() {
       }
     },
     [hitBoxPlayer],
-    [hitBoxRect, hitBoxCircle],
+    [hitBoxCircle],
   );
 
   const backgroundStyle = useAnimatedStyle(() => ({
@@ -121,12 +100,7 @@ export default function Sandbox() {
       <AnimatedView style={[styles.container, animatedStyle]}>
         <Player position={movementPlayer} angle={anglePlayer} />
 
-        <Rectangle
-          style={[smash.animatedStyle, backgroundStyle]}
-          position={rectPosition}
-          angle={rectAngle}
-          size={rectSize}
-        />
+        <AnimatedAttacks.RectangleSmash position={rectPosition} />
 
         <Circle
           position={circPosition}

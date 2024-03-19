@@ -1,7 +1,7 @@
-import * as grenade from "./grenade";
-import * as rectangleSmash from "./rectangleSmash";
+import { Grenade } from "./grenade";
+import { RectangleSmash } from "./rectangleSmash";
 
-export const AnimationAttacks = {
-  ...rectangleSmash,
-  ...grenade,
+export const AnimatedAttacks = {
+  Grenade,
+  RectangleSmash,
 };

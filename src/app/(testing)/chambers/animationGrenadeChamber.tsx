@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Button, StyleSheet } from "react-native";
 
-import { AnimationAttacks } from "@/animations/attacks";
+import { AnimatedAttacks } from "@/animations/attacks";
 import { AnimatedView } from "@/components/shared";
 
 export default function AnimationGrenadeChamber() {
   const [boom, setBoom] = useState(false);
   return (
     <AnimatedView style={[styles.container]}>
-      <AnimationAttacks.Grenade
+      <AnimatedAttacks.Grenade
         x={200}
         y={670}
         start={boom}
@@ -17,7 +17,7 @@ export default function AnimationGrenadeChamber() {
         fragments={10}
         numbersOfReps={5}
       />
-      <AnimationAttacks.Grenade
+      <AnimatedAttacks.Grenade
         x={400}
         y={400}
         start={boom}
@@ -25,7 +25,7 @@ export default function AnimationGrenadeChamber() {
         distance={800}
         fragments={10}
       />
-      <AnimationAttacks.Grenade
+      <AnimatedAttacks.Grenade
         x={600}
         y={100}
         start={boom}
@@ -33,7 +33,7 @@ export default function AnimationGrenadeChamber() {
         distance={800}
         fragments={10}
       />
-      <AnimationAttacks.Grenade
+      <AnimatedAttacks.Grenade
         x={800}
         y={600}
         start={boom}
