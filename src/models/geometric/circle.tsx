@@ -1,13 +1,21 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { SharedValue, useAnimatedStyle } from "react-native-reanimated";
+import {
+  SharedValue,
+  useAnimatedStyle,
+  useDerivedValue,
+} from "react-native-reanimated";
 
 import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import { AnimatedPosition, AnimatedStyleApp } from "@/constants/commonTypes";
+import {
+  AnimatedPosition,
+  AnimatedStyleApp,
+  Position,
+} from "@/constants/commonTypes";
 
-export type CirclePosition = AnimatedPosition;
-export type CircleRadius = SharedValue<number>;
+export type CirclePosition = AnimatedPosition | Position;
+export type CircleRadius = SharedValue<number> | number;
 
 interface CircleProps {
   position: CirclePosition;
@@ -16,12 +24,20 @@ interface CircleProps {
 }
 
 export default function Circle({ position, diameter, style }: CircleProps) {
+  const size = useDerivedValue(() =>
+    typeof diameter === "number" ? diameter : diameter.value,
+  );
+
+  const pos = useDerivedValue(() =>
+    "value" in position ? position.value : position,
+  );
+
   const animatedStyle = useAnimatedStyle(() => ({
-    width: diameter.value,
-    height: diameter.value,
-    top: position.value.y,
-    left: position.value.x,
-    borderRadius: diameter.value / 2,
+    width: size.value,
+    height: size.value,
+    top: pos.value.y,
+    left: pos.value.x,
+    borderRadius: size.value / 2,
   }));
   return (
     <AnimatedView
