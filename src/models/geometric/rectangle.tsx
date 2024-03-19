@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { useAnimatedStyle } from "react-native-reanimated";
+import { useAnimatedStyle, useDerivedValue } from "react-native-reanimated";
 
 import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
@@ -9,37 +9,54 @@ import {
   AnimatedPosition,
   AnimatedSize,
   AnimatedStyleApp,
+  Position,
+  Size,
+  Angle,
 } from "@/constants/commonTypes";
 
-export type RectanglePosition = AnimatedPosition;
-export type RectangleSize = AnimatedSize;
-export type RectangleAngle = AnimatedAngle;
+export type RectanglePosition = AnimatedPosition | Position;
+export type RectangleSize = AnimatedSize | Size;
+export type RectangleAngle = AnimatedAngle | Angle;
 
-interface RectangleProps {
-  position: RectanglePosition;
+export interface RectangleProps {
+  position?: RectanglePosition;
   angle?: RectangleAngle;
   size?: RectangleSize;
   style?: AnimatedStyleApp;
 }
 
 export default function Rectangle({
-  position,
-  angle,
+  position = { x: 0, y: 0 },
+  angle = 0,
+  size = { width: 50, height: 100 },
   style,
-  size,
 }: RectangleProps) {
+  const derivedPosition = useDerivedValue(() =>
+    "value" in position ? position.value : position,
+  );
+  const derivedSize = useDerivedValue(() =>
+    "value" in size ? size.value : size,
+  );
+  const derivedAngle = useDerivedValue(() =>
+    typeof angle === "number" ? angle : angle.value,
+  );
+
   const animatedStyle = useAnimatedStyle(() => ({
-    width: size?.value.width || 50,
-    height: size?.value.height || 100,
-    top: position.value.y,
-    left: position.value.x,
-    transform: [{ rotate: angle?.value + "deg" }],
+    width: derivedSize.value.width,
+    height: derivedSize.value.height,
+    top: derivedPosition.value.y,
+    left: derivedPosition.value.x,
+    transform: [{ rotate: derivedAngle.value + "deg" }],
   }));
 
   return (
     <AnimatedView
       testID="rectangleModel"
-      style={[animatedStyle, styles.default, style]}
+      style={
+        Array.isArray(style)
+          ? style.concat([animatedStyle, styles.default])
+          : [animatedStyle, styles.default, style]
+      }
     />
   );
 }
