@@ -2,12 +2,12 @@ import { Stack } from "expo-router";
 
 export default function ChambersLayout() {
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="index"
         options={{
           title: "Test Chambers List",
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <Stack.Screen
@@ -44,6 +44,12 @@ export default function ChambersLayout() {
         name="useMovementSystemChamber"
         options={{
           title: "Movement System chamber",
+        }}
+      />
+      <Stack.Screen
+        name="animationGrenadeChamber"
+        options={{
+          title: "Grenade Attack chamber",
         }}
       />
     </Stack>

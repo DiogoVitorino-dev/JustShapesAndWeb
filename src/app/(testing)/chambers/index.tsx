@@ -108,6 +108,7 @@ export default function TestChamberList() {
       section: Sections.Animations,
       data: [
         { name: "Shaker Animation", to: "/chambers/animationShakeChamber" },
+        { name: "Grenade Attack", to: "/chambers/animationGrenadeChamber" },
       ],
     },
     {
