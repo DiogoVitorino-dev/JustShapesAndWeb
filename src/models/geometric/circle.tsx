@@ -8,36 +8,46 @@ import {
 
 import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import {
-  AnimatedPosition,
-  AnimatedStyleApp,
-  Position,
-} from "@/constants/commonTypes";
+import { AnimatedStyleApp, Diameter, Position } from "@/constants/commonTypes";
 
-export type CirclePosition = AnimatedPosition | Position;
-export type CircleRadius = SharedValue<number> | number;
+export interface CircleData extends Partial<Position> {
+  diameter?: Diameter;
+}
 
-interface CircleProps {
-  position: CirclePosition;
-  diameter: CircleRadius;
+export interface CircleProps {
+  data?: SharedValue<CircleData> | CircleData;
   style?: AnimatedStyleApp;
 }
 
-export default function Circle({ position, diameter, style }: CircleProps) {
-  const size = useDerivedValue(() =>
-    typeof diameter === "number" ? diameter : diameter.value,
-  );
+const initialValues: Required<CircleData> = {
+  diameter: 50,
+  x: 0,
+  y: 0,
+};
 
-  const pos = useDerivedValue(() =>
-    "value" in position ? position.value : position,
-  );
+export default function Circle({ data, style }: CircleProps) {
+  const derivedData = useDerivedValue<Required<CircleData>>(() => {
+    const { diameter, x, y } = initialValues;
+    if (data && "value" in data) {
+      return {
+        diameter: data.value.diameter || diameter,
+        x: data.value.x || x,
+        y: data.value.y || y,
+      };
+    }
+    return {
+      diameter: data?.diameter || diameter,
+      x: data?.x || x,
+      y: data?.y || y,
+    };
+  });
 
   const animatedStyle = useAnimatedStyle(() => ({
-    width: size.value,
-    height: size.value,
-    top: pos.value.y,
-    left: pos.value.x,
-    borderRadius: size.value / 2,
+    width: derivedData.value.diameter,
+    height: derivedData.value.diameter,
+    top: derivedData.value.y,
+    left: derivedData.value.x,
+    borderRadius: derivedData.value.diameter / 2,
   }));
   return (
     <AnimatedView

@@ -12,6 +12,8 @@ export interface Size {
   height: number;
 }
 
+export type Diameter = number;
+
 export type Angle = number;
 
 export type AnimatedPosition = SharedValue<Position>;

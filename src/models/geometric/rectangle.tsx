@@ -1,52 +1,65 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { useAnimatedStyle, useDerivedValue } from "react-native-reanimated";
+import {
+  SharedValue,
+  useAnimatedStyle,
+  useDerivedValue,
+} from "react-native-reanimated";
 
 import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import {
-  AnimatedAngle,
-  AnimatedPosition,
-  AnimatedSize,
   AnimatedStyleApp,
   Position,
   Size,
   Angle,
 } from "@/constants/commonTypes";
 
-export type RectanglePosition = AnimatedPosition | Position;
-export type RectangleSize = AnimatedSize | Size;
-export type RectangleAngle = AnimatedAngle | Angle;
+export interface RectangleData extends Partial<Position>, Partial<Size> {
+  angle?: Angle;
+}
 
 export interface RectangleProps {
-  position?: RectanglePosition;
-  angle?: RectangleAngle;
-  size?: RectangleSize;
+  data?: SharedValue<RectangleData> | RectangleData;
   style?: AnimatedStyleApp;
 }
 
-export default function Rectangle({
-  position = { x: 0, y: 0 },
-  angle = 0,
-  size = { width: 50, height: 100 },
-  style,
-}: RectangleProps) {
-  const derivedPosition = useDerivedValue(() =>
-    "value" in position ? position.value : position,
-  );
-  const derivedSize = useDerivedValue(() =>
-    "value" in size ? size.value : size,
-  );
-  const derivedAngle = useDerivedValue(() =>
-    typeof angle === "number" ? angle : angle.value,
-  );
+const initialValues: Required<RectangleData> = {
+  x: 0,
+  y: 0,
+  angle: 0,
+  width: 50,
+  height: 100,
+};
+
+export default function Rectangle({ data, style }: RectangleProps) {
+  const derivedData = useDerivedValue<Required<RectangleData>>(() => {
+    const { x, y, angle, width, height } = initialValues;
+
+    if (data && "value" in data) {
+      return {
+        x: data.value.x || x,
+        y: data.value.y || y,
+        angle: data.value.angle || angle,
+        width: data.value.width || width,
+        height: data.value.height || height,
+      };
+    }
+    return {
+      x: data?.x || x,
+      y: data?.y || y,
+      angle: data?.angle || angle,
+      width: data?.width || width,
+      height: data?.height || height,
+    };
+  });
 
   const animatedStyle = useAnimatedStyle(() => ({
-    width: derivedSize.value.width,
-    height: derivedSize.value.height,
-    top: derivedPosition.value.y,
-    left: derivedPosition.value.x,
-    transform: [{ rotate: derivedAngle.value + "deg" }],
+    width: derivedData.value.width,
+    height: derivedData.value.height,
+    top: derivedData.value.y,
+    left: derivedData.value.x,
+    transform: [{ rotate: derivedData.value.angle + "deg" }],
   }));
 
   return (
