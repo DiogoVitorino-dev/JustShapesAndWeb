@@ -1,4 +1,5 @@
 import {
+  SharedValue,
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
@@ -8,13 +9,13 @@ import {
 
 import { StylizedAnimation } from "../animations.type";
 
-import { PlayerAngle, PlayerPosition } from "@/models/player";
+import { Angle, Position } from "@/constants/commonTypes";
 
 export interface PlayerMovementAnimation extends StylizedAnimation {}
 
 export function usePlayerMovementAnimation(
-  position: PlayerPosition,
-  angle: PlayerAngle,
+  position: Readonly<SharedValue<Position>>,
+  angle: Readonly<SharedValue<Angle>>,
 ): PlayerMovementAnimation {
   const scaleY = useSharedValue(1);
   const bounce = useSharedValue(1);

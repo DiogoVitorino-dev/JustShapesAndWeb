@@ -15,6 +15,7 @@ import MusicProvider from "@/audio/music";
 import SoundProvider from "@/audio/sound";
 import HeadphoneHint from "@/components/menu/headphoneHint";
 import Colors from "@/constants/Colors";
+import CollisionSystemProvider from "@/scripts/collision/collisionSystemProvider";
 import { store } from "@/store";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
 
@@ -73,7 +74,9 @@ export default function RootLayout() {
       <Provider store={store}>
         <MusicProvider>
           <SoundProvider>
-            <RootLayoutNav />
+            <CollisionSystemProvider>
+              <RootLayoutNav />
+            </CollisionSystemProvider>
           </SoundProvider>
         </MusicProvider>
       </Provider>

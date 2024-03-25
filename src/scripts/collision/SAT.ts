@@ -15,13 +15,11 @@ import { Size, Position } from "@/constants/commonTypes";
 // Separating Axis Theorem (SAT) for collision detection
 // Voronoi Regions for Circles collision detection
 
-interface SATObject extends Position {}
-
-export interface SATRectangle extends SATObject, Size {
-  angle: number;
+export interface SATRectangle extends Partial<Position>, Size {
+  angle?: number;
 }
 
-export interface SATCircle extends SATObject {
+export interface SATCircle extends Partial<Position> {
   diameter: number;
 }
 
@@ -85,7 +83,7 @@ const createPolygonFromBox = ({ angle, height, width, x, y }: SATRectangle) => {
   };
 
   const rotatePoints = newPoly.points.map((point) => {
-    const { x, y } = rotate(angle, { x: point.x, y: point.y }, center);
+    const { x, y } = rotate(angle || 0, { x: point.x, y: point.y }, center);
     point.x = x;
     point.y = y;
     return point;
@@ -97,7 +95,10 @@ const createPolygonFromBox = ({ angle, height, width, x, y }: SATRectangle) => {
 };
 
 const createCircle = ({ diameter, x, y }: SATCircle) =>
-  new Circle(new Vector(x + diameter / 2, y + diameter / 2), diameter / 2);
+  new Circle(
+    new Vector((x || 0) + diameter / 2, (y || 0) + diameter / 2),
+    diameter / 2,
+  );
 
 const rotate = (angle: number, { x, y }: Position, center: Position) => {
   angle = (angle * Math.PI) / 180;

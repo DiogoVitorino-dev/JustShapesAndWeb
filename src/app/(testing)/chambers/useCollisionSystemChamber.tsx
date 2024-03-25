@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, StyleSheet } from "react-native";
 import {
   useAnimatedStyle,
@@ -10,65 +10,69 @@ import {
 
 import { AnimatedView, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import { Position } from "@/constants/commonTypes";
-import { AnimatedCollidableObject } from "@/scripts/collision/collision.types";
-import useCollisionSystem from "@/scripts/collision/useCollisionSystem";
 import { AnalogicDirectional } from "@/controllers/mobile/directional";
+import Rectangle, { RectangleData } from "@/models/geometric/rectangle";
+import {
+  CollidableRectangle,
+  useCollisionSystem,
+} from "@/scripts/collision/collisionSystemProvider";
 
 export default function UseCollisionSystemChamber() {
   const bg = useSharedValue(Colors.entity.player);
-  const posOb = useSharedValue<Position>({ x: 200, y: 100 });
+  const { addTarget, collided } = useCollisionSystem();
 
-  const targetHitbox: AnimatedCollidableObject = useSharedValue({
-    shape: "RECTANGLE",
+  const target = useSharedValue<CollidableRectangle>({
+    x: 100,
+    y: 100,
     angle: 0,
     width: 50,
     height: 50,
-    x: 100,
-    y: 100,
+    collidable: true,
   });
 
   const animatedTarget = useAnimatedStyle(() => ({
-    top: targetHitbox.value.y,
-    left: targetHitbox.value.x,
+    width: target.value.width,
+    height: target.value.height,
+    top: target.value.y,
+    left: target.value.x,
     backgroundColor: bg.value,
+    transform: [{ rotate: `${target.value.angle || 0}deg` }],
   }));
 
-  const objectHitbox: AnimatedCollidableObject = useDerivedValue(() => ({
-    shape: "RECTANGLE",
-    angle: 0,
+  const objectPos = useSharedValue({ x: 200, y: 100 });
+  const object = useDerivedValue<RectangleData>(() => ({
+    ...objectPos.value,
     width: 50,
     height: 50,
-    x: posOb.value.x,
-    y: posOb.value.y,
+    collidable: true,
   }));
 
-  const animatedObject = useAnimatedStyle(() => ({
-    top: objectHitbox.value.y,
-    left: objectHitbox.value.x,
-  }));
-
-  useCollisionSystem(
-    (collided) => {
-      bg.value = collided ? "indigo" : Colors.entity.player;
-    },
-    [targetHitbox],
-    [objectHitbox],
-  );
   const triggerCollision = () => {
-    posOb.value = withRepeat(
-      withTiming({ x: 120, y: 100 }, { duration: 200 }),
+    objectPos.value = withRepeat(
+      withTiming({ ...objectPos.value, x: 120 }, { duration: 500 }),
       -1,
       true,
     );
   };
+
+  useEffect(() => {
+    bg.value = collided ? "indigo" : Colors.entity.player;
+  }, [collided]);
+
+  useEffect(() => {
+    const remove = addTarget(target);
+    return () => {
+      remove();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.controls}>
         <Button title="trigger collision" onPress={triggerCollision} />
       </View>
       <AnimatedView style={[styles.target, animatedTarget]} />
-      <AnimatedView style={[styles.object, animatedObject]} />
+      <Rectangle data={object} style={[styles.object]} />
       <AnalogicDirectional />
     </View>
   );

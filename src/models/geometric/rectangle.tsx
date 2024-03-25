@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import {
   SharedValue,
+  runOnJS,
+  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
 } from "react-native-reanimated";
@@ -14,12 +16,21 @@ import {
   Size,
   Angle,
 } from "@/constants/commonTypes";
+import { useCollisionSystem } from "@/hooks";
+import type {
+  Collidable,
+  ForceRemoveCollidableObject,
+} from "@/scripts/collision/collisionSystemProvider";
 
-export interface RectangleData extends Partial<Position>, Partial<Size> {
+export interface RectangleData
+  extends Partial<Position>,
+    Partial<Size>,
+    Partial<Collidable> {
   angle?: Angle;
 }
 
 export interface RectangleProps {
+  collisionMode?: "target" | "object";
   data?: SharedValue<RectangleData> | RectangleData;
   style?: AnimatedStyleApp;
 }
@@ -30,11 +41,20 @@ const initialValues: Required<RectangleData> = {
   angle: 0,
   width: 50,
   height: 100,
+  collidable: false,
 };
 
-export default function Rectangle({ data, style }: RectangleProps) {
+type RemoveListeners = { collision: () => void };
+
+export default function Rectangle({
+  data,
+  collisionMode,
+  style,
+}: RectangleProps) {
+  const [removeListeners, setRemoveListeners] = useState<RemoveListeners>();
+  const { addObject, addTarget } = useCollisionSystem();
   const derivedData = useDerivedValue<Required<RectangleData>>(() => {
-    const { x, y, angle, width, height } = initialValues;
+    const { x, y, angle, width, height, collidable } = initialValues;
 
     if (data && "value" in data) {
       return {
@@ -43,6 +63,7 @@ export default function Rectangle({ data, style }: RectangleProps) {
         angle: data.value.angle || angle,
         width: data.value.width || width,
         height: data.value.height || height,
+        collidable: data.value.collidable || collidable,
       };
     }
     return {
@@ -51,6 +72,7 @@ export default function Rectangle({ data, style }: RectangleProps) {
       angle: data?.angle || angle,
       width: data?.width || width,
       height: data?.height || height,
+      collidable: data?.collidable || collidable,
     };
   });
 
@@ -61,6 +83,31 @@ export default function Rectangle({ data, style }: RectangleProps) {
     left: derivedData.value.x,
     transform: [{ rotate: derivedData.value.angle + "deg" }],
   }));
+
+  useAnimatedReaction(
+    () => derivedData.value.collidable,
+    (curr, prev) => {
+      if (curr !== prev && curr) {
+        let forceRemover: ForceRemoveCollidableObject;
+        if (collisionMode === "target") {
+          forceRemover = addTarget(derivedData);
+        } else {
+          forceRemover = addObject(derivedData);
+        }
+        runOnJS(setRemoveListeners)({ collision: forceRemover });
+      }
+    },
+  );
+
+  useEffect(
+    () => () => {
+      if (removeListeners)
+        Object.values(removeListeners).forEach((remove) => {
+          remove();
+        });
+    },
+    [removeListeners],
+  );
 
   return (
     <AnimatedView

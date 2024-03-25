@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ColorValue, StyleSheet } from "react-native";
 import {
   useAnimatedStyle,
@@ -10,14 +11,9 @@ import { AnimationEffects } from "@/animations/effects";
 import { AnimatedView, View } from "@/components/shared";
 import Controller from "@/controllers";
 import { ControlData } from "@/controllers/controllers.type";
-import Circle, {
-  CirclePosition,
-  CircleRadius,
-} from "@/models/geometric/circle";
-import { RectanglePosition } from "@/models/geometric/rectangle";
-import Player from "@/models/player";
-import { AnimatedCollidableObject } from "@/scripts/collision/collision.types";
-import useCollisionSystem from "@/scripts/collision/useCollisionSystem";
+import { useCollisionSystem } from "@/hooks";
+import Circle, { CircleData } from "@/models/geometric/circle";
+import Player, { PlayerData } from "@/models/player";
 import { MovableObject } from "@/scripts/movement/movement.type";
 import useJump from "@/scripts/movement/useJump";
 import { useMovementSystem } from "@/scripts/movement/useMovementSystem";
@@ -35,6 +31,7 @@ export default function Sandbox() {
   const jumpPlayer = useSharedValue(false);
 
   useMovementSystem(movementPlayer);
+  const { collided } = useCollisionSystem();
 
   const handleOnMove = async ({ angle, x, y, jumping }: ControlData) => {
     "worklet";
@@ -51,12 +48,12 @@ export default function Sandbox() {
 
   const runningJump = useJump(jumpPlayer, movementPlayer);
 
-  const hitBoxPlayer: AnimatedCollidableObject = useDerivedValue(
+  const player = useDerivedValue<PlayerData>(
     () => ({
-      shape: "RECTANGLE",
       angle: anglePlayer.value,
       width: 20,
       height: 20,
+      collidable: true,
       ignoreCollision: runningJump.value,
       x: movementPlayer.value.x,
       y: movementPlayer.value.y,
@@ -64,32 +61,23 @@ export default function Sandbox() {
     [anglePlayer, movementPlayer, runningJump],
   );
 
-  const circPosition: CirclePosition = useSharedValue({ x: 200, y: 100 });
-  const circSize: CircleRadius = useSharedValue(100);
+  const circleData: CircleData = {
+    x: 200,
+    y: 100,
+    diameter: 100,
+    collidable: true,
+  };
 
-  const hitBoxCircle: AnimatedCollidableObject = useDerivedValue(
-    () => ({
-      shape: "CIRCLE",
-      diameter: circSize.value,
-      ...circPosition.value,
-    }),
-    [circPosition, circSize],
-  );
-
-  const rectPosition: RectanglePosition = useSharedValue({ x: 500, y: 100 });
   const backgroundColor = useSharedValue<ColorValue>("tomato");
 
   const { animatedStyle, run } = AnimationEffects.useShakeAnimation();
-  useCollisionSystem(
-    (collided) => {
-      backgroundColor.value = collided ? "indigo" : "tomato";
-      if (collided) {
-        run();
-      }
-    },
-    [hitBoxPlayer],
-    [hitBoxCircle],
-  );
+
+  useEffect(() => {
+    backgroundColor.value = collided ? "indigo" : "tomato";
+    if (collided) {
+      run();
+    }
+  }, [collided]);
 
   const backgroundStyle = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value,
@@ -98,15 +86,11 @@ export default function Sandbox() {
   return (
     <View style={styles.container}>
       <AnimatedView style={[styles.container, animatedStyle]}>
-        <Player position={movementPlayer} angle={anglePlayer} />
+        <Player data={player} />
 
-        <AnimatedAttacks.RectangleSmash position={rectPosition} />
+        <AnimatedAttacks.RectangleSmash />
 
-        <Circle
-          position={circPosition}
-          diameter={circSize}
-          style={[backgroundStyle]}
-        />
+        <Circle data={circleData} style={[backgroundStyle]} />
       </AnimatedView>
 
       <Controller onMove={handleOnMove} velocity={2} />
