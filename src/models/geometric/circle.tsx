@@ -31,7 +31,9 @@ const initialValues: Required<CircleData> = {
   diameter: 50,
   x: 0,
   y: 0,
-  collidable: false,
+  collidable: {
+    enabled: false,
+  },
 };
 type RemoveListeners = { collision: () => void };
 
@@ -66,7 +68,7 @@ export default function Circle({ data, collisionMode, style }: CircleProps) {
   }));
 
   useAnimatedReaction(
-    () => derivedData.value.collidable,
+    () => derivedData.value.collidable.enabled,
     (curr, prev) => {
       if (curr !== prev && curr) {
         let forceRemover: ForceRemoveCollidableObject;

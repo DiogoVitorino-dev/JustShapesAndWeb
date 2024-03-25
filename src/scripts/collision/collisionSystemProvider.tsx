@@ -12,7 +12,16 @@ import { collisionDetector } from "./collisionDetector";
 export type ForceRemoveCollidableObject = () => void;
 
 export interface Collidable {
-  collidable: boolean;
+  collidable: {
+    /**
+     * Add and Remove the object from the Collision System. `NOTE:` If you only need to disable collision for a period of time, use `ignore` instead
+     */
+    enabled: boolean;
+    /**
+     * Makes the object ignore collisions
+     */
+    ignore?: boolean;
+  };
 }
 export type CollidableCircle = SATCircle & Collidable;
 export type CollidableRectangle = SATRectangle & Collidable;
@@ -23,8 +32,26 @@ export type AddCollidableObject = (
 ) => ForceRemoveCollidableObject;
 
 export interface CollisionSystem {
+  /**
+   * Changes to `true` if any collision is happening
+   */
   collided: boolean;
+  /**
+   * add a `target` to check the collision with the other `object` added through `addObject`
+   * - `Param target` A value with the collidable property enabled that you want to check for collisions
+   * - `Returns` A Function to force remove the `target` from Collision System. `NOTE:` If removed you will need to call `addTarget` again
+   *
+   *TIP: You can remove this object just by making the `collidable.enable` property false
+   */
   addTarget: AddCollidableObject;
+
+  /**
+   * add a `object` to check the collision with the other `target` added through `addTarget`
+   * - `Param object` A value with the collidable property enabled that you want to check for collisions
+   * - `Returns` A Function to force remove the `object` from Collision System. `NOTE:` If removed you will need to call `addObject` again
+   *
+   *TIP: You can remove this object just by making the `collidable.enable` property false
+   */
   addObject: AddCollidableObject;
 }
 
@@ -101,7 +128,7 @@ export default function CollisionSystemProvider({
       });
 
       //If the object is deactivated, it will be removed
-      if (!value.collidable) {
+      if (!value.collidable.enabled) {
         runOnJS(setActiveCollector)(true);
         object.removeListener(index);
       }
@@ -134,11 +161,11 @@ export default function CollisionSystemProvider({
   const garbageCollector = () => {
     "worklet";
     objects.modify((mutateList: CollidableObjects[]) => {
-      return mutateList.filter((item) => item.collidable);
+      return mutateList.filter((item) => item.collidable.enabled);
     });
 
     targets.modify((mutateList: CollidableObjects[]) => {
-      return mutateList.filter((item) => item.collidable);
+      return mutateList.filter((item) => item.collidable.enabled);
     });
   };
 

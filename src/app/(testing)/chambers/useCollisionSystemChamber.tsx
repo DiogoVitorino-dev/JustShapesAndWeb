@@ -11,11 +11,9 @@ import {
 import { AnimatedView, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { AnalogicDirectional } from "@/controllers/mobile/directional";
+import { useCollisionSystem } from "@/hooks";
 import Rectangle, { RectangleData } from "@/models/geometric/rectangle";
-import {
-  CollidableRectangle,
-  useCollisionSystem,
-} from "@/scripts/collision/collisionSystemProvider";
+import { CollidableRectangle } from "@/scripts/collision/collisionSystemProvider";
 
 export default function UseCollisionSystemChamber() {
   const bg = useSharedValue(Colors.entity.player);
@@ -27,7 +25,7 @@ export default function UseCollisionSystemChamber() {
     angle: 0,
     width: 50,
     height: 50,
-    collidable: true,
+    collidable: { enabled: true },
   });
 
   const animatedTarget = useAnimatedStyle(() => ({
@@ -44,7 +42,7 @@ export default function UseCollisionSystemChamber() {
     ...objectPos.value,
     width: 50,
     height: 50,
-    collidable: true,
+    collidable: { enabled: true },
   }));
 
   const triggerCollision = () => {

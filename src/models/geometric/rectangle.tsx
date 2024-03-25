@@ -41,7 +41,9 @@ const initialValues: Required<RectangleData> = {
   angle: 0,
   width: 50,
   height: 100,
-  collidable: false,
+  collidable: {
+    enabled: false,
+  },
 };
 
 type RemoveListeners = { collision: () => void };
@@ -85,7 +87,7 @@ export default function Rectangle({
   }));
 
   useAnimatedReaction(
-    () => derivedData.value.collidable,
+    () => derivedData.value.collidable.enabled,
     (curr, prev) => {
       if (curr !== prev && curr) {
         let forceRemover: ForceRemoveCollidableObject;

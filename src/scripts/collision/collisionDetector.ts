@@ -15,11 +15,16 @@ export const collisionDetector: CollisionDetector = (targets, objects) =>
       objects: CollidableObjects[] = [],
     ) {
       const collided = targets.some((target) => {
-        const verification = target?.collidable ? verifyTarget(target) : null;
+        const verification =
+          target?.collidable.enabled && !target?.collidable.ignore
+            ? verifyTarget(target)
+            : null;
 
         if (verification)
           return objects.some((object) =>
-            object?.collidable ? verifyObject(object, verification) : false,
+            object?.collidable.enabled && !target?.collidable.ignore
+              ? verifyObject(object, verification)
+              : false,
           );
       });
 

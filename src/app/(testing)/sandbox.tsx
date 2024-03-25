@@ -53,8 +53,7 @@ export default function Sandbox() {
       angle: anglePlayer.value,
       width: 20,
       height: 20,
-      collidable: true,
-      ignoreCollision: runningJump.value,
+      collidable: { enabled: true, ignore: runningJump.value },
       x: movementPlayer.value.x,
       y: movementPlayer.value.y,
     }),
@@ -65,7 +64,7 @@ export default function Sandbox() {
     x: 200,
     y: 100,
     diameter: 100,
-    collidable: true,
+    collidable: { enabled: true },
   };
 
   const backgroundColor = useSharedValue<ColorValue>("tomato");
