@@ -51,7 +51,7 @@ export default function Player({ data, style }: PlayerProps) {
     ...position.value,
     ...size.value,
     angle: angle.value,
-    collidable: true,
+    collidable: { enabled: true },
   }));
 
   useEffect(() => {
