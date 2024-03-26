@@ -31,6 +31,7 @@ const ButtonMenuEffect = forwardRef<Svg, CustomSvgProps>(
               width="50%"
               height="100%"
               fill={fill || "#000"}
+              skewX={25}
               scale={scale}
             />
           </Svg>
