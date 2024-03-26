@@ -10,7 +10,6 @@ import {
   Easing,
   WithSpringConfig,
   WithTimingConfig,
-  runOnJS,
   runOnUI,
   useAnimatedStyle,
   useSharedValue,
@@ -68,16 +67,10 @@ export default function ButtonMenu({
     opacity: opacity.value,
   }));
 
-  const startPaddingAnimation = runOnUI(
-    (toValue: number, onAnimationFinish?: () => void) => {
-      "worklet";
-      horizontalScale.value = withSpring(toValue, paddingConfig, (fin) => {
-        if (fin && onAnimationFinish) {
-          runOnJS(onAnimationFinish)();
-        }
-      });
-    },
-  );
+  const startPaddingAnimation = runOnUI((toValue: number) => {
+    "worklet";
+    horizontalScale.value = withSpring(toValue, paddingConfig);
+  });
 
   const entryAnimation = runOnUI(() => {
     "worklet";
@@ -126,12 +119,21 @@ export default function ButtonMenu({
     };
 
     if (horizontalScale.value === padding) {
-      startPaddingAnimation(paddingExpanded, callWhenAnimationFinished);
+      startPaddingAnimation(paddingExpanded);
     } else {
-      startPaddingAnimation(padding, callWhenAnimationFinished);
+      startPaddingAnimation(padding);
     }
 
-    opacity.value = withRepeat(withTiming(0.4, opacityConfig), 4, true);
+    opacity.value = withRepeat(
+      withTiming(0.4, opacityConfig),
+      4,
+      true,
+      (fin) => {
+        if (fin) {
+          callWhenAnimationFinished();
+        }
+      },
+    );
   };
 
   const hoverAudio = async () => play("hover");
