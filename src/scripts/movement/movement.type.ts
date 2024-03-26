@@ -1,6 +1,6 @@
 import { SharedValue } from "react-native-reanimated";
 
-import { Position, Size } from "@/constants/commonTypes";
+import { Diameter, Position, Size } from "@/constants/commonTypes";
 
 export interface MovementSpeed {
   speedY: number;
@@ -8,7 +8,7 @@ export interface MovementSpeed {
 }
 
 export interface MovableObject extends Position, MovementSpeed {
-  size: Size | number;
+  size: Size | Diameter;
   ignoreSceneLimits?: boolean;
 }
 
