@@ -5,13 +5,15 @@ import {
   cancelAnimation as cancel,
   runOnUI,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
 
 import { Position } from "@/constants/commonTypes";
-import Circle from "@/models/geometric/circle";
+import Circle, { CircleData } from "@/models/geometric/circle";
+import { Collidable } from "@/scripts/collision/collisionSystemProvider";
 import { AnglesUtils } from "@/utils/angleUtils";
 
 export interface GrenadeFragmentProps extends Partial<Position> {
@@ -37,12 +39,25 @@ export default function GrenadeFragment({
   const opacity = useSharedValue(0);
   const durationOpacity = duration / 8;
 
+  const collision = useSharedValue<Collidable["collidable"]>({
+    enabled: true,
+    ignore: true,
+  });
+
+  const circle = useDerivedValue<CircleData>(() => ({
+    ...position.value,
+    diameter: size,
+    collidable: { ...collision.value },
+  }));
+
   const positionTiming: WithTimingConfig = {
     duration,
     easing: Easing.inOut(Easing.linear),
   };
 
   const endAnimation = runOnUI(() => {
+    collision.value = { ...collision.value, ignore: true };
+
     opacity.value = withTiming(0, { duration: durationOpacity }, (fin) => {
       if (fin) {
         position.value = { x, y };
@@ -68,6 +83,7 @@ export default function GrenadeFragment({
         }
       },
     );
+    collision.value = { ...collision.value, ignore: false };
   });
 
   const cancelAnimation = runOnUI(() => {
@@ -88,5 +104,5 @@ export default function GrenadeFragment({
     }
   }, [start]);
 
-  return <Circle position={position} diameter={size} style={animatedStyle} />;
+  return <Circle data={circle} style={animatedStyle} />;
 }

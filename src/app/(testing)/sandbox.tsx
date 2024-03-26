@@ -87,7 +87,25 @@ export default function Sandbox() {
       <AnimatedView style={[styles.container, animatedStyle]}>
         <Player data={player} />
 
-        <AnimatedAttacks.RectangleSmash />
+        <AnimatedAttacks.RectangleSmash start />
+        <AnimatedAttacks.Grenade
+          x={500}
+          y={150}
+          numbersOfReps={-1}
+          duration={2000}
+          distance={1000}
+          fragments={20}
+          start
+        />
+        <AnimatedAttacks.Grenade
+          x={800}
+          y={300}
+          numbersOfReps={-1}
+          duration={2000}
+          distance={1000}
+          fragments={20}
+          start
+        />
 
         <Circle data={circleData} style={[backgroundStyle]} />
       </AnimatedView>

@@ -3,11 +3,15 @@ import { useWindowDimensions } from "react-native";
 import {
   Easing,
   WithTimingConfig,
+  useDerivedValue,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
-import Rectangle, { RectangleProps } from "@/models/geometric/rectangle";
+import Rectangle, {
+  RectangleData,
+  RectangleProps,
+} from "@/models/geometric/rectangle";
 
 export type SmashDirection = "horizontal" | "vertical";
 
@@ -19,7 +23,7 @@ export interface RectangleSmashConfig {
 
 export interface RectangleSmashProps
   extends RectangleSmashConfig,
-    Omit<RectangleProps, "size"> {
+    RectangleProps {
   start?: boolean;
 }
 
@@ -32,7 +36,12 @@ export function RectangleSmash({
   ...rectangleProps
 }: RectangleSmashProps) {
   const { width, height } = useWindowDimensions();
-  const size = useSharedValue({ width: 600, height: 200 });
+
+  const size = useSharedValue({ width: 100, height: 80 });
+  const rect = useDerivedValue<RectangleData>(() => ({
+    ...size.value,
+    collidable: { enabled: true },
+  }));
   const prepareValue = prepareAmount;
 
   const prepareTimingConfig: WithTimingConfig = {
@@ -110,6 +119,6 @@ export function RectangleSmash({
   }, [start]);
 
   return (
-    <Rectangle size={size} style={[{ opacity }, style]} {...rectangleProps} />
+    <Rectangle data={rect} style={[{ opacity }, style]} {...rectangleProps} />
   );
 }
