@@ -5,11 +5,11 @@ exports[`Circle model - Snapshot test Should renders correctly 1`] = `
   animatedStyle={
     {
       "value": {
-        "borderRadius": 45,
-        "height": 90,
+        "borderRadius": 25,
+        "height": 50,
         "left": 25,
         "top": 50,
-        "width": 90,
+        "width": 50,
       },
     }
   }
@@ -17,12 +17,12 @@ exports[`Circle model - Snapshot test Should renders correctly 1`] = `
   style={
     {
       "backgroundColor": "rgb(255, 64, 20)",
-      "borderRadius": 45,
-      "height": 90,
+      "borderRadius": 25,
+      "height": 50,
       "left": 25,
       "position": "absolute",
       "top": 50,
-      "width": 90,
+      "width": 50,
     }
   }
   testID="circleModel"

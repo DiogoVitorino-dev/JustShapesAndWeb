@@ -5,15 +5,15 @@ exports[`Rectangle model - Snapshot test Should renders correctly 1`] = `
   animatedStyle={
     {
       "value": {
-        "height": 50,
+        "height": 100,
         "left": 25,
         "top": 50,
         "transform": [
           {
-            "rotate": "90deg",
+            "rotate": "0deg",
           },
         ],
-        "width": 100,
+        "width": 50,
       },
     }
   }
@@ -21,16 +21,16 @@ exports[`Rectangle model - Snapshot test Should renders correctly 1`] = `
   style={
     {
       "backgroundColor": "rgb(255, 64, 20)",
-      "height": 50,
+      "height": 100,
       "left": 25,
       "position": "absolute",
       "top": 50,
       "transform": [
         {
-          "rotate": "90deg",
+          "rotate": "0deg",
         },
       ],
-      "width": 100,
+      "width": 50,
     }
   }
   testID="rectangleModel"

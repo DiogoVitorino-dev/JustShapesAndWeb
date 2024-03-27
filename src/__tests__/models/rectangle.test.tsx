@@ -2,25 +2,11 @@ import { render, renderHook } from "@testing-library/react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
-import Rectangle, {
-  RectangleAngle,
-  RectanglePosition,
-  RectangleSize,
-} from "@/models/geometric/rectangle";
+import Rectangle, { RectangleData } from "@/models/geometric/rectangle";
 
 describe("Rectangle - Model tests", () => {
-  let pos: RectanglePosition;
-  let size: RectangleSize;
-  let angle: RectangleAngle;
-
   beforeEach(() => {
     jest.useFakeTimers();
-
-    renderHook(() => {
-      pos = useSharedValue({ x: 0, y: 0 });
-      size = useSharedValue({ width: 50, height: 50 });
-      angle = useSharedValue(0);
-    });
   });
 
   afterEach(() => {
@@ -28,13 +14,14 @@ describe("Rectangle - Model tests", () => {
   });
 
   it("Should move a model", () => {
-    const { getByTestId } = render(<Rectangle angle={angle} position={pos} />);
+    const data = renderHook(() =>
+      useSharedValue<RectangleData>({ x: 10, y: 10 }),
+    );
+    const { getByTestId } = render(<Rectangle data={data.result.current} />);
 
     const view = getByTestId("rectangleModel");
 
-    pos.value = { x: 50, y: 100 };
-
-    angle.value = 90;
+    data.result.current.value = { x: 50, y: 100, angle: 90 };
 
     jest.advanceTimersByTime(1000);
 
@@ -45,9 +32,12 @@ describe("Rectangle - Model tests", () => {
   });
 
   it("Should change angle", () => {
-    const { getByTestId } = render(<Rectangle angle={angle} position={pos} />);
+    const data = renderHook(() =>
+      useSharedValue<RectangleData>({ x: 10, y: 10 }),
+    );
+    const { getByTestId } = render(<Rectangle data={data.result.current} />);
 
-    angle.value = 90;
+    data.result.current.value = { angle: 90 };
 
     jest.advanceTimersByTime(1500);
 
@@ -57,11 +47,12 @@ describe("Rectangle - Model tests", () => {
   });
 
   it("Should change size", () => {
-    const { getByTestId } = render(
-      <Rectangle angle={angle} position={pos} size={size} />,
+    const data = renderHook(() =>
+      useSharedValue<RectangleData>({ width: 50, height: 50 }),
     );
+    const { getByTestId } = render(<Rectangle data={data.result.current} />);
 
-    size.value = { width: 100, height: 150 };
+    data.result.current.value = { width: 100, height: 150 };
 
     jest.advanceTimersByTime(1000);
 

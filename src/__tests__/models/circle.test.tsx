@@ -2,22 +2,11 @@ import { render, renderHook } from "@testing-library/react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
-import Circle, {
-  CirclePosition,
-  CircleRadius,
-} from "@/models/geometric/circle";
+import Circle, { CircleData } from "@/models/geometric/circle";
 
 describe("Circle - Model tests", () => {
-  let pos: CirclePosition;
-  let diameter: CircleRadius;
-
   beforeEach(() => {
     jest.useFakeTimers();
-
-    renderHook(() => {
-      pos = useSharedValue({ x: 0, y: 0 });
-      diameter = useSharedValue(50);
-    });
   });
 
   afterEach(() => {
@@ -25,13 +14,17 @@ describe("Circle - Model tests", () => {
   });
 
   it("Should move a model", () => {
-    const { getByTestId } = render(
-      <Circle diameter={diameter} position={pos} />,
+    const data = renderHook(() =>
+      useSharedValue<CircleData>({
+        x: 0,
+        y: 0,
+      }),
     );
+    const { getByTestId } = render(<Circle data={data.result.current} />);
 
     const view = getByTestId("circleModel");
 
-    pos.value = { x: 50, y: 100 };
+    data.result.current.value = { x: 50, y: 100 };
 
     jest.advanceTimersByTime(1000);
 
@@ -42,11 +35,10 @@ describe("Circle - Model tests", () => {
   });
 
   it("Should change diameter", () => {
-    const { getByTestId } = render(
-      <Circle diameter={diameter} position={pos} />,
-    );
+    const data = renderHook(() => useSharedValue<CircleData>({ diameter: 0 }));
+    const { getByTestId } = render(<Circle data={data.result.current} />);
 
-    diameter.value = 90;
+    data.result.current.value = { diameter: 90 };
 
     jest.advanceTimersByTime(1500);
 

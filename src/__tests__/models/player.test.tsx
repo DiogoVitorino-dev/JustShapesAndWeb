@@ -2,25 +2,11 @@ import { render, renderHook } from "@testing-library/react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
-import Player, {
-  PlayerAngle,
-  PlayerPosition,
-  PlayerSize,
-} from "@/models/player";
+import Player, { PlayerData } from "@/models/player";
 
 describe("Player - Model tests", () => {
-  let pos: PlayerPosition;
-  let size: PlayerSize;
-  let angle: PlayerAngle;
-
   beforeEach(() => {
     jest.useFakeTimers();
-
-    renderHook(() => {
-      pos = useSharedValue({ x: 0, y: 0 });
-      size = useSharedValue({ width: 50, height: 50 });
-      angle = useSharedValue(0);
-    });
   });
 
   afterEach(() => {
@@ -28,13 +14,17 @@ describe("Player - Model tests", () => {
   });
 
   it("Should move a model", () => {
-    const { getByTestId } = render(<Player angle={angle} position={pos} />);
+    const data = renderHook(() =>
+      useSharedValue<PlayerData>({
+        x: 0,
+        y: 0,
+      }),
+    );
+    const { getByTestId } = render(<Player data={data.result.current} />);
 
     const view = getByTestId("playerModel");
 
-    pos.value = { x: 50, y: 100 };
-
-    angle.value = 90;
+    data.result.current.value = { x: 50, y: 100, angle: 90 };
 
     jest.advanceTimersByTime(1000);
 
@@ -45,9 +35,10 @@ describe("Player - Model tests", () => {
   });
 
   it("Should change angle", () => {
-    const { getByTestId } = render(<Player angle={angle} position={pos} />);
+    const data = renderHook(() => useSharedValue<PlayerData>({ angle: 0 }));
+    const { getByTestId } = render(<Player data={data.result.current} />);
 
-    angle.value = 90;
+    data.result.current.value = { angle: 90 };
 
     jest.advanceTimersByTime(1500);
 
@@ -57,11 +48,12 @@ describe("Player - Model tests", () => {
   });
 
   it("Should change size", () => {
-    const { getByTestId } = render(
-      <Player angle={angle} position={pos} size={size} />,
+    const data = renderHook(() =>
+      useSharedValue<PlayerData>({ width: 50, height: 50 }),
     );
+    const { getByTestId } = render(<Player data={data.result.current} />);
 
-    size.value = { width: 100, height: 150 };
+    data.result.current.value = { width: 100, height: 150 };
 
     jest.advanceTimersByTime(1000);
 
