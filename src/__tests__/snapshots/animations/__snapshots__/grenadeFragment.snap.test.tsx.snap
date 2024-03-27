@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Grenade Fragment - Snapshot animation test should render correctly 1`] = `
+<View
+  animatedStyle={
+    {
+      "value": {
+        "borderRadius": 5,
+        "height": 10,
+        "left": 0,
+        "opacity": 0,
+        "top": 0,
+        "width": 10,
+      },
+    }
+  }
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "rgb(255, 64, 20)",
+      "borderRadius": 5,
+      "height": 10,
+      "left": 0,
+      "opacity": 0,
+      "position": "absolute",
+      "top": 0,
+      "width": 10,
+    }
+  }
+  testID="circleModel"
+/>
+`;
