@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Audio Slider - Snapshot component test should render correctly 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    [
+      {
+        "backgroundColor": "rgb(3, 38, 25)",
+      },
+      [
+        {
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+      ],
+      {
+        "backgroundColor": "transparent",
+      },
+    ]
+  }
+>
+  <View
+    accessibilityIgnoresInvertColors={true}
+  >
+    <Image
+      source={1}
+      style={
+        [
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          {
+            "height": undefined,
+            "width": undefined,
+          },
+          [
+            {
+              "height": undefined,
+              "width": undefined,
+            },
+            {
+              "marginLeft": 16,
+            },
+          ],
+        ]
+      }
+    />
+    <View
+      accessibilityIgnoresInvertColors={true}
+      style={
+        [
+          {
+            "height": undefined,
+            "width": 0,
+          },
+          {
+            "marginLeft": 16,
+          },
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+        ]
+      }
+    >
+      <Image
+        source={1}
+        style={
+          [
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            {
+              "height": undefined,
+              "width": 0,
+            },
+            {
+              "height": undefined,
+              "width": undefined,
+            },
+          ]
+        }
+      />
+    </View>
+  </View>
+  <RNCSlider
+    disabled={false}
+    inverted={false}
+    lowerLimit={-9007199254740991}
+    maximumTrackTintColor="transparent"
+    maximumValue={100}
+    minimumTrackTintColor="transparent"
+    minimumValue={0}
+    onChange={[Function]}
+    onRNCSliderAccessibilityAction={null}
+    onRNCSliderSlidingComplete={null}
+    onRNCSliderSlidingStart={null}
+    onRNCSliderValueChange={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    step={10}
+    style={
+      {
+        "height": 40,
+      }
+    }
+    tapToSeek={true}
+    thumbTintColor="transparent"
+    upperLimit={9007199254740991}
+    value={0}
+  />
+</View>
+`;

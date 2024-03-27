@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Audio Volume - Snapshot component test should render correctly 1`] = `
+<View
+  animatedStyle={
+    {
+      "value": {},
+    }
+  }
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "rgb(3, 38, 25)",
+      "flexDirection": "column",
+      "justifyContent": "space-around",
+      "width": 375,
+    }
+  }
+>
+  <View
+    style={
+      [
+        {
+          "backgroundColor": "rgb(3, 38, 25)",
+        },
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginBottom": 16,
+          "paddingHorizontal": 16,
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "transparent",
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "color": "rgb(245, 245, 245)",
+            "fontSize": 22,
+          },
+          [
+            undefined,
+            {
+              "fontFamily": "Manjari",
+              "marginBottom": -3,
+            },
+          ],
+        ]
+      }
+    >
+      test
+    </Text>
+    <Text
+      style={
+        [
+          {
+            "color": "rgb(168, 168, 168)",
+            "fontSize": 18,
+          },
+          [
+            undefined,
+            {
+              "fontFamily": "Manjari",
+              "marginBottom": -3,
+            },
+          ],
+        ]
+      }
+    >
+      0
+    </Text>
+  </View>
+  <View
+    onLayout={[Function]}
+    style={
+      [
+        {
+          "backgroundColor": "rgb(3, 38, 25)",
+        },
+        [
+          {
+            "justifyContent": "center",
+            "overflow": "hidden",
+          },
+        ],
+        {
+          "backgroundColor": "transparent",
+        },
+      ]
+    }
+  >
+    <View
+      accessibilityIgnoresInvertColors={true}
+    >
+      <Image
+        source={1}
+        style={
+          [
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            {
+              "height": undefined,
+              "width": undefined,
+            },
+            [
+              {
+                "height": undefined,
+                "width": undefined,
+              },
+              {
+                "marginLeft": 16,
+              },
+            ],
+          ]
+        }
+      />
+      <View
+        accessibilityIgnoresInvertColors={true}
+        style={
+          [
+            {
+              "height": undefined,
+              "width": 0,
+            },
+            {
+              "marginLeft": 16,
+            },
+            {
+              "overflow": "hidden",
+              "position": "absolute",
+            },
+          ]
+        }
+      >
+        <Image
+          source={1}
+          style={
+            [
+              {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              {
+                "height": undefined,
+                "width": 0,
+              },
+              {
+                "height": undefined,
+                "width": undefined,
+              },
+            ]
+          }
+        />
+      </View>
+    </View>
+    <RNCSlider
+      disabled={false}
+      inverted={false}
+      lowerLimit={-9007199254740991}
+      maximumTrackTintColor="transparent"
+      maximumValue={100}
+      minimumTrackTintColor="transparent"
+      minimumValue={0}
+      onChange={[Function]}
+      onRNCSliderAccessibilityAction={null}
+      onRNCSliderSlidingComplete={null}
+      onRNCSliderSlidingStart={null}
+      onRNCSliderValueChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      step={10}
+      style={
+        [
+          {
+            "width": 375,
+          },
+          {
+            "height": 40,
+          },
+        ]
+      }
+      tapToSeek={true}
+      thumbTintColor="transparent"
+      upperLimit={9007199254740991}
+      value={0}
+    />
+  </View>
+</View>
+`;

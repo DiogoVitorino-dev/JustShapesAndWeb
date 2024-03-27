@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu Square - Snapshot component test should render correctly 1`] = `
+<View
+  animatedStyle={
+    {
+      "value": {
+        "backgroundColor": "rgb(8, 94, 63)",
+        "borderRadius": 3,
+        "height": 189,
+        "left": 547,
+        "opacity": 0.4,
+        "position": "absolute",
+        "top": 724,
+        "transform": [
+          {
+            "rotate": "-163deg",
+          },
+          {
+            "scale": 1,
+          },
+        ],
+        "width": 17,
+      },
+    }
+  }
+  collapsable={false}
+  style={
+    {
+      "backgroundColor": "rgb(8, 94, 63)",
+      "borderRadius": 3,
+      "height": 189,
+      "left": 547,
+      "opacity": 0.4,
+      "position": "absolute",
+      "top": 724,
+      "transform": [
+        {
+          "rotate": "-163deg",
+        },
+        {
+          "scale": 1,
+        },
+      ],
+      "width": 17,
+    }
+  }
+/>
+`;

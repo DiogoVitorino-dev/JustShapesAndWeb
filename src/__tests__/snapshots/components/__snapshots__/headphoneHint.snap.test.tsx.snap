@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Headphone Hint - Snapshot component test should render correctly 1`] = `
+<View
+  animatedStyle={
+    {
+      "value": {},
+    }
+  }
+  collapsable={false}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "rgb(3, 38, 25)",
+      "flex": 1,
+      "justifyContent": "center",
+      "width": "100%",
+    }
+  }
+>
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(3, 38, 25)",
+        "opacity": 0,
+        "transform": [
+          {
+            "scale": 1,
+          },
+          {
+            "translateY": 0,
+          },
+        ],
+      }
+    }
+  >
+    <Text />
+  </View>
+  <Text
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "color": "rgb(245, 245, 245)",
+        "fontFamily": "Manjari",
+        "fontSize": 22,
+        "marginBottom": -3,
+        "opacity": 0,
+        "transform": [
+          {
+            "translateY": -0,
+          },
+        ],
+      }
+    }
+  >
+    Use fones de ouvido para melhor experiência
+  </Text>
+  <View
+    collapsable={false}
+    style={
+      [
+        {
+          "backgroundColor": "rgb(3, 38, 25)",
+        },
+        [
+          {
+            "height": "100%",
+            "position": "absolute",
+            "width": "50%",
+          },
+          {
+            "width": "100%",
+          },
+        ],
+        {
+          "backgroundColor": "transparent",
+        },
+      ]
+    }
+  >
+    <View
+      animatedStyle={
+        {
+          "value": {
+            "left": 0,
+            "opacity": 0,
+            "top": 0,
+            "transform": [
+              {
+                "scale": 1,
+              },
+            ],
+          },
+        }
+      }
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "rgb(20, 210, 255)",
+          "borderRadius": 0,
+          "borderWidth": 3,
+          "height": 0,
+          "left": 0,
+          "opacity": 0,
+          "top": 0,
+          "transform": [
+            {
+              "scale": 1,
+            },
+          ],
+          "width": 0,
+          "zIndex": 1000,
+        }
+      }
+    />
+  </View>
+</View>
+`;

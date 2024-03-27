@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu Button Effect - Snapshot component test should render correctly 1`] = `
+<RNSVGSvgView
+  bbHeight="100%"
+  bbWidth="90%"
+  focusable={false}
+  height="100%"
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": "100%",
+        "width": "90%",
+      },
+    ]
+  }
+  width="90%"
+>
+  <RNSVGGroup
+    fill={
+      {
+        "payload": 4278190080,
+        "type": 0,
+      }
+    }
+  >
+    <RNSVGRect
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      height="100%"
+      propList={
+        [
+          "fill",
+          "strokeWidth",
+        ]
+      }
+      strokeWidth="1"
+      width="50%"
+      x="0"
+      y="0"
+    />
+    <RNSVGRect
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      height="100%"
+      matrix={
+        [
+          1,
+          0,
+          0.4663076581549986,
+          1,
+          0,
+          0,
+        ]
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+      width="50%"
+      x="0"
+      y="0"
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;
