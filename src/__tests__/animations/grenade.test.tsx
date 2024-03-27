@@ -123,4 +123,6 @@ describe("Grenade Attack - Animation tests", () => {
 
     expect(style.left).toBe(50);
   });
+
+  test.todo("Should collide with player");
 });
