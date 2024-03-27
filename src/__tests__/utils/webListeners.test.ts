@@ -3,6 +3,81 @@
  */
 
 import { ListenersUtils } from "@/utils/listenersUtils";
+import { ListenerCallback } from "@/utils/listenersUtils/webListeners";
+
+describe("testing keyboardListener - Web Listeners Utils tests", () => {
+  const { keyboardListener } = ListenersUtils.web;
+  const callback = jest.fn<void, Parameters<ListenerCallback<KeyboardEvent>>>(
+    (pressed, event) => {},
+  );
+
+  afterEach(() => callback.mockClear());
+
+  it("Should return multiple key presses", async () => {
+    const { removeListener } = keyboardListener(callback);
+
+    let event = new KeyboardEvent("keydown", { key: "a" });
+    window.dispatchEvent(event);
+    expect(callback).toHaveBeenCalledWith(true, event);
+
+    event = new KeyboardEvent("keydown", { key: "p" });
+    window.dispatchEvent(event);
+    expect(callback).toHaveBeenLastCalledWith(true, event);
+
+    removeListener();
+  });
+
+  it("Should return the specified keypress", async () => {
+    const { removeListener } = keyboardListener(callback, { key: "k" });
+
+    let event = new KeyboardEvent("keydown", { key: "a" });
+    window.dispatchEvent(event);
+    expect(callback).not.toHaveBeenCalled();
+
+    event = new KeyboardEvent("keydown", { key: "k" });
+    window.dispatchEvent(event);
+    expect(callback).toHaveBeenLastCalledWith(true, event);
+
+    removeListener();
+  });
+
+  it("Should cancel the listener", async () => {
+    keyboardListener(callback).removeListener();
+
+    window.dispatchEvent(new KeyboardEvent("keydown", { key: "u" }));
+    expect(callback).not.toHaveBeenCalled();
+  });
+});
+
+describe("testing mouseListener - Web Listeners Utils tests", () => {
+  const { mouseListener, MouseKeys } = ListenersUtils.web;
+  const callback = jest.fn<void, Parameters<ListenerCallback<MouseEvent>>>(
+    (key, event) => {},
+  );
+
+  afterEach(() => callback.mockClear());
+
+  it.each([
+    [MouseKeys.LEFT_BUTTON, 0],
+    [MouseKeys.RIGHT_BUTTON, 1],
+    [MouseKeys.MIDDLE_BUTTON, 2],
+  ])("Should return a pressed mouse button (%s)", (expectedKey, button) => {
+    const { removeListener } = mouseListener(callback);
+
+    const event = new MouseEvent("mousedown", { button });
+    window.dispatchEvent(event);
+    expect(callback).toHaveBeenCalledWith(true, event);
+
+    removeListener();
+  });
+
+  it("Should cancel the listener", async () => {
+    mouseListener(callback).removeListener();
+
+    window.dispatchEvent(new MouseEvent("mousedown", { button: 0 }));
+    expect(callback).not.toHaveBeenCalledWith();
+  });
+});
 
 describe("testing listenKey - Web Listeners Utils tests", () => {
   const { listenKey, MouseKeys } = ListenersUtils.web;

@@ -8,13 +8,13 @@ export type ListenKey = (callback: (key: string | null) => void) => {
   removeListener: () => void;
 };
 
-// Internal
-type ListenerCallback<EventType> = (
+export type ListenerCallback<EventType> = (
   pressing: boolean,
   event: EventType,
 ) => void;
 
-interface ListenerOptions<KeyType = never> extends AddEventListenerOptions {
+export interface ListenerOptions<KeyType = never>
+  extends AddEventListenerOptions {
   key?: KeyType;
 }
 
@@ -28,16 +28,12 @@ export const keyboardListener: Listener<KeyboardEvent, string> = (
   options,
 ) => {
   const handleEvent = (event: KeyboardEvent) => {
-    if (!options?.key) {
-      // Any key
-      return true;
-
-      // Specific key
-    } else if (options.key.toLowerCase() === event.key.toLowerCase()) {
-      return true;
+    // Specific key
+    if (options?.key) {
+      return options.key === event.key.toLowerCase();
     }
-
-    return false;
+    // Any key
+    return true;
   };
 
   const onKeydownEvent = (event: KeyboardEvent) =>
