@@ -2,11 +2,11 @@ import React, { forwardRef } from "react";
 import { ColorValue, Platform } from "react-native";
 import Svg, { Rect, SvgProps } from "react-native-svg";
 
-interface CustomSvgProps extends SvgProps {
+interface MenuButtonEffectProps extends SvgProps {
   fillBackdrop?: ColorValue;
 }
 
-const ButtonMenuEffect = forwardRef<Svg, CustomSvgProps>(
+const MenuButtonEffect = forwardRef<Svg, MenuButtonEffectProps>(
   ({ fill, scale, fillBackdrop, ...props }, ref) => {
     return (
       <Svg
@@ -49,4 +49,4 @@ const ButtonMenuEffect = forwardRef<Svg, CustomSvgProps>(
   },
 );
 
-export default ButtonMenuEffect;
+export default MenuButtonEffect;

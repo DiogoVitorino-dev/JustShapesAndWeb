@@ -19,7 +19,7 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-import ButtonMenuEffect from "./menuButtonEffect";
+import MenuButtonEffect from "./menuButtonEffect";
 import { AnimatedView, TextTitle, View } from "../shared";
 
 import { useSoundContext } from "@/audio/sound";
@@ -34,7 +34,7 @@ const paddingConfig: WithSpringConfig = {
   duration: 1000,
 };
 
-interface ButtonMenuProps {
+interface MenuButtonProps {
   href?: Href<string>;
   title?: string;
   index?: number;
@@ -42,13 +42,13 @@ interface ButtonMenuProps {
   style?: ViewStyle;
 }
 
-export default function ButtonMenu({
+export default function MenuButton({
   title,
   style,
   href,
   isStart = false,
   index = 0,
-}: ButtonMenuProps) {
+}: MenuButtonProps) {
   const { width } = useWindowDimensions();
   const router = useRouter();
   const padding = ((width / 15) * (index + 1)) / 2.1 + width / 15;
@@ -157,7 +157,7 @@ export default function ButtonMenu({
         </AnimatedView>
       </Pressable>
       <View transparent style={[styles.containerEffect]}>
-        <ButtonMenuEffect
+        <MenuButtonEffect
           fill={Colors.UI.text}
           fillBackdrop={Colors.UI.backdrop}
         />

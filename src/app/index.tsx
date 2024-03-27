@@ -4,7 +4,7 @@ import { StyleSheet, Text, useWindowDimensions } from "react-native";
 import { FadingTransition } from "react-native-reanimated";
 
 import MenuBackground from "@/components/menu/menuBackground";
-import ButtonMenu from "@/components/menu/menuButton";
+import MenuButton from "@/components/menu/menuButton";
 import { TextTitle, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { useAndroidBlur } from "@/hooks";
@@ -18,19 +18,19 @@ export default function Menu() {
   return (
     <MenuBackground layout={layoutAnimation} style={styles.container}>
       <View transparent style={styles.containerButtons}>
-        <ButtonMenu
+        <MenuButton
           title="Jogar"
           isStart
           style={{ marginVertical: 18, height: height / 5 }}
         />
-        <ButtonMenu
+        <MenuButton
           title="Opções"
           index={1}
           style={{ marginVertical: 18, height: height / 5 }}
           href="/settings/"
         />
         {__DEV__ ? (
-          <ButtonMenu
+          <MenuButton
             title="Testing"
             index={2}
             style={{ marginVertical: 18, height: height / 5 }}
