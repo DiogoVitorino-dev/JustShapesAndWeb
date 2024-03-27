@@ -8,41 +8,43 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-import Rectangle, {
-  RectangleData,
-  RectangleProps,
-} from "@/models/geometric/rectangle";
+import { AnimatedStyleApp, Position } from "@/constants/commonTypes";
+import Rectangle, { RectangleData } from "@/models/geometric/rectangle";
 
 export type SmashDirection = "horizontal" | "vertical";
 
-export interface RectangleSmashConfig {
+export interface RectangleSmashConfig extends Partial<Position> {
+  initialWidth?: number;
+  initialHeight?: number;
   smashTo?: SmashDirection;
   prepareDuration?: number;
   prepareAmount?: number;
 }
 
-export interface RectangleSmashProps
-  extends RectangleSmashConfig,
-    RectangleProps {
+export interface RectangleSmashProps extends RectangleSmashConfig {
   start?: boolean;
+  style?: AnimatedStyleApp;
 }
 
 export function RectangleSmash({
+  initialWidth = 100,
+  initialHeight = 80,
   prepareAmount = 70,
   prepareDuration = 2000,
+  x = 0,
+  y = 0,
   smashTo = "horizontal",
   start,
   style,
-  ...rectangleProps
 }: RectangleSmashProps) {
-  const { width, height } = useWindowDimensions();
-
-  const size = useSharedValue({ width: 100, height: 80 });
+  const window = useWindowDimensions();
+  const size = useSharedValue({ width: initialWidth, height: initialHeight });
   const rect = useDerivedValue<RectangleData>(() => ({
     ...size.value,
+    x,
+    y,
     collidable: { enabled: true },
   }));
-  const prepareValue = prepareAmount;
 
   const prepareTimingConfig: WithTimingConfig = {
     duration: prepareDuration,
@@ -61,7 +63,7 @@ export function RectangleSmash({
       "worklet";
       if (ready) {
         size.value = withTiming(
-          { width: size.value.width, height },
+          { width: size.value.width, height: window.height },
           attackTimingConfig,
         );
       }
@@ -71,7 +73,7 @@ export function RectangleSmash({
     size.value = withTiming(
       {
         width: size.value.width,
-        height: size.value.height + prepareValue,
+        height: size.value.height + prepareAmount,
       },
       prepareTimingConfig,
       (finished) => attack(finished),
@@ -83,7 +85,7 @@ export function RectangleSmash({
       "worklet";
       if (ready) {
         size.value = withTiming(
-          { width, height: size.value.height },
+          { width: window.width, height: size.value.height },
           attackTimingConfig,
         );
       }
@@ -92,7 +94,7 @@ export function RectangleSmash({
     opacity.value = 1;
     size.value = withTiming(
       {
-        width: size.value.width + prepareValue,
+        width: size.value.width + prepareAmount,
         height: size.value.height,
       },
       prepareTimingConfig,
@@ -118,7 +120,5 @@ export function RectangleSmash({
     }
   }, [start]);
 
-  return (
-    <Rectangle data={rect} style={[{ opacity }, style]} {...rectangleProps} />
-  );
+  return <Rectangle data={rect} style={[{ opacity }, style]} />;
 }

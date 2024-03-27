@@ -1,109 +1,120 @@
-import { render, renderHook } from "@testing-library/react-native";
-import { useWindowDimensions, ScaledSize } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
+import { render } from "@testing-library/react-native";
+import { useWindowDimensions } from "react-native";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
+import { act, renderHook, waitFor } from "test-utils";
 
-import {
-  RectangleSmashAnimation,
-  useRectangleSmashAnimation,
-} from "@/animations/attacks/rectangleSmash";
-import Rectangle, {
-  RectanglePosition,
-  RectangleSize,
-  RectangleAngle,
-} from "@/models/geometric/rectangle";
+import { RectangleSmash } from "@/animations/attacks/rectangleSmash";
 
 describe("Rectangle Smash Attack - Animation tests", () => {
-  let anim: RectangleSmashAnimation;
-  let pos: RectanglePosition;
-  let size: RectangleSize;
-  let angle: RectangleAngle;
-  let dim: ScaledSize;
+  const window = renderHook(() => useWindowDimensions());
 
   beforeEach(() => {
     jest.useFakeTimers();
-
-    renderHook(() => {
-      pos = useSharedValue({ x: 0, y: 0 });
-      size = useSharedValue({ width: 50, height: 50 });
-      angle = useSharedValue(0);
-      dim = useWindowDimensions();
-    });
   });
 
   afterEach(() => {
     jest.useRealTimers();
   });
 
-  it("Should run animation", () => {
-    renderHook(() => {
-      anim = useRectangleSmashAnimation(size);
-    });
+  it("Should run animation", async () => {
+    const { getByTestId } = render(
+      <RectangleSmash prepareDuration={100} start />,
+    );
 
-    const { root } = render(
-      <Rectangle
-        position={pos}
-        size={size}
-        angle={angle}
-        style={anim.animatedStyle}
+    let style!: Record<string, any>;
+
+    await waitFor(() =>
+      act(() => {
+        jest.advanceTimersByTime(250);
+        style = getAnimatedStyle(getByTestId("rectangleModel"));
+      }),
+    );
+
+    expect(style.width).toBe(window.result.current.width);
+  });
+
+  it("Should increment the size value according to the quantity and preparation time", async () => {
+    const { getByTestId } = render(
+      <RectangleSmash
+        initialWidth={100}
+        prepareDuration={100}
+        prepareAmount={100}
+        start
       />,
     );
 
-    anim.run();
-    jest.advanceTimersByTime(2150);
+    const view = getByTestId("rectangleModel");
 
-    const style = getAnimatedStyle(root);
-    expect(style.width.toFixed(0)).toBe(dim.width.toString());
-  });
+    let style!: Record<string, any>;
 
-  it("Should increment the size value according to the quantity and preparation time", () => {
-    renderHook(() => {
-      anim = useRectangleSmashAnimation(size, {
-        prepareAmount: 500,
-        prepareDuration: 1000,
-        smashTo: "horizontal",
-      });
+    await act(() => {
+      jest.advanceTimersByTime(100);
+      style = getAnimatedStyle(view);
     });
 
-    const { root } = render(
-      <Rectangle
-        position={pos}
-        size={size}
-        angle={angle}
-        style={anim.animatedStyle}
+    expect(style.width).toBeCloseTo(200.5, 0);
+
+    await act(() => {
+      jest.advanceTimersByTime(200);
+      style = getAnimatedStyle(view);
+    });
+
+    expect(style.width).toBe(window.result.current.width);
+  });
+
+  it("Should increment the size value according to the smash direction", async () => {
+    const { getByTestId } = render(<RectangleSmash smashTo="vertical" start />);
+
+    const view = getByTestId("rectangleModel");
+
+    let style!: Record<string, any>;
+
+    await act(() => {
+      jest.runAllTimers();
+      style = getAnimatedStyle(view);
+    });
+
+    expect(style.height).toBe(window.result.current.height);
+  });
+
+  it("Should have a different initial position and size", async () => {
+    const initial = {
+      width: 800,
+      height: 500,
+      x: 300,
+      y: 600,
+    };
+    const { getByTestId } = render(
+      <RectangleSmash
+        initialWidth={initial.width}
+        initialHeight={initial.height}
+        x={initial.x}
+        y={initial.y}
+        prepareDuration={100}
+        prepareAmount={100}
+        start
       />,
     );
 
-    anim.run();
-    jest.advanceTimersByTime(1000);
+    const view = getByTestId("rectangleModel");
 
-    let style = getAnimatedStyle(root);
-    expect(style.width.toFixed(0)).toBe("550");
+    let style = getAnimatedStyle(view);
 
-    jest.advanceTimersByTime(150);
+    expect(style.width).toBe(initial.width);
+    expect(style.height).toBe(initial.height);
+    expect(style.left).toBe(initial.x);
+    expect(style.top).toBe(initial.y);
 
-    style = getAnimatedStyle(root);
-    expect(style.width.toFixed(0)).toBe(dim.width.toString());
-  });
-
-  it("Should increment the size value according to the smash direction", () => {
-    renderHook(() => {
-      anim = useRectangleSmashAnimation(size, { smashTo: "vertical" });
+    await act(() => {
+      jest.runAllTimers();
+      style = getAnimatedStyle(view);
     });
 
-    const { root } = render(
-      <Rectangle
-        position={pos}
-        size={size}
-        angle={angle}
-        style={anim.animatedStyle}
-      />,
-    );
-
-    anim.run();
-    jest.advanceTimersByTime(2150);
-
-    const style = getAnimatedStyle(root);
-    expect(style.height.toFixed(0)).toBe(dim.height.toString());
+    expect(style.width).toBe(window.result.current.width);
+    expect(style.height).toBe(initial.height);
+    expect(style.left).toBe(initial.x);
+    expect(style.top).toBe(initial.y);
   });
+
+  test.todo("Should collide with player");
 });
