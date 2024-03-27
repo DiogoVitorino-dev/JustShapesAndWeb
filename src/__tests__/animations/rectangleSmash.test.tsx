@@ -1,7 +1,11 @@
-import { render } from "@testing-library/react-native";
+import {
+  act,
+  render,
+  renderHook,
+  waitFor,
+} from "@testing-library/react-native";
 import { useWindowDimensions } from "react-native";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
-import { act, renderHook, waitFor } from "test-utils";
 
 import { RectangleSmash } from "@/animations/attacks/rectangleSmash";
 

@@ -2,7 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { act, render } from "@/__tests__/testsUtils";
+import { act, render } from "@testing-library/react-native";
+
 import WebControl, { KeyboardData } from "@/controllers/web";
 
 const defaultKeys = {

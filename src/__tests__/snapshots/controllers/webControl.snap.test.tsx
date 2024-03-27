@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render } from "../../testsUtils";
+import { render } from "@testing-library/react-native";
 
 import WebControl from "@/controllers/web";
 

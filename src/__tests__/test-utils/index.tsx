@@ -13,5 +13,4 @@ const customRender = (ui: ReactElement, options?: RenderOptions) =>
     { ...options },
   );
 
-export * from "@testing-library/react-native";
 export { customRender as render };

@@ -2,9 +2,8 @@
  * @jest-environment jsdom
  */
 
+import { act, renderHook } from "@testing-library/react-native";
 import { useState } from "react";
-
-import { act, renderHook } from "../testsUtils";
 
 import { useKeyListener } from "@/hooks";
 import { MouseKeys } from "@/utils/listenersUtils/webListeners";
