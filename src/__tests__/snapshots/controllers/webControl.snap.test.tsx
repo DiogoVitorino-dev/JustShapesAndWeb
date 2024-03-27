@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render } from "../testsUtils";
+import { render } from "../../testsUtils";
 
 import WebControl from "@/controllers/web";
 
