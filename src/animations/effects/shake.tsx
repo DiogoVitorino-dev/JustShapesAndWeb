@@ -57,12 +57,14 @@ const InitialShakeImpactConfig: Required<ShakeImpactConfig> = {
   vertical: "all",
 };
 
-interface ShakeAnimationProps
+export interface ShakeProps
   extends ShakeConfig,
     RunnableAnimation,
     AnimationEffectProps {}
 
-export function Shake({
+type ShakeEffect = (props: ShakeProps) => React.JSX.Element;
+
+export const Shake: ShakeEffect = ({
   amount = 200,
   duration = 20,
   impact = InitialShakeImpactConfig,
@@ -71,7 +73,7 @@ export function Shake({
   children,
   onFinish,
   style,
-}: ShakeAnimationProps) {
+}) => {
   const shakeY = useSharedValue(0);
   const shakeX = useSharedValue(0);
   const timer = useTimeoutUI(duration);
@@ -141,4 +143,4 @@ export function Shake({
       {children}
     </Animated.View>
   );
-}
+};
