@@ -52,6 +52,12 @@ export default function ChambersLayout() {
           title: "Grenade Attack chamber",
         }}
       />
+      <Stack.Screen
+        name="animationFlashChamber"
+        options={{
+          title: "Flash Effect chamber",
+        }}
+      />
     </Stack>
   );
 }

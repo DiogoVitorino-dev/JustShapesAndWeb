@@ -65,6 +65,10 @@ const entity = {
   enemy: Orange["100"],
 };
 
+const effects = {
+  flash: White["100"],
+};
+
 const control = {
   button: Blue["100"],
   buttonBackground: Blue["40"],
@@ -88,4 +92,5 @@ export default {
   entity,
   control,
   settings,
+  effects,
 };
