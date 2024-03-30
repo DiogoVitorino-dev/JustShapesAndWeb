@@ -1,13 +1,19 @@
 import {
   act,
-  render,
   renderHook,
+  render,
   waitFor,
 } from "@testing-library/react-native";
 import { useWindowDimensions } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
+import { Wrapper } from "../test-utils";
+
 import { RectangleSmash } from "@/animations/attacks/rectangleSmash";
+import { useCollisionSystem } from "@/hooks";
+import Player, { PlayerData } from "@/models/player";
+import CollisionSystemProvider from "@/scripts/collision/collisionSystemProvider";
 
 describe("Rectangle Smash Attack - Animation tests", () => {
   const window = renderHook(() => useWindowDimensions());
@@ -120,5 +126,44 @@ describe("Rectangle Smash Attack - Animation tests", () => {
     expect(style.top).toBe(initial.y);
   });
 
-  test.todo("Should collide with player");
+  it.each([
+    ["Should collide", 500],
+    ["Should not collide", 50],
+  ])("%s with player", async (_, msToRun) => {
+    const data = renderHook(() =>
+      useSharedValue<PlayerData>({ width: 100, height: 100, x: 200, y: 0 }),
+    );
+
+    const wrapper: Wrapper = ({ children }) => (
+      <CollisionSystemProvider>
+        <RectangleSmash
+          initialWidth={50}
+          initialHeight={500}
+          prepareAmount={20}
+          prepareDuration={50}
+          y={0}
+          start
+        />
+        <Player data={data.result.current} />
+        {children}
+      </CollisionSystemProvider>
+    );
+
+    const system = renderHook(() => useCollisionSystem(), { wrapper });
+
+    act(() => {
+      jest.advanceTimersByTime(msToRun);
+    }).then(
+      (value) => {
+        if (msToRun > 100) {
+          expect(system.result.current.collided).toBeTruthy();
+        } else {
+          expect(system.result.current.collided).toBeFalsy();
+        }
+
+        return value;
+      },
+      (reason) => reason,
+    );
+  });
 });

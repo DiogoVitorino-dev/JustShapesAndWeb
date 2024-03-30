@@ -1,7 +1,13 @@
-import { act, render } from "@testing-library/react-native";
+import { act, render, renderHook } from "@testing-library/react-native";
+import { useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
+import { Wrapper } from "../test-utils";
+
 import { Grenade } from "@/animations/attacks/grenade";
+import { useCollisionSystem } from "@/hooks";
+import Player, { PlayerData } from "@/models/player";
+import CollisionSystemProvider from "@/scripts/collision/collisionSystemProvider";
 
 describe("Grenade Attack - Animation tests", () => {
   beforeEach(() => {
@@ -124,5 +130,37 @@ describe("Grenade Attack - Animation tests", () => {
     expect(style.left).toBe(50);
   });
 
-  test.todo("Should collide with player");
+  it.only.each([
+    ["Should collide", 500],
+    ["Should not collide", 200],
+  ])("%s with player", async (_, msToRun) => {
+    const data = renderHook(() =>
+      useSharedValue<PlayerData>({ width: 100, height: 100, x: 200, y: 0 }),
+    );
+
+    const wrapper: Wrapper = ({ children }) => (
+      <CollisionSystemProvider>
+        <Grenade start duration={300} distance={500} />
+        <Player data={data.result.current} />
+        {children}
+      </CollisionSystemProvider>
+    );
+
+    const system = renderHook(() => useCollisionSystem(), { wrapper });
+
+    act(() => {
+      jest.advanceTimersByTime(msToRun);
+    }).then(
+      (value) => {
+        if (msToRun > 250) {
+          expect(system.result.current.collided).toBeTruthy();
+        } else {
+          expect(system.result.current.collided).toBeFalsy();
+        }
+
+        return value;
+      },
+      (reason) => reason,
+    );
+  });
 });
