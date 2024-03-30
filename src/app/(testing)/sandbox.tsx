@@ -7,8 +7,8 @@ import {
 } from "react-native-reanimated";
 
 import { AnimatedAttacks } from "@/animations/attacks";
-import { AnimationEffects } from "@/animations/effects";
-import { AnimatedView, View } from "@/components/shared";
+import { AnimatedEffects } from "@/animations/effects";
+import { View } from "@/components/shared";
 import Controller from "@/controllers";
 import { ControlData } from "@/controllers/controllers.type";
 import { useCollisionSystem } from "@/hooks";
@@ -69,13 +69,8 @@ export default function Sandbox() {
 
   const backgroundColor = useSharedValue<ColorValue>("tomato");
 
-  const { animatedStyle, run } = AnimationEffects.useShakeAnimation();
-
   useEffect(() => {
     backgroundColor.value = collided ? "indigo" : "tomato";
-    if (collided) {
-      run();
-    }
   }, [collided]);
 
   const backgroundStyle = useAnimatedStyle(() => ({
@@ -84,7 +79,7 @@ export default function Sandbox() {
 
   return (
     <View style={styles.container}>
-      <AnimatedView style={[styles.container, animatedStyle]}>
+      <AnimatedEffects.Shake start={collided} style={[styles.container]}>
         <Player data={player} />
 
         <AnimatedAttacks.RectangleSmash start />
@@ -108,7 +103,7 @@ export default function Sandbox() {
         />
 
         <Circle data={circleData} style={[backgroundStyle]} />
-      </AnimatedView>
+      </AnimatedEffects.Shake>
 
       <Controller onMove={handleOnMove} velocity={2} />
     </View>

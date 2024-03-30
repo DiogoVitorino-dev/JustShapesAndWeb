@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, StyleSheet } from "react-native";
 import {
   useSharedValue,
@@ -11,20 +11,28 @@ import { AnimatedEffects } from "@/animations/effects";
 import { AnimatedView } from "@/components/shared";
 
 export default function AnimationShakerChamber() {
+  const [start, setStart] = useState(false);
   const moveObject = useSharedValue(300);
   const moveStyle = useAnimatedStyle(() => ({
     left: withRepeat(withTiming(moveObject.value, { duration: 500 }), -1, true),
   }));
 
-  const { useShakeAnimation } = AnimatedEffects;
-  const { animatedStyle, run } = useShakeAnimation(500, 20, { frequency: 3 });
+  const run = () => {
+    setStart((prev) => !prev);
+  };
 
   moveObject.value = 500;
   return (
-    <AnimatedView style={[styles.container, animatedStyle]}>
+    <AnimatedEffects.Shake
+      start={start}
+      duration={500}
+      amount={20}
+      impact={{ frequency: 3 }}
+      style={[styles.container]}
+    >
       <AnimatedView style={[styles.feedbackObject, moveStyle]} />
       <Button title="run Animation" onPress={run} />
-    </AnimatedView>
+    </AnimatedEffects.Shake>
   );
 }
 
