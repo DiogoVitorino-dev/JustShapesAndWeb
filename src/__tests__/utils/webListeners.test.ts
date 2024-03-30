@@ -41,6 +41,23 @@ describe("testing keyboardListener - Web Listeners Utils tests", () => {
     removeListener();
   });
 
+  it.each([
+    { key: "k", dispatchKey: "K" },
+    { key: "K", dispatchKey: "k" },
+    { key: "K", dispatchKey: "K" },
+  ])(
+    "$# - Should return the specified keypress (Uppercase)",
+    async ({ dispatchKey, key }) => {
+      const { removeListener } = keyboardListener(callback, { key });
+
+      const event = new KeyboardEvent("keydown", { key: dispatchKey });
+      window.dispatchEvent(event);
+      expect(callback).toHaveBeenCalledWith(true, event);
+
+      removeListener();
+    },
+  );
+
   it("Should cancel the listener", async () => {
     keyboardListener(callback).removeListener();
 
