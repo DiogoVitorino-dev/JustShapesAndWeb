@@ -13,7 +13,7 @@ import {
 
 import { Position } from "@/constants/commonTypes";
 import Circle, { CircleData } from "@/models/geometric/circle";
-import { Collidable } from "@/scripts/collision/collisionSystemProvider";
+import { Collidable } from "@/scripts/collision/collisionDetector";
 import { AnglesUtils } from "@/utils/angleUtils";
 
 export interface GrenadeFragmentProps extends Partial<Position> {

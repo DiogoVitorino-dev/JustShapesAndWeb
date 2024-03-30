@@ -6,26 +6,9 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 
-import type { SATCircle, SATRectangle } from "./SAT";
-import { collisionDetector } from "./collisionDetector";
+import { CollidableObjects, collisionDetector } from "./collisionDetector";
 
 export type ForceRemoveCollidableObject = () => void;
-
-export interface Collidable {
-  collidable: {
-    /**
-     * Add and Remove the object from the Collision System. `NOTE:` If you only need to disable collision for a period of time, use `ignore` instead
-     */
-    enabled: boolean;
-    /**
-     * Makes the object ignore collisions
-     */
-    ignore?: boolean;
-  };
-}
-export type CollidableCircle = SATCircle & Collidable;
-export type CollidableRectangle = SATRectangle & Collidable;
-export type CollidableObjects = CollidableRectangle | CollidableCircle;
 
 export type AddCollidableObject = (
   value: SharedValue<CollidableObjects>,
@@ -153,7 +136,6 @@ export default function CollisionSystemProvider({
   ): ForceRemoveCollidableObject => {
     "worklet";
     const index = pushToList(list, object);
-
     addListener(index, list, object);
     return () => forceRemoveObject(index, list, object);
   };
@@ -169,11 +151,12 @@ export default function CollisionSystemProvider({
     });
   };
 
-  const verifyCollision = runOnJS(
-    async (targets: CollidableObjects[], objects: CollidableObjects[]) => {
-      setCollided(await collisionDetector(targets, objects));
-    },
-  );
+  const verifyCollision = async (
+    targets: CollidableObjects[],
+    objects: CollidableObjects[],
+  ) => {
+    setCollided(await collisionDetector(targets, objects));
+  };
 
   const addTarget: AddCollidableObject = (target) => {
     "worklet";
@@ -198,7 +181,7 @@ export default function CollisionSystemProvider({
     },
     (current, prev) => {
       if (current !== prev) {
-        verifyCollision(current.target, current.object);
+        runOnJS(verifyCollision)(current.target, current.object);
       }
     },
   );

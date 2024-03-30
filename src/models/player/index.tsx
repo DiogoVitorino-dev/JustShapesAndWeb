@@ -19,7 +19,7 @@ import { useCollisionSystem } from "@/hooks";
 import type {
   Collidable,
   CollidableRectangle,
-} from "@/scripts/collision/collisionSystemProvider";
+} from "@/scripts/collision/collisionDetector";
 
 export interface PlayerData
   extends Partial<Position>,

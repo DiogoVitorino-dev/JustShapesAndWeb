@@ -12,10 +12,8 @@ import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { AnimatedStyleApp, Diameter, Position } from "@/constants/commonTypes";
 import { useCollisionSystem } from "@/hooks";
-import type {
-  ForceRemoveCollidableObject,
-  Collidable,
-} from "@/scripts/collision/collisionSystemProvider";
+import { Collidable } from "@/scripts/collision/collisionDetector";
+import type { ForceRemoveCollidableObject } from "@/scripts/collision/collisionSystemProvider";
 
 export interface CircleData extends Partial<Position>, Partial<Collidable> {
   diameter?: Diameter;

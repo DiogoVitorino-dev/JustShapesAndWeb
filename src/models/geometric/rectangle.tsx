@@ -17,10 +17,8 @@ import {
   Angle,
 } from "@/constants/commonTypes";
 import { useCollisionSystem } from "@/hooks";
-import type {
-  Collidable,
-  ForceRemoveCollidableObject,
-} from "@/scripts/collision/collisionSystemProvider";
+import { Collidable } from "@/scripts/collision/collisionDetector";
+import type { ForceRemoveCollidableObject } from "@/scripts/collision/collisionSystemProvider";
 
 export interface RectangleData
   extends Partial<Position>,

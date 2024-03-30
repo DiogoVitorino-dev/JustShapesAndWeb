@@ -13,7 +13,7 @@ import Colors from "@/constants/Colors";
 import { AnalogicDirectional } from "@/controllers/mobile/directional";
 import { useCollisionSystem } from "@/hooks";
 import Rectangle, { RectangleData } from "@/models/geometric/rectangle";
-import { CollidableRectangle } from "@/scripts/collision/collisionSystemProvider";
+import { CollidableRectangle } from "@/scripts/collision/collisionDetector";
 
 export default function UseCollisionSystemChamber() {
   const bg = useSharedValue(Colors.entity.player);
