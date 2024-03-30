@@ -5,7 +5,7 @@ import { AnimatedStyleApp } from "@/constants/commonTypes";
 
 export interface AnimationEffectProps {
   view?: Omit<AnimatedProps<ViewProps>, "style" | "children">;
-  children?: AnimatedProps<ViewProps>["children"];
+  children?: ViewProps["children"];
   style?: AnimatedStyleApp;
 }
 
