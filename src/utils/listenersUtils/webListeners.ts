@@ -29,8 +29,9 @@ export const keyboardListener: Listener<KeyboardEvent, string> = (
 ) => {
   const handleEvent = (event: KeyboardEvent) => {
     // Specific key
+
     if (options?.key) {
-      return options.key === event.key.toLowerCase();
+      return options.key.toLowerCase() === event.key.toLowerCase();
     }
     // Any key
     return true;

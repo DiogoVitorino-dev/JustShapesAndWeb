@@ -20,16 +20,16 @@ describe("testing useKeyListener - Hook tests", () => {
     callbackMock.mockClear();
   });
 
-  it("Should call a callback on press keys", () => {
+  it("Should call a callback on press keys", async () => {
     renderHook(() => useKeyListener(callbackMock, keys));
 
-    act(() => {
+    await act(() => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: keys[0] }));
     });
 
     expect(callbackMock).toHaveBeenCalledWith(true, keys[0]);
 
-    act(() => {
+    await act(() => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: keys[1] }));
     });
 
@@ -37,16 +37,16 @@ describe("testing useKeyListener - Hook tests", () => {
     expect(callbackMock).toHaveBeenCalledTimes(2);
   });
 
-  it("Should call a callback on release keys", () => {
+  it("Should call a callback on release keys", async () => {
     renderHook(() => useKeyListener(callbackMock, keys));
 
-    act(() => {
+    await act(() => {
       window.dispatchEvent(new KeyboardEvent("keyup", { key: keys[0] }));
     });
 
     expect(callbackMock).toHaveBeenCalledWith(false, keys[0]);
 
-    act(() => {
+    await act(() => {
       window.dispatchEvent(new KeyboardEvent("keyup", { key: keys[1] }));
     });
 
@@ -54,7 +54,7 @@ describe("testing useKeyListener - Hook tests", () => {
     expect(callbackMock).toHaveBeenCalledTimes(2);
   });
 
-  it("Should call a callback on press mouse buttons", () => {
+  it("Should call a callback on press mouse buttons", async () => {
     keys = [
       MouseKeys.LEFT_BUTTON,
       MouseKeys.RIGHT_BUTTON,
@@ -63,19 +63,19 @@ describe("testing useKeyListener - Hook tests", () => {
 
     renderHook(() => useKeyListener(callbackMock, keys));
 
-    act(() => {
+    await act(() => {
       window.dispatchEvent(new MouseEvent("mousedown", { button: 0 }));
     });
 
     expect(callbackMock).toHaveBeenCalledWith(true, keys[0]);
 
-    act(() => {
+    await act(() => {
       window.dispatchEvent(new MouseEvent("mousedown", { button: 1 }));
     });
 
     expect(callbackMock).toHaveBeenNthCalledWith(2, true, keys[1]);
 
-    act(() => {
+    await act(() => {
       window.dispatchEvent(new MouseEvent("mousedown", { button: 2 }));
     });
 
@@ -115,7 +115,7 @@ describe("testing useKeyListener - Hook tests", () => {
       result.current.removeListener();
     });
 
-    act(() => {
+    await act(() => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: keys[0] }));
     });
 
