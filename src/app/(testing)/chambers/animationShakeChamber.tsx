@@ -7,7 +7,7 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-import { AnimationEffects } from "@/animations/effects";
+import { AnimatedEffects } from "@/animations/effects";
 import { AnimatedView } from "@/components/shared";
 
 export default function AnimationShakerChamber() {
@@ -16,7 +16,7 @@ export default function AnimationShakerChamber() {
     left: withRepeat(withTiming(moveObject.value, { duration: 500 }), -1, true),
   }));
 
-  const { useShakeAnimation } = AnimationEffects;
+  const { useShakeAnimation } = AnimatedEffects;
   const { animatedStyle, run } = useShakeAnimation(500, 20, { frequency: 3 });
 
   moveObject.value = 500;

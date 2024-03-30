@@ -10,7 +10,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { AnimationEffectProps, RunnableAnimation } from "../animations.type";
+import { AnimatedEffectProps, RunnableAnimation } from "../animations.type";
 
 import { AnimatedStyleApp } from "@/constants/commonTypes";
 import { useTimeoutUI } from "@/hooks";
@@ -60,7 +60,7 @@ const InitialShakeImpactConfig: Required<ShakeImpactConfig> = {
 export interface ShakeProps
   extends ShakeConfig,
     RunnableAnimation,
-    AnimationEffectProps {}
+    AnimatedEffectProps {}
 
 type ShakeEffect = (props: ShakeProps) => React.JSX.Element;
 

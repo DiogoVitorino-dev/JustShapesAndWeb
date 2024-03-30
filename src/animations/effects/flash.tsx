@@ -12,7 +12,7 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 
-import { AnimationEffectProps, RunnableAnimation } from "../animations.type";
+import { AnimatedEffectProps, RunnableAnimation } from "../animations.type";
 
 import Colors from "@/constants/Colors";
 
@@ -26,7 +26,7 @@ export interface FlashConfig {
 
 export interface FlashProps
   extends RunnableAnimation,
-    AnimationEffectProps,
+    AnimatedEffectProps,
     FlashConfig {}
 
 type FlashEffect = (flash: FlashProps) => React.JSX.Element;

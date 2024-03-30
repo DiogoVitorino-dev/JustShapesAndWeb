@@ -3,7 +3,7 @@ import { AnimatedProps } from "react-native-reanimated";
 
 import { AnimatedStyleApp } from "@/constants/commonTypes";
 
-export interface AnimationEffectProps {
+export interface AnimatedEffectProps {
   view?: Omit<AnimatedProps<ViewProps>, "style" | "children">;
   children?: ViewProps["children"];
   style?: AnimatedStyleApp;
