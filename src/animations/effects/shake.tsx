@@ -1,4 +1,5 @@
-import {
+import React, { useEffect } from "react";
+import Animated, {
   Easing,
   WithSpringConfig,
   WithTimingConfig,
@@ -9,7 +10,7 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-import { RunnableAnimation, StylizedAnimation } from "../animations.type";
+import { AnimationEffectProps, RunnableAnimation } from "../animations.type";
 
 import { AnimatedStyleApp } from "@/constants/commonTypes";
 import { useTimeoutUI } from "@/hooks";
@@ -35,9 +36,20 @@ export interface ShakeImpactConfig extends ShakeImpactDirection {
   frequency?: number;
 }
 
-export interface ShakeAnimation extends StylizedAnimation, RunnableAnimation {}
-
-type ShakeAnimationProps = Required<Parameters<typeof useShakeAnimation>>;
+export interface ShakeConfig {
+  /**
+   * Duration of the entire animation.
+   */
+  duration?: number;
+  /**
+   * The maximum value that will determine how much the impact will displace, in pixels.
+   */
+  amount?: number;
+  /**
+   * Setting for the impacts.
+   */
+  impact?: ShakeImpactConfig;
+}
 
 const InitialShakeImpactConfig: Required<ShakeImpactConfig> = {
   frequency: 1,
@@ -45,28 +57,25 @@ const InitialShakeImpactConfig: Required<ShakeImpactConfig> = {
   vertical: "all",
 };
 
-const [InitialDuration, InitialAmount, InitialImpact]: ShakeAnimationProps = [
-  200,
-  20,
-  InitialShakeImpactConfig,
-];
-/**
- *
- * @param duration Duration of the entire animation.
- * @param amount The maximum value that will determine how much the impact will displace, in pixels.
- * @param impact Setting for the impacts.
- * @returns An `animatedStyle` and `run` function to start the animation. Note: `run` function also returns the `animatedStyle`.
- */
+interface ShakeAnimationProps
+  extends ShakeConfig,
+    RunnableAnimation,
+    AnimationEffectProps {}
 
-export function useShakeAnimation(
-  duration: number = InitialDuration,
-  amount: number = InitialAmount,
-  impact: ShakeImpactConfig = InitialImpact,
-): ShakeAnimation {
+export function Shake({
+  amount = 200,
+  duration = 20,
+  impact = InitialShakeImpactConfig,
+  start = false,
+  view,
+  children,
+  onFinish,
+  style,
+}: ShakeAnimationProps) {
   const shakeY = useSharedValue(0);
   const shakeX = useSharedValue(0);
   const timer = useTimeoutUI(duration);
-  impact = { ...InitialImpact, ...impact };
+  impact = { ...InitialShakeImpactConfig, ...impact };
 
   const animatedStyle: AnimatedStyleApp = useAnimatedStyle(() => ({
     transform: [{ translateX: shakeX.value }, { translateY: shakeY.value }],
@@ -99,10 +108,11 @@ export function useShakeAnimation(
       timer.run();
       setTimeout(() => {
         clearInterval(repeating);
+        if (onFinish) {
+          onFinish();
+        }
       }, duration);
     }
-
-    return { animatedStyle };
   };
 
   const selectDirection = (direction: ShakeImpact = "all") => {
@@ -120,5 +130,15 @@ export function useShakeAnimation(
     }
   };
 
-  return { animatedStyle, run };
+  useEffect(() => {
+    if (start) {
+      run();
+    }
+  }, [start]);
+
+  return (
+    <Animated.View style={[animatedStyle, style]} {...view}>
+      {children}
+    </Animated.View>
+  );
 }

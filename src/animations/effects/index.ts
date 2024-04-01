@@ -1,5 +1,3 @@
-import * as shake from "./shake";
+import { Shake } from "./shake";
 
-export const AnimationEffects = {
-  ...shake,
-};
+export const AnimationEffects = { Shake };

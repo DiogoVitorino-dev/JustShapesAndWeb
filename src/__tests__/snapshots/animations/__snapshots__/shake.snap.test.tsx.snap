@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Grenade - Snapshot animation test should render correctly 1`] = `
+<View
+  animatedStyle={
+    {
+      "value": {
+        "transform": [
+          {
+            "translateX": 0,
+          },
+          {
+            "translateY": 0,
+          },
+        ],
+      },
+    }
+  }
+  collapsable={false}
+  style={
+    {
+      "transform": [
+        {
+          "translateX": 0,
+        },
+        {
+          "translateY": 0,
+        },
+      ],
+    }
+  }
+/>
+`;

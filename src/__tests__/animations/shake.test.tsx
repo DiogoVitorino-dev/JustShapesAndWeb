@@ -1,8 +1,7 @@
-import { act, render, renderHook } from "@testing-library/react-native";
-import Animated from "react-native-reanimated";
+import { render } from "@testing-library/react-native";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
-import { useShakeAnimation } from "@/animations/effects/shake";
+import { Shake } from "@/animations/effects/shake";
 
 describe("Shake effect - Animation tests", () => {
   beforeEach(() => {
@@ -13,17 +12,10 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should run animation", () => {
-    const anim = renderHook(() =>
-      useShakeAnimation(1000, 100, { frequency: 2 }),
-    );
-
     const { root } = render(
-      <Animated.View style={anim.result.current.animatedStyle} />,
+      <Shake duration={1000} amount={100} impact={{ frequency: 2 }} start />,
     );
 
-    act(() => {
-      anim.result.current.run();
-    });
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -43,20 +35,15 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should only shake to LEFT edge on Horizontal axis", () => {
-    const anim = renderHook(() =>
-      useShakeAnimation(1000, 100, {
-        frequency: 2,
-        horizontal: "start",
-      }),
-    );
-
     const { root } = render(
-      <Animated.View style={anim.result.current.animatedStyle} />,
+      <Shake
+        duration={1000}
+        amount={100}
+        impact={{ frequency: 2, horizontal: "start" }}
+        start
+      />,
     );
 
-    act(() => {
-      anim.result.current.run();
-    });
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -70,20 +57,15 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should only shake to RIGHT edge on Horizontal axis", () => {
-    const anim = renderHook(() =>
-      useShakeAnimation(1000, 100, {
-        frequency: 2,
-        horizontal: "end",
-      }),
-    );
-
     const { root } = render(
-      <Animated.View style={anim.result.current.animatedStyle} />,
+      <Shake
+        duration={1000}
+        amount={100}
+        impact={{ frequency: 2, horizontal: "end" }}
+        start
+      />,
     );
 
-    act(() => {
-      anim.result.current.run();
-    });
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -97,20 +79,15 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should only shake to TOP edge on Vertical axis", () => {
-    const anim = renderHook(() =>
-      useShakeAnimation(1000, 100, {
-        frequency: 2,
-        vertical: "start",
-      }),
-    );
-
     const { root } = render(
-      <Animated.View style={anim.result.current.animatedStyle} />,
+      <Shake
+        duration={1000}
+        amount={100}
+        impact={{ frequency: 2, vertical: "start" }}
+        start
+      />,
     );
 
-    act(() => {
-      anim.result.current.run();
-    });
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -124,20 +101,15 @@ describe("Shake effect - Animation tests", () => {
   });
 
   it("Should only shake to BOTTOM edge on Vertical axis", () => {
-    const anim = renderHook(() =>
-      useShakeAnimation(1000, 100, {
-        frequency: 2,
-        vertical: "end",
-      }),
-    );
-
     const { root } = render(
-      <Animated.View style={anim.result.current.animatedStyle} />,
+      <Shake
+        duration={1000}
+        amount={100}
+        impact={{ frequency: 2, vertical: "end" }}
+        start
+      />,
     );
 
-    act(() => {
-      anim.result.current.run();
-    });
     jest.advanceTimersByTime(800);
 
     let style = getAnimatedStyle(root);
@@ -150,5 +122,15 @@ describe("Shake effect - Animation tests", () => {
     expect(style.transform[1].translateY).toBe(0);
   });
 
-  test.todo("Another animation shouldn't run before the previous one finishes");
+  it("Should call onFinish when the animation finishes", () => {
+    const callback = jest.fn(() => {});
+
+    render(<Shake duration={1000} onFinish={callback} start />);
+
+    jest.advanceTimersByTime(800);
+    expect(callback).not.toHaveBeenCalled();
+
+    jest.runAllTimers();
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
 });
