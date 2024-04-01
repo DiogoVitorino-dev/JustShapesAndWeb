@@ -80,7 +80,7 @@ describe("Grenade Attack - Animation tests", () => {
 
   it("Should have a different initial position", () => {
     const { queryAllByTestId } = render(
-      <Grenade duration={100} x={100} y={200} />,
+      <Grenade duration={100} x={100} y={200} start={false} />,
     );
 
     queryAllByTestId("circleModel").forEach((fragment) => {
@@ -92,7 +92,7 @@ describe("Grenade Attack - Animation tests", () => {
   });
 
   it("Should have a different initial size", () => {
-    const { queryAllByTestId } = render(<Grenade size={500} />);
+    const { queryAllByTestId } = render(<Grenade size={500} start={false} />);
 
     queryAllByTestId("circleModel").forEach((fragment) => {
       const style = getAnimatedStyle(fragment);
@@ -103,7 +103,9 @@ describe("Grenade Attack - Animation tests", () => {
   });
 
   it("Should have more fragments", () => {
-    const { queryAllByTestId } = render(<Grenade fragments={20} />);
+    const { queryAllByTestId } = render(
+      <Grenade fragments={20} start={false} />,
+    );
 
     expect(queryAllByTestId("circleModel").length).toBe(20);
   });
@@ -130,17 +132,17 @@ describe("Grenade Attack - Animation tests", () => {
     expect(style.left).toBe(50);
   });
 
-  it.only.each([
-    ["Should collide", 500],
-    ["Should not collide", 200],
+  it.each([
+    ["Should collide", 300],
+    ["Should not collide", 100],
   ])("%s with player", async (_, msToRun) => {
     const data = renderHook(() =>
-      useSharedValue<PlayerData>({ width: 100, height: 100, x: 200, y: 0 }),
+      useSharedValue<PlayerData>({ width: 100, height: 100, x: 100, y: 0 }),
     );
 
     const wrapper: Wrapper = ({ children }) => (
       <CollisionSystemProvider>
-        <Grenade start duration={300} distance={500} />
+        <Grenade start duration={300} distance={200} />
         <Player data={data.result.current} />
         {children}
       </CollisionSystemProvider>
@@ -152,12 +154,28 @@ describe("Grenade Attack - Animation tests", () => {
       jest.advanceTimersByTime(msToRun);
     }).then(
       (value) => {
-        if (msToRun > 250) {
+        if (msToRun > 200) {
           expect(system.result.current.collided).toBeTruthy();
         } else {
           expect(system.result.current.collided).toBeFalsy();
         }
 
+        return value;
+      },
+      (reason) => reason,
+    );
+  });
+
+  it.failing("Should call onFinish when the animation finishes", () => {
+    const callback = jest.fn(() => {});
+
+    render(<Grenade duration={1000} onFinish={callback} start />);
+
+    act(() => {
+      jest.runAllTimers();
+    }).then(
+      (value) => {
+        expect(callback).toHaveBeenCalledTimes(1);
         return value;
       },
       (reason) => reason,

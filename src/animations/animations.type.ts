@@ -1,9 +1,15 @@
+import { ViewProps } from "react-native";
+import { AnimatedProps } from "react-native-reanimated";
+
 import { AnimatedStyleApp } from "@/constants/commonTypes";
 
-export interface StylizedAnimation {
-  animatedStyle: AnimatedStyleApp;
+export interface AnimationEffectProps {
+  view?: Omit<AnimatedProps<ViewProps>, "style" | "children">;
+  children?: AnimatedProps<ViewProps>["children"];
+  style?: AnimatedStyleApp;
 }
 
 export interface RunnableAnimation {
-  run: () => StylizedAnimation;
+  start: boolean;
+  onFinish?: () => void;
 }

@@ -3,11 +3,13 @@ import { useWindowDimensions } from "react-native";
 import {
   Easing,
   WithTimingConfig,
+  runOnJS,
   useDerivedValue,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
+import { RunnableAnimation } from "@/animations/animations.type";
 import { AnimatedStyleApp, Position } from "@/constants/commonTypes";
 import Rectangle, { RectangleData } from "@/models/geometric/rectangle";
 
@@ -21,8 +23,9 @@ export interface RectangleSmashConfig extends Partial<Position> {
   prepareAmount?: number;
 }
 
-export interface RectangleSmashProps extends RectangleSmashConfig {
-  start?: boolean;
+export interface RectangleSmashProps
+  extends RectangleSmashConfig,
+    RunnableAnimation {
   style?: AnimatedStyleApp;
 }
 
@@ -34,6 +37,7 @@ export function RectangleSmash({
   x = 0,
   y = 0,
   smashTo = "horizontal",
+  onFinish,
   start,
   style,
 }: RectangleSmashProps) {
@@ -58,6 +62,13 @@ export function RectangleSmash({
 
   const opacity = useSharedValue(0.5);
 
+  const endAttack = (finished?: boolean) => {
+    "worklet";
+    if (finished && onFinish) {
+      runOnJS(onFinish)();
+    }
+  };
+
   const verticalAttack = () => {
     function attack(ready?: boolean) {
       "worklet";
@@ -65,6 +76,7 @@ export function RectangleSmash({
         size.value = withTiming(
           { width: size.value.width, height: window.height },
           attackTimingConfig,
+          endAttack,
         );
       }
     }
@@ -87,6 +99,7 @@ export function RectangleSmash({
         size.value = withTiming(
           { width: window.width, height: size.value.height },
           attackTimingConfig,
+          endAttack,
         );
       }
     }

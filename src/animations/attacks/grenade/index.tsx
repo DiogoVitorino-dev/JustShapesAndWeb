@@ -10,11 +10,24 @@ export type GrenadeFragmentOptions = Omit<
   "angleDirection"
 >;
 
-interface GrenadeProps extends Partial<Position>, GrenadeFragmentOptions {
+export interface GrenadeProps
+  extends Partial<Position>,
+    GrenadeFragmentOptions {
   fragments?: number;
 }
 
-export function Grenade({ fragments = 5, ...fragmentProps }: GrenadeProps) {
+export function Grenade({
+  fragments = 5,
+  onFinish,
+  duration,
+  ...fragmentProps
+}: GrenadeProps) {
+  const handleOnFinish = () => {
+    if (onFinish) {
+      onFinish();
+    }
+  };
+
   const createFragments = () => {
     const fragmentsView: React.JSX.Element[] = [];
     let index = fragments;
@@ -24,6 +37,8 @@ export function Grenade({ fragments = 5, ...fragmentProps }: GrenadeProps) {
       fragmentsView.push(
         <GrenadeFragment
           {...fragmentProps}
+          onFinish={handleOnFinish}
+          duration={duration}
           angleDirection={partialAngle * index}
           key={index}
         />,

@@ -166,4 +166,20 @@ describe("Rectangle Smash Attack - Animation tests", () => {
       (reason) => reason,
     );
   });
+
+  it("Should call onFinish when the animation finishes", () => {
+    const callback = jest.fn(() => {});
+
+    render(<RectangleSmash prepareDuration={100} onFinish={callback} start />);
+
+    act(() => {
+      jest.runAllTimers();
+    }).then(
+      (value) => {
+        expect(callback).toHaveBeenCalledTimes(1);
+        return value;
+      },
+      (reason) => reason,
+    );
+  });
 });

@@ -3,6 +3,7 @@ import {
   Easing,
   WithTimingConfig,
   cancelAnimation as cancel,
+  runOnJS,
   runOnUI,
   useAnimatedStyle,
   useDerivedValue,
@@ -11,14 +12,16 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
+import { RunnableAnimation } from "@/animations/animations.type";
 import { Position } from "@/constants/commonTypes";
 import Circle, { CircleData } from "@/models/geometric/circle";
 import { Collidable } from "@/scripts/collision/collisionDetector";
 import { AnglesUtils } from "@/utils/angleUtils";
 
-export interface GrenadeFragmentProps extends Partial<Position> {
+export interface GrenadeFragmentProps
+  extends Partial<Position>,
+    RunnableAnimation {
   angleDirection: number;
-  start?: boolean;
   size?: number;
   distance?: number;
   duration?: number;
@@ -32,6 +35,7 @@ export default function GrenadeFragment({
   x = 0,
   y = 0,
   start,
+  onFinish,
   distance = 100,
   duration = 200,
 }: GrenadeFragmentProps) {
@@ -61,6 +65,9 @@ export default function GrenadeFragment({
     opacity.value = withTiming(0, { duration: durationOpacity }, (fin) => {
       if (fin) {
         position.value = { x, y };
+        if (onFinish) {
+          runOnJS(onFinish)();
+        }
       }
     });
   });
