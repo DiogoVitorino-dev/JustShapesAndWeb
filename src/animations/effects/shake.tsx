@@ -65,8 +65,8 @@ export interface ShakeProps
 type ShakeEffect = (props: ShakeProps) => React.JSX.Element;
 
 export const Shake: ShakeEffect = ({
-  amount = 200,
-  duration = 20,
+  amount = 20,
+  duration = 200,
   impact = InitialShakeImpactConfig,
   start = false,
   view,
