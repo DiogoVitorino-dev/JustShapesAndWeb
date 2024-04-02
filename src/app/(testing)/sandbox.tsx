@@ -79,33 +79,41 @@ export default function Sandbox() {
 
   return (
     <View style={styles.container}>
-      <AnimatedEffects.Shake start={collided} style={[styles.container]}>
-        <Player data={player} />
+      <AnimatedEffects.Flash
+        start
+        intensity={10}
+        numbersOfReps={-1}
+        duration={200}
+        delayOfReps={1800}
+      >
+        <AnimatedEffects.Shake start={collided} style={[styles.container]}>
+          <Player data={player} />
 
-        <AnimatedAttacks.RectangleSmash start />
-        <AnimatedAttacks.Grenade
-          x={500}
-          y={150}
-          numbersOfReps={-1}
-          duration={2000}
-          distance={1000}
-          fragments={20}
-          start
-        />
-        <AnimatedAttacks.Grenade
-          x={800}
-          y={300}
-          numbersOfReps={-1}
-          duration={2000}
-          distance={1000}
-          fragments={20}
-          start
-        />
+          <AnimatedAttacks.RectangleSmash start />
+          <AnimatedAttacks.Grenade
+            x={500}
+            y={150}
+            numbersOfReps={-1}
+            duration={2000}
+            distance={1000}
+            fragments={20}
+            start
+          />
+          <AnimatedAttacks.Grenade
+            x={800}
+            y={300}
+            numbersOfReps={-1}
+            duration={2000}
+            distance={1000}
+            fragments={20}
+            start
+          />
 
-        <Circle data={circleData} style={[backgroundStyle]} />
-      </AnimatedEffects.Shake>
+          <Circle data={circleData} style={[backgroundStyle]} />
+        </AnimatedEffects.Shake>
 
-      <Controller onMove={handleOnMove} velocity={2} />
+        <Controller onMove={handleOnMove} velocity={2} />
+      </AnimatedEffects.Flash>
     </View>
   );
 }
