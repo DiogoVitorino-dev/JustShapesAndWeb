@@ -1,5 +1,5 @@
-import * as movement from "./movement";
+import { PlayerMovementEffect } from "./movement";
 
-export const AnimationPlayer = {
-  ...movement,
+export const AnimatedPlayer = {
+  PlayerMovementEffect,
 };
