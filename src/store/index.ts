@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import playerStatusReducer from "./reducers/playerStatus/playerStatusReducer";
 import settingsSlice from "./reducers/settings/settingsSlice";
 
 export const store = configureStore({
   reducer: {
     settings: settingsSlice,
+    playerStatus: playerStatusReducer,
   },
 });
 
