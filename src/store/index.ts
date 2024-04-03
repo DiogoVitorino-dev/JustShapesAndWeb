@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import gameManagementReducer from "./reducers/gameManagement/gameManagementReducer";
 import playerStatusReducer from "./reducers/playerStatus/playerStatusReducer";
 import settingsSlice from "./reducers/settings/settingsSlice";
 
@@ -7,6 +8,7 @@ export const store = configureStore({
   reducer: {
     settings: settingsSlice,
     playerStatus: playerStatusReducer,
+    gameManagement: gameManagementReducer,
   },
 });
 
