@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ViewStyle, useWindowDimensions } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 
-import AudioSlider, { AudioSliderProps, SLIDER_MARGIN } from "./audioSlider";
+import AudioSlider, { AudioSliderProps } from "./audioSlider";
 
 import { AnimatedView, Text, View } from "@/components/shared";
 
@@ -20,7 +20,6 @@ export default function AudioVolume({
   style,
   onValueChange,
 }: AudioVolumeProps) {
-  const { width } = useWindowDimensions();
   const [valueState, setValue] = useState(0);
 
   const handleValueChange = (newValue: number) => {
@@ -38,19 +37,16 @@ export default function AudioVolume({
   }, [value]);
 
   return (
-    <AnimatedView
-      layout={layoutAnimation}
-      style={[{ width: width / 2 }, styles.container, style]}
-    >
+    <AnimatedView layout={layoutAnimation} style={[styles.container, style]}>
       <View transparent style={styles.containerText}>
-        <Text>{title}</Text>
-        <Text secondary>{valueState}</Text>
+        <Text selectable={false} style={styles.title}>
+          {title}
+        </Text>
+        <Text selectable={false} secondary>
+          {valueState.toFixed(1)}
+        </Text>
       </View>
-      <AudioSlider
-        style={{ width: width / 2 }}
-        value={valueState}
-        onValueChange={handleValueChange}
-      />
+      <AudioSlider value={valueState} onValueChange={handleValueChange} />
     </AnimatedView>
   );
 }
@@ -65,7 +61,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
-    paddingHorizontal: SLIDER_MARGIN,
     justifyContent: "space-between",
+  },
+
+  title: {
+    marginHorizontal: 3,
   },
 });
