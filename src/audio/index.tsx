@@ -28,19 +28,21 @@ export function useAudioSystem() {
   };
 
   const play: AudioPlay = async (newTrack) => {
-    if (newTrack) {
-      const { sound } = await Audio.Sound.createAsync(newTrack, {
-        shouldPlay: true,
-        volume: volumeTrack,
-      });
-      setSound(sound);
-      setTrack(newTrack);
-    } else if (
-      status !== AudioStatus.BUFFERING &&
-      status !== AudioStatus.IDLE
-    ) {
-      await sound.playAsync();
-    }
+    try {
+      if (newTrack) {
+        const { sound } = await Audio.Sound.createAsync(newTrack, {
+          shouldPlay: true,
+          volume: volumeTrack,
+        });
+        setSound(sound);
+        setTrack(newTrack);
+      } else if (
+        status !== AudioStatus.BUFFERING &&
+        status !== AudioStatus.IDLE
+      ) {
+        await sound.playAsync();
+      }
+    } catch (e) {}
   };
 
   const setProgress: AudioSetProgress = async (progress) => {
