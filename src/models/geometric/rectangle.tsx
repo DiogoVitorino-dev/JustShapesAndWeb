@@ -15,6 +15,7 @@ import {
   Position,
   Size,
   Angle,
+  Entries,
 } from "@/constants/commonTypes";
 import { useCollisionSystem } from "@/hooks";
 import { Collidable } from "@/scripts/collision/collisionDetector";
@@ -53,27 +54,24 @@ export default function Rectangle({
 }: RectangleProps) {
   const [removeListeners, setRemoveListeners] = useState<RemoveListeners>();
   const { addObject, addTarget } = useCollisionSystem();
-  const derivedData = useDerivedValue<Required<RectangleData>>(() => {
-    const { x, y, angle, width, height, collidable } = initialValues;
 
-    if (data && "value" in data) {
-      return {
-        x: data.value.x || x,
-        y: data.value.y || y,
-        angle: data.value.angle || angle,
-        width: data.value.width || width,
-        height: data.value.height || height,
-        collidable: data.value.collidable || collidable,
-      };
+  const derivedData = useDerivedValue<Required<RectangleData>>(() => {
+    let entries: Entries<RectangleData> = [];
+
+    if (data) {
+      if ("value" in data) {
+        entries = Object.entries(data.value) as Entries<RectangleData>;
+      } else {
+        entries = Object.entries(data) as Entries<RectangleData>;
+      }
     }
-    return {
-      x: data?.x || x,
-      y: data?.y || y,
-      angle: data?.angle || angle,
-      width: data?.width || width,
-      height: data?.height || height,
-      collidable: data?.collidable || collidable,
-    };
+
+    return entries.reduce<Required<RectangleData>>((prev, data) => {
+      if (data && typeof data[1] !== "undefined") {
+        return { ...prev, [data[0]]: data[1] };
+      }
+      return prev;
+    }, initialValues);
   });
 
   const animatedStyle = useAnimatedStyle(() => ({
