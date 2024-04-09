@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import gameManagementReducer from "./reducers/gameManagement/gameManagementReducer";
 import playerStatusReducer from "./reducers/playerStatus/playerStatusReducer";
 import settingsSlice from "./reducers/settings/settingsSlice";
+import stageControllerReducer from "./reducers/stageController/stageControllerReducer";
 
 export const store = configureStore({
   reducer: {
     settings: settingsSlice,
     playerStatus: playerStatusReducer,
-    gameManagement: gameManagementReducer,
+    stageController: stageControllerReducer,
   },
 });
 
