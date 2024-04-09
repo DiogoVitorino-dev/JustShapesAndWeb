@@ -10,10 +10,10 @@ const gameAssets = {};
 
 export type MusicList = keyof typeof gameAssets;
 
-type MusicAudioFunctions = Omit<AudioFunctions, "play">;
+type MusicFunctions = Omit<AudioFunctions, "play">;
 
-export interface MusicContext extends MusicAudioFunctions, AudioProps {
-  play: (name: MusicList) => Promise<void>;
+export interface MusicContext extends MusicFunctions, AudioProps {
+  play: (name?: MusicList) => Promise<void>;
 }
 
 const Context = createContext<MusicContext>({
@@ -43,11 +43,13 @@ export default function MusicProvider({ children }: ProviderProps) {
     value.setVolume(musicVolume);
   }, [musicVolume]);
 
-  const handlePlay = async (name: MusicList) => {
-    if (assets && Object.hasOwn(gameAssets, name)) {
-      value.play(
+  const handlePlay: Pick<MusicContext, "play">["play"] = async (name) => {
+    if (assets && name && Object.hasOwn(gameAssets, name)) {
+      await value.play(
         assets.find((data) => data.name.replace(/\.[^/.]+$/, "") === name),
       );
+    } else {
+      await value.play();
     }
   };
 

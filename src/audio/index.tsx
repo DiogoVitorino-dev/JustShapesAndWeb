@@ -38,6 +38,7 @@ export function useAudioSystem() {
         setTrack(newTrack);
       } else if (
         status !== AudioStatus.BUFFERING &&
+        status !== AudioStatus.PLAYING &&
         status !== AudioStatus.IDLE
       ) {
         await sound.playAsync();

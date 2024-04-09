@@ -22,7 +22,7 @@ export type SoundList = keyof typeof menuAssets;
 type SoundAudioFunctions = Omit<AudioFunctions, "play">;
 
 export interface SoundContext extends SoundAudioFunctions, AudioProps {
-  play: (name: SoundList) => Promise<void>;
+  play: (name?: SoundList) => Promise<void>;
 }
 
 const Context = createContext<SoundContext>({
@@ -52,11 +52,13 @@ export default function SoundProvider({ children }: ProviderProps) {
     value.setVolume(soundVolume);
   }, [soundVolume]);
 
-  const handlePlay = async (name: SoundList) => {
-    if (assets && Object.hasOwn(menuAssets, name)) {
+  const handlePlay: Pick<SoundContext, "play">["play"] = async (name) => {
+    if (assets && name && Object.hasOwn(menuAssets, name)) {
       value.play(
         assets.find((data) => data.name.replace(/\.[^/.]+$/, "") === name),
       );
+    } else {
+      await value.play();
     }
   };
 
