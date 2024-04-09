@@ -1,0 +1,765 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading - Snapshot component test should render correctly 1`] = `
+<ViewManagerAdapter_ExpoLinearGradient
+  colors={
+    [
+      4278396441,
+      4278394918,
+    ]
+  }
+  style={
+    [
+      {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 429,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 427,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 10,
+        "left": 530,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 246,
+        "width": 10,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 3,
+        "left": 197,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 967,
+        "width": 3,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 8,
+        "left": 483,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 130,
+        "width": 8,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 393,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 165,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 8,
+        "left": 416,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 663,
+        "width": 8,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 5,
+        "left": 524,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 24,
+        "width": 5,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 6,
+        "left": 58,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1017,
+        "width": 6,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 10,
+        "left": 499,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1159,
+        "width": 10,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 520,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 320,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 8,
+        "left": 131,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 481,
+        "width": 8,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 4,
+        "left": 350,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1076,
+        "width": 4,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 5,
+        "left": 391,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 391,
+        "width": 5,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 695,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1113,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 50,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 439,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 5,
+        "left": 474,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1115,
+        "width": 5,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 5,
+        "left": 106,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 677,
+        "width": 5,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 3,
+        "left": 510,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 848,
+        "width": 3,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 6,
+        "left": 290,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 40,
+        "width": 6,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 4,
+        "left": 651,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 620,
+        "width": 4,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 6,
+        "left": 20,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 649,
+        "width": 6,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 3,
+        "left": 187,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 564,
+        "width": 3,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 10,
+        "left": 237,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1057,
+        "width": 10,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 10,
+        "left": 156,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 443,
+        "width": 10,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 3,
+        "left": 748,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1130,
+        "width": 3,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 3,
+        "left": 104,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 777,
+        "width": 3,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 4,
+        "left": 523,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 378,
+        "width": 4,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 333,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 417,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 750,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 520,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 8,
+        "left": 494,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 342,
+        "width": 8,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 329,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1232,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 161,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1186,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 9,
+        "left": 39,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1104,
+        "width": 9,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 3,
+        "left": 233,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 577,
+        "width": 3,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 10,
+        "left": 685,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 1212,
+        "width": 10,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 3,
+        "left": 120,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 151,
+        "width": 3,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 5,
+        "left": 222,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 292,
+        "width": 5,
+      }
+    }
+  />
+  <View
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(20, 255, 170)",
+        "height": 10,
+        "left": 35,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 207,
+        "width": 10,
+      }
+    }
+  />
+  <Text
+    animatedStyle={
+      {
+        "value": {
+          "opacity": 1,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "color": "rgb(245, 245, 245)",
+        "fontFamily": "MajorMonoDisplay",
+        "fontSize": 32,
+        "opacity": 1,
+      }
+    }
+  >
+    Loading
+  </Text>
+</ViewManagerAdapter_ExpoLinearGradient>
+`;
