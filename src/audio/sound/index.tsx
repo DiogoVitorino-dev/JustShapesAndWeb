@@ -17,7 +17,11 @@ const menuAssets = {
   volume: require("@/assets/audio/sounds/menu/volume.mp3"),
 };
 
-export type SoundList = keyof typeof menuAssets;
+const gameAssets = {
+  hit: require("@/assets/audio/sounds/player/hit.mp3"),
+};
+
+export type SoundList = keyof typeof menuAssets | keyof typeof gameAssets;
 
 type SoundAudioFunctions = Omit<AudioFunctions, "play">;
 
@@ -42,7 +46,10 @@ interface ProviderProps {
 
 export default function SoundProvider({ children }: ProviderProps) {
   const value = useAudioSystem();
-  const [assets] = useAssets(Object.values(menuAssets));
+  const [assets] = useAssets([
+    ...Object.values(menuAssets),
+    ...Object.values(gameAssets),
+  ]);
 
   const soundVolume = useAppSelector(
     SettingsSelectors.selectAudioSettings,
@@ -53,10 +60,12 @@ export default function SoundProvider({ children }: ProviderProps) {
   }, [soundVolume]);
 
   const handlePlay: Pick<SoundContext, "play">["play"] = async (name) => {
-    if (assets && name && Object.hasOwn(menuAssets, name)) {
-      value.play(
-        assets.find((data) => data.name.replace(/\.[^/.]+$/, "") === name),
-      );
+    if (assets && name) {
+      if (Object.hasOwn(menuAssets, name) || Object.hasOwn(gameAssets, name)) {
+        value.play(
+          assets.find((data) => data.name.replace(/\.[^/.]+$/, "") === name),
+        );
+      }
     } else {
       await value.play();
     }
