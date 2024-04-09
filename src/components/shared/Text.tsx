@@ -39,10 +39,10 @@ const DefaultAnimatedText = ({
 );
 
 const animatedLogo = ({ style, ...others }: Animatable<StyledTextProp>) =>
-  DefaultAnimatedText({ style: [style, styles.fontManjari], ...others });
+  DefaultAnimatedText({ style: [style, styles.fontMegrim], ...others });
 
 const animatedTitle = ({ style, ...others }: Animatable<StyledTextProp>) =>
-  DefaultAnimatedText({ style: [style, styles.fontManjari], ...others });
+  DefaultAnimatedText({ style: [style, styles.fontMajor], ...others });
 
 const animatedText = ({ style, ...others }: Animatable<StyledTextProp>) =>
   DefaultAnimatedText({ style: [style, styles.fontManjari], ...others });
