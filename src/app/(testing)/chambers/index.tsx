@@ -110,6 +110,7 @@ export default function TestChamberList() {
         { name: "Shaker Animation", to: "/chambers/animationShakeChamber" },
         { name: "Grenade Attack", to: "/chambers/animationGrenadeChamber" },
         { name: "Flash Animation", to: "/chambers/animationFlashChamber" },
+        { name: "Beam Attack", to: "/chambers/animationBeamChamber" },
       ],
     },
     {

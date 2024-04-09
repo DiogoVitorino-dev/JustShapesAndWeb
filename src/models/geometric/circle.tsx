@@ -10,7 +10,12 @@ import {
 
 import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import { AnimatedStyleApp, Diameter, Position } from "@/constants/commonTypes";
+import {
+  AnimatedStyleApp,
+  Diameter,
+  Entries,
+  Position,
+} from "@/constants/commonTypes";
 import { useCollisionSystem } from "@/hooks";
 import { Collidable } from "@/scripts/collision/collisionDetector";
 import type { ForceRemoveCollidableObject } from "@/scripts/collision/collisionSystemProvider";
@@ -40,21 +45,22 @@ export default function Circle({ data, collisionMode, style }: CircleProps) {
   const { addObject, addTarget } = useCollisionSystem();
 
   const derivedData = useDerivedValue<Required<CircleData>>(() => {
-    const { diameter, x, y, collidable } = initialValues;
-    if (data && "value" in data) {
-      return {
-        diameter: data.value.diameter || diameter,
-        x: data.value.x || x,
-        y: data.value.y || y,
-        collidable: data.value.collidable || collidable,
-      };
+    let entries: Entries<CircleData> = [];
+
+    if (data) {
+      if ("value" in data) {
+        entries = Object.entries(data.value) as Entries<CircleData>;
+      } else {
+        entries = Object.entries(data) as Entries<CircleData>;
+      }
     }
-    return {
-      diameter: data?.diameter || diameter,
-      x: data?.x || x,
-      y: data?.y || y,
-      collidable: data?.collidable || collidable,
-    };
+
+    return entries.reduce<Required<CircleData>>((prev, data) => {
+      if (data && typeof data[1] !== "undefined") {
+        return { ...prev, [data[0]]: data[1] };
+      }
+      return prev;
+    }, initialValues);
   });
 
   const animatedStyle = useAnimatedStyle(() => ({

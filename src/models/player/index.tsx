@@ -16,6 +16,7 @@ import Colors from "@/constants/Colors";
 import type {
   Angle,
   AnimatedStyleApp,
+  Entries,
   Position,
   Size,
 } from "@/constants/commonTypes";
@@ -29,10 +30,19 @@ export interface PlayerData
   angle?: Angle;
 }
 
-interface PlayerProps {
+export interface PlayerProps {
   data: SharedValue<PlayerData>;
   style?: AnimatedStyleApp;
 }
+
+const initialValues = {
+  x: 0,
+  y: 0,
+  angle: 0,
+  width: 20,
+  height: 20,
+  collidable: { enabled: true },
+};
 
 export default function Player({ data, style }: PlayerProps) {
   const { addTarget } = useCollisionSystem();
@@ -40,14 +50,20 @@ export default function Player({ data, style }: PlayerProps) {
   const scaleY = useSharedValue(1);
   const bounce = useSharedValue(1);
 
-  const derivedData = useDerivedValue<Required<PlayerData>>(() => ({
-    x: data.value.x || 0,
-    y: data.value.y || 0,
-    angle: data.value.angle || 0,
-    width: data.value.width || 20,
-    height: data.value.height || 20,
-    collidable: data.value.collidable || { enabled: true },
-  }));
+  const derivedData = useDerivedValue<Required<PlayerData>>(() => {
+    let entries: Entries<PlayerData> = [];
+
+    if (data) {
+      entries = Object.entries(data.value) as Entries<PlayerData>;
+    }
+
+    return entries.reduce<Required<PlayerData>>((prev, data) => {
+      if (data && typeof data[1] !== "undefined") {
+        return { ...prev, [data[0]]: data[1] };
+      }
+      return prev;
+    }, initialValues);
+  });
 
   useEffect(() => {
     const remove = addTarget(derivedData);

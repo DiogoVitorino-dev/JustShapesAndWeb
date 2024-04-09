@@ -28,3 +28,7 @@ export type StackScreenOptions = Pick<
   React.ComponentProps<typeof Stack>,
   "screenOptions"
 >["screenOptions"];
+
+export type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];

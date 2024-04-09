@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Beam - Snapshot animation test should render correctly 1`] = `
+[
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "backgroundColor": "rgb(255, 64, 20)",
+          "height": 100,
+          "left": undefined,
+          "opacity": 0,
+          "position": "absolute",
+          "top": undefined,
+          "transform": [
+            {
+              "rotate": "0deg",
+            },
+          ],
+          "width": 750,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(255, 64, 20)",
+        "height": 100,
+        "left": undefined,
+        "opacity": 0,
+        "position": "absolute",
+        "top": undefined,
+        "transform": [
+          {
+            "rotate": "0deg",
+          },
+        ],
+        "width": 750,
+      }
+    }
+    testID="beamIndicator"
+  />,
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "height": 0,
+          "left": 0,
+          "opacity": 0,
+          "top": 0,
+          "transform": [
+            {
+              "rotate": "0deg",
+            },
+          ],
+          "width": 750,
+          "zIndex": 10,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "rgb(255, 64, 20)",
+        "height": 0,
+        "left": 0,
+        "opacity": 0,
+        "position": "absolute",
+        "top": 0,
+        "transform": [
+          {
+            "rotate": "0deg",
+          },
+        ],
+        "width": 750,
+        "zIndex": 10,
+      }
+    }
+    testID="rectangleModel"
+  />,
+]
+`;
