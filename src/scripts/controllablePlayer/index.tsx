@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, useWindowDimensions } from "react-native";
 import {
   useAnimatedStyle,
   useDerivedValue,
@@ -21,14 +21,15 @@ import useJump from "@/scripts/movement/useJump";
 import { useMovementSystem } from "@/scripts/movement/useMovementSystem";
 
 export default function ControllablePlayer() {
+  const { width, height } = useWindowDimensions();
   const { play } = useSoundContext();
   const { collided } = useCollisionSystem();
   const opacity = useSharedValue(1);
   const jump = useSharedValue(false);
   const angle = useSharedValue(0);
   const movement = useSharedValue<MovableObject>({
-    x: 0,
-    y: 0,
+    x: width / 4,
+    y: height / 2,
     speedX: 0,
     speedY: 0,
     size: 20,
