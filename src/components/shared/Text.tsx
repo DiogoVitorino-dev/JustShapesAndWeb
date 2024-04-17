@@ -4,18 +4,19 @@ import Animated, { AnimatedProps } from "react-native-reanimated";
 
 import Colors from "@/constants/Colors";
 
-interface StyledTextProp extends TextProps {
+interface CustomProps {
   secondary?: boolean;
 }
 
-type Animatable<T extends object> = AnimatedProps<T>;
+export type StyledTextProps = TextProps & CustomProps;
+export type AnimatedStyledTextProps = AnimatedProps<TextProps & CustomProps>;
 
 const DefaultText = ({
   children,
   secondary,
   style,
   ...others
-}: StyledTextProp) => (
+}: StyledTextProps) => (
   <NativeText
     {...others}
     style={[secondary ? styles.secondary : styles.primary, style]}
@@ -29,7 +30,7 @@ const DefaultAnimatedText = ({
   secondary,
   style,
   ...others
-}: Animatable<StyledTextProp>) => (
+}: AnimatedStyledTextProps) => (
   <Animated.Text
     {...others}
     style={[secondary ? styles.secondary : styles.primary, style]}
@@ -38,22 +39,22 @@ const DefaultAnimatedText = ({
   </Animated.Text>
 );
 
-const animatedLogo = ({ style, ...others }: Animatable<StyledTextProp>) =>
+const animatedLogo = ({ style, ...others }: AnimatedStyledTextProps) =>
   DefaultAnimatedText({ style: [style, styles.fontMegrim], ...others });
 
-const animatedTitle = ({ style, ...others }: Animatable<StyledTextProp>) =>
+const animatedTitle = ({ style, ...others }: AnimatedStyledTextProps) =>
   DefaultAnimatedText({ style: [style, styles.fontMajor], ...others });
 
-const animatedText = ({ style, ...others }: Animatable<StyledTextProp>) =>
+const animatedText = ({ style, ...others }: AnimatedStyledTextProps) =>
   DefaultAnimatedText({ style: [style, styles.fontManjari], ...others });
 
-export const TextLogo = ({ style, ...others }: StyledTextProp) =>
+export const TextLogo = ({ style, ...others }: StyledTextProps) =>
   DefaultText({ style: [style, styles.fontMegrim], ...others });
 
-export const TextTitle = ({ style, ...others }: StyledTextProp) =>
+export const TextTitle = ({ style, ...others }: StyledTextProps) =>
   DefaultText({ style: [style, styles.fontMajor], ...others });
 
-export const Text = ({ style, ...others }: StyledTextProp) =>
+export const Text = ({ style, ...others }: StyledTextProps) =>
   DefaultText({ style: [style, styles.fontManjari], ...others });
 
 export const AnimatedText = {
