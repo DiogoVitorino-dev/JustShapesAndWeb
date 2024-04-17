@@ -3,6 +3,7 @@ import Animated, {
   Easing,
   WithSpringConfig,
   WithTimingConfig,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSequence,
@@ -85,35 +86,46 @@ export const Shake: ShakeEffect = ({
 
   const run = () => {
     if (!timer.result.value) {
-      const springConfig: WithSpringConfig = {
-        duration: duration / 2,
-        dampingRatio: 2,
-      };
+      const shakeDuration = 80 / impact!.frequency!;
 
       const timingConfig: WithTimingConfig = {
-        duration: duration / 2,
-        easing: Easing.in(Easing.bounce),
+        duration: shakeDuration,
+        easing: Easing.out(Easing.ease),
       };
 
-      const repeating = setInterval(() => {
-        shakeY.value = withSequence(
-          withSpring(selectDirection(impact.vertical), springConfig),
-          withTiming(0, timingConfig),
+      const springConfig: WithSpringConfig = {
+        stiffness: 200,
+      };
+
+      let frequency = Number((duration / shakeDuration).toFixed(0));
+
+      const sequenceX: number[] = [];
+      const sequenceY: number[] = [];
+
+      while (frequency > 0) {
+        frequency--;
+
+        sequenceY.push(
+          withTiming(selectDirection(impact.vertical), timingConfig),
+        );
+        sequenceX.push(
+          withTiming(selectDirection(impact.horizontal), timingConfig),
         );
 
-        shakeX.value = withSequence(
-          withSpring(selectDirection(impact.horizontal), springConfig),
-          withTiming(0, timingConfig),
-        );
-      }, duration / impact!.frequency!);
+        if (frequency === 0) {
+          sequenceX.push(withSpring(0, springConfig));
+          sequenceY.push(
+            withSpring(0, springConfig, (fin) =>
+              fin && onFinish ? runOnJS(onFinish)() : undefined,
+            ),
+          );
+        }
+      }
+
+      shakeY.value = withSequence(...sequenceY);
+      shakeX.value = withSequence(...sequenceX);
 
       timer.run();
-      setTimeout(() => {
-        clearInterval(repeating);
-        if (onFinish) {
-          onFinish();
-        }
-      }, duration);
     }
   };
 
