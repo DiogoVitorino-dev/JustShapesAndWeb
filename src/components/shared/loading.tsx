@@ -10,7 +10,7 @@ import Animated, {
 
 import { AnimatedText } from "./Text";
 
-import Colors, { Blue } from "@/constants/Colors";
+import Colors from "@/constants/Colors";
 import { Position } from "@/constants/commonTypes";
 import { MathUtils } from "@/utils/mathUtils";
 
@@ -39,7 +39,7 @@ const Particle = ({ x, y, size = 10, visibleDuration }: ParticleProps) => {
         top: y,
         left: x,
         position: "absolute",
-        backgroundColor: Colors.entity.player,
+        backgroundColor: Colors.loading.particle,
       }}
     />
   );
@@ -78,7 +78,7 @@ export function Loading() {
   return (
     <LinearGradient
       style={[styles.container]}
-      colors={[Colors.UI.background, Blue["15"]]}
+      colors={[Colors.loading.gradientStart, Colors.loading.gradientEnd]}
     >
       {createSquares()}
       <AnimatedText.Title style={[styles.text, animatedStyle]}>
