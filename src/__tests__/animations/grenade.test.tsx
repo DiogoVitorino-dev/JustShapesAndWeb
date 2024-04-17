@@ -166,7 +166,7 @@ describe("Grenade Attack - Animation tests", () => {
     );
   });
 
-  it.failing("Should call onFinish when the animation finishes", () => {
+  it("Should call onFinish when the animation finishes", () => {
     const callback = jest.fn(() => {});
 
     render(<Grenade duration={1000} onFinish={callback} start />);

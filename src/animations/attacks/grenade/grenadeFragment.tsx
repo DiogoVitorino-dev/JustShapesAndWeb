@@ -13,7 +13,7 @@ import {
 } from "react-native-reanimated";
 
 import { RunnableAnimation } from "@/animations/animations.type";
-import { Position } from "@/constants/commonTypes";
+import { Diameter, Position } from "@/constants/commonTypes";
 import Circle, { CircleData } from "@/models/geometric/circle";
 import { Collidable } from "@/scripts/collision/collisionDetector";
 import { AnglesUtils } from "@/utils/angleUtils";
@@ -21,10 +21,25 @@ import { AnglesUtils } from "@/utils/angleUtils";
 export interface GrenadeFragmentProps
   extends Partial<Position>,
     RunnableAnimation {
+  size?: Diameter;
+  /**
+   * @DocMissing
+   */
   angleDirection: number;
-  size?: number;
+
+  /**
+   * @DocMissing
+   */
   distance?: number;
+
+  /**
+   * @DocMissing
+   */
   duration?: number;
+
+  /**
+   * @DocMissing
+   */
   numbersOfReps?: number;
 }
 

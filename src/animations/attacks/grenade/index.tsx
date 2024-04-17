@@ -13,6 +13,9 @@ export type GrenadeFragmentOptions = Omit<
 export interface GrenadeProps
   extends Partial<Position>,
     GrenadeFragmentOptions {
+  /**
+   * @DocMissing
+   */
   fragments?: number;
 }
 
@@ -22,12 +25,6 @@ export function Grenade({
   duration,
   ...fragmentProps
 }: GrenadeProps) {
-  const handleOnFinish = () => {
-    if (onFinish) {
-      onFinish();
-    }
-  };
-
   const createFragments = () => {
     const fragmentsView: React.JSX.Element[] = [];
     let index = fragments;
@@ -37,7 +34,7 @@ export function Grenade({
       fragmentsView.push(
         <GrenadeFragment
           {...fragmentProps}
-          onFinish={handleOnFinish}
+          onFinish={index === 1 ? onFinish : undefined}
           duration={duration}
           angleDirection={partialAngle * index}
           key={index}
