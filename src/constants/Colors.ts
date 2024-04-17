@@ -86,11 +86,36 @@ const settings = {
   iconItem: Green["100"],
 };
 
+const loading = {
+  gradientStart: Green["15"],
+  gradientEnd: Blue["15"],
+  particle: Green["100"],
+};
+
+const game = {
+  checkpoint: {
+    start: Pink["80"],
+    end: Green["80"],
+  },
+  lostLife: {
+    text: Blue["100"],
+    textLosing: Pink["100"],
+  },
+  gameOver: {
+    background: Pink["15"],
+    textContinue: Blue["100"],
+    textOver: Pink["100"],
+    text: White["60"],
+  },
+};
+
 export default {
   UI,
   Menu,
   entity,
   control,
   settings,
+  loading,
   effects,
+  game,
 };
