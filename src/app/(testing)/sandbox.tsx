@@ -4,10 +4,10 @@ import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 
 import { AnimatedAttacks } from "@/animations/attacks";
 import { AnimatedEffects } from "@/animations/effects";
+import ControllablePlayer from "@/components/game/controllablePlayer";
 import { View } from "@/components/shared";
 import { useCollisionSystem } from "@/hooks";
 import Circle, { CircleData } from "@/models/geometric/circle";
-import ControllablePlayer from "@/scripts/controllablePlayer";
 
 export default function Sandbox() {
   const { collided } = useCollisionSystem();
