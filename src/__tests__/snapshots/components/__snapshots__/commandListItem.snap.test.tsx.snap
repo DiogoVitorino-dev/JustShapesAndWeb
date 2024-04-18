@@ -4,9 +4,7 @@ exports[`Command List Item - Snapshot component test should render correctly 1`]
 <View
   style={
     [
-      {
-        "backgroundColor": "rgb(3, 38, 25)",
-      },
+      undefined,
       {
         "flexDirection": "row",
       },
@@ -16,9 +14,7 @@ exports[`Command List Item - Snapshot component test should render correctly 1`]
   <View
     style={
       [
-        {
-          "backgroundColor": "rgb(3, 38, 25)",
-        },
+        undefined,
         [
           {
             "borderColor": "rgb(179, 179, 179)",

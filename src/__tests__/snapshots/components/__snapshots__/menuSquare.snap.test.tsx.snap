@@ -7,20 +7,20 @@ exports[`Menu Square - Snapshot component test should render correctly 1`] = `
       "value": {
         "backgroundColor": "rgb(8, 94, 63)",
         "borderRadius": 3,
-        "height": 170,
-        "left": 676,
+        "height": 39,
+        "left": 502,
         "opacity": 0.4,
         "position": "absolute",
-        "top": 888,
+        "top": 1325,
         "transform": [
           {
-            "rotate": "25deg",
+            "rotate": "172deg",
           },
           {
             "scale": 1,
           },
         ],
-        "width": 107,
+        "width": 141,
       },
     }
   }
@@ -29,20 +29,20 @@ exports[`Menu Square - Snapshot component test should render correctly 1`] = `
     {
       "backgroundColor": "rgb(8, 94, 63)",
       "borderRadius": 3,
-      "height": 170,
-      "left": 676,
+      "height": 39,
+      "left": 502,
       "opacity": 0.4,
       "position": "absolute",
-      "top": 888,
+      "top": 1325,
       "transform": [
         {
-          "rotate": "25deg",
+          "rotate": "172deg",
         },
         {
           "scale": 1,
         },
       ],
-      "width": 107,
+      "width": 141,
     }
   }
 />

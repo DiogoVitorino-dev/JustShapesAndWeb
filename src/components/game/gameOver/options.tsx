@@ -128,7 +128,7 @@ export default function Options({
         Game
       </AnimatedText.Text>
 
-      <View transparent style={styles.options}>
+      <View style={styles.options}>
         <OptionsTextButton
           style={animatedContinue}
           styleText={[styles.text, styles.textContinue]}

@@ -14,7 +14,7 @@ interface LinkButtonProps {
 }
 const LinkButton = ({ href, title, color, icon }: LinkButtonProps) => (
   <Link href={href}>
-    <View transparent style={styles.linkButton}>
+    <View style={styles.linkButton}>
       <FontAwesome
         name={icon || "wrench"}
         color={color || Colors.UI.tint}

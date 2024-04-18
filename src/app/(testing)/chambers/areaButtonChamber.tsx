@@ -1,13 +1,12 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import {
+import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
 
-import { AnimatedView } from "@/components/shared";
 import { ButtonData } from "@/controllers/mobile";
 import { AreaButton } from "@/controllers/mobile/buttons";
 
@@ -25,7 +24,7 @@ export default function AreaButtonChamber() {
   moveObject.value = 500;
   return (
     <View style={styles.container}>
-      <AnimatedView style={[styles.feedbackObject, animatedStyle]} />
+      <Animated.View style={[styles.feedbackObject, animatedStyle]} />
       <AreaButton onPress={handleOnPress} />
     </View>
   );

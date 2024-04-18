@@ -46,5 +46,5 @@ export function Grenade({
     return fragmentsView;
   };
 
-  return <View transparent>{createFragments()}</View>;
+  return <View>{createFragments()}</View>;
 }

@@ -81,7 +81,7 @@ export default function ControllablePlayer() {
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
   return (
-    <View transparent style={styles.container}>
+    <View style={styles.container}>
       <AnimatedEffects.Shake start={collided} impact={{ frequency: 4 }}>
         <Player data={player} style={animatedStyle} />
       </AnimatedEffects.Shake>

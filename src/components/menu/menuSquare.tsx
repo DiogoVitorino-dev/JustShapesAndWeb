@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useWindowDimensions } from "react-native";
-import {
+import Animated, {
   WithTimingConfig,
   useSharedValue,
   withTiming,
@@ -10,8 +10,6 @@ import {
   withDelay,
   runOnUI,
 } from "react-native-reanimated";
-
-import { AnimatedView } from "../shared";
 
 import Colors from "@/constants/Colors";
 import { Angle } from "@/constants/commonTypes";
@@ -91,5 +89,5 @@ export default function MenuSquare() {
     position: "absolute",
   }));
 
-  return <AnimatedView style={animatedView} />;
+  return <Animated.View style={animatedView} />;
 }

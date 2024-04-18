@@ -37,7 +37,7 @@ interface SectionHeader {
 }
 
 const SectionHeaderView = ({ title, icon }: SectionHeader) => (
-  <View transparent style={styles.sectionHeader}>
+  <View style={styles.sectionHeader}>
     <FontAwesome
       name={icon}
       size={28}
@@ -58,7 +58,7 @@ const ListEmpty = () => (
 );
 
 const ListHeader = () => (
-  <View transparent style={styles.listHeader}>
+  <View style={styles.listHeader}>
     <TextTitle style={styles.listHeaderTitle}>Test Chambers</TextTitle>
     <Text style={styles.listHeaderSubtitle}>
       Designed to perform interactive and specific tests

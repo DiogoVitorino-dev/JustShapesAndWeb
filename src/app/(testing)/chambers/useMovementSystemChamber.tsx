@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, StyleSheet } from "react-native";
-import {
+import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
 } from "react-native-reanimated";
 
-import { AnimatedView, View } from "@/components/shared";
+import { View } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { Position } from "@/constants/commonTypes";
 import { MovableObject } from "@/scripts/movement/movement.type";
@@ -41,7 +41,7 @@ export default function UseMovementSystemChamber() {
       <View style={styles.controls}>
         <Button title="Move object" onPress={triggerMovement} />
       </View>
-      <AnimatedView style={[styles.object, animatedObject]} />
+      <Animated.View style={[styles.object, animatedObject]} />
     </View>
   );
 }

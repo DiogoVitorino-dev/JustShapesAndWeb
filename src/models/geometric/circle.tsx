@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import {
+import Animated, {
   SharedValue,
   runOnJS,
   useAnimatedReaction,
@@ -8,7 +8,6 @@ import {
   useDerivedValue,
 } from "react-native-reanimated";
 
-import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import {
   AnimatedStyleApp,
@@ -97,7 +96,7 @@ export default function Circle({ data, collisionMode, style }: CircleProps) {
   );
 
   return (
-    <AnimatedView
+    <Animated.View
       testID="circleModel"
       style={[animatedStyle, styles.default, style]}
     />

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import {
+import Animated, {
   SharedValue,
   useAnimatedReaction,
   useAnimatedStyle,
@@ -11,7 +11,6 @@ import {
 } from "react-native-reanimated";
 
 import { AnimatedPlayer } from "@/animations/player";
-import { AnimatedView } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import type {
   Angle,
@@ -103,12 +102,12 @@ export default function Player({ data, style }: PlayerProps) {
   }));
 
   return (
-    <AnimatedView
+    <Animated.View
       testID="playerModel"
       style={[playerAnimatedStyle, styles.default, style]}
     >
       <AnimatedPlayer.PlayerMovementEffect data={derivedData} />
-    </AnimatedView>
+    </Animated.View>
   );
 }
 

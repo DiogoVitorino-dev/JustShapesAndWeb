@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, StyleSheet } from "react-native";
+import Animated from "react-native-reanimated";
 
 import { AnimatedAttacks } from "@/animations/attacks";
-import { AnimatedView } from "@/components/shared";
 
 export default function AnimationBeamChamber() {
   const [start, setStart] = useState(false);
@@ -11,10 +11,10 @@ export default function AnimationBeamChamber() {
     setStart((prev) => !prev);
   };
   return (
-    <AnimatedView style={[styles.container]}>
+    <Animated.View style={styles.container}>
       <Button title="run Animation" onPress={run} />
       <AnimatedAttacks.Beam start={start} y={100} />
-    </AnimatedView>
+    </Animated.View>
   );
 }
 

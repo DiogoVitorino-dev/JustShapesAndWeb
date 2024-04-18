@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, StyleSheet } from "react-native";
-import {
+import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withRepeat,
@@ -8,7 +8,6 @@ import {
 } from "react-native-reanimated";
 
 import { AnimatedEffects } from "@/animations/effects";
-import { AnimatedView } from "@/components/shared";
 
 export default function AnimationShakerChamber() {
   const [start, setStart] = useState(false);
@@ -30,7 +29,7 @@ export default function AnimationShakerChamber() {
       impact={{ frequency: 3 }}
       style={[styles.container]}
     >
-      <AnimatedView style={[styles.feedbackObject, moveStyle]} />
+      <Animated.View style={[styles.feedbackObject, moveStyle]} />
       <Button title="run Animation" onPress={run} />
     </AnimatedEffects.Shake>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Button, StyleSheet } from "react-native";
-import {
+import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -8,7 +8,7 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-import { AnimatedView, View } from "@/components/shared";
+import { View } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { AnalogicDirectional } from "@/controllers/mobile/directional";
 import { useCollisionSystem } from "@/hooks";
@@ -69,7 +69,7 @@ export default function UseCollisionSystemChamber() {
       <View style={styles.controls}>
         <Button title="trigger collision" onPress={triggerCollision} />
       </View>
-      <AnimatedView style={[styles.target, animatedTarget]} />
+      <Animated.View style={[styles.target, animatedTarget]} />
       <Rectangle data={object} style={[styles.object]} />
       <AnalogicDirectional />
     </View>

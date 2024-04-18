@@ -6,7 +6,7 @@ import {
   ViewStyle,
   useWindowDimensions,
 } from "react-native";
-import {
+import Animated, {
   Easing,
   WithSpringConfig,
   WithTimingConfig,
@@ -20,7 +20,7 @@ import {
 } from "react-native-reanimated";
 
 import MenuButtonEffect from "./menuButtonEffect";
-import { AnimatedView, TextTitle, View } from "../shared";
+import { TextTitle, View } from "../shared";
 
 import { useSoundContext } from "@/audio/sound";
 import Colors from "@/constants/Colors";
@@ -140,7 +140,7 @@ export default function MenuButton({
   const pressAudio = async () => (isStart ? play("start") : play("open-menu"));
 
   return (
-    <AnimatedView transparent style={[styles.root, animatedRootStyle, style]}>
+    <Animated.View style={[styles.root, animatedRootStyle, style]}>
       <Pressable
         style={styles.button}
         onHoverIn={async () => {
@@ -152,17 +152,17 @@ export default function MenuButton({
         }}
         disabled={disabled}
       >
-        <AnimatedView transparent style={[styles.content, animatedTextStyle]}>
+        <Animated.View style={[styles.content, animatedTextStyle]}>
           <TextTitle style={styles.text}>{title}</TextTitle>
-        </AnimatedView>
+        </Animated.View>
       </Pressable>
-      <View transparent style={[styles.containerEffect]}>
+      <View style={[styles.containerEffect]}>
         <MenuButtonEffect
           fill={Colors.UI.text}
           fillBackdrop={Colors.UI.backdrop}
         />
       </View>
-    </AnimatedView>
+    </Animated.View>
   );
 }
 

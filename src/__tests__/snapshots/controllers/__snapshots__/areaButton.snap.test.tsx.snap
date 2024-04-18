@@ -5,9 +5,7 @@ exports[`Area Button - Snapshot mobile control test should render correctly 1`] 
   collapsable={false}
   style={
     [
-      {
-        "backgroundColor": "rgb(3, 38, 25)",
-      },
+      undefined,
       [
         {
           "height": "100%",
@@ -16,9 +14,6 @@ exports[`Area Button - Snapshot mobile control test should render correctly 1`] 
         },
         undefined,
       ],
-      {
-        "backgroundColor": "transparent",
-      },
     ]
   }
 >
@@ -40,7 +35,6 @@ exports[`Area Button - Snapshot mobile control test should render correctly 1`] 
     collapsable={false}
     style={
       {
-        "backgroundColor": "transparent",
         "borderColor": "rgb(20, 210, 255)",
         "borderRadius": 35,
         "borderWidth": 3,

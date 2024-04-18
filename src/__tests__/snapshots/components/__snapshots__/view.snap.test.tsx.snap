@@ -4,9 +4,7 @@ exports[`View - Snapshot component test should render correctly 1`] = `
 <View
   style={
     [
-      {
-        "backgroundColor": "rgb(3, 38, 25)",
-      },
+      undefined,
       undefined,
     ]
   }

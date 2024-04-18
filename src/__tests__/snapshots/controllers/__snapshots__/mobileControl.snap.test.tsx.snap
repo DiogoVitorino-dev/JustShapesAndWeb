@@ -4,9 +4,7 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
 <View
   style={
     [
-      {
-        "backgroundColor": "rgb(3, 38, 25)",
-      },
+      undefined,
       {
         "alignItems": "flex-end",
         "flex": 1,
@@ -14,18 +12,14 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
         "justifyContent": "space-between",
         "width": "100%",
       },
-      {
-        "backgroundColor": "transparent",
-      },
     ]
   }
+  transparent={true}
 >
   <View
     style={
       [
-        {
-          "backgroundColor": "rgb(3, 38, 25)",
-        },
+        undefined,
         [
           {
             "alignItems": "center",
@@ -35,9 +29,6 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
           },
           undefined,
         ],
-        {
-          "backgroundColor": "transparent",
-        },
       ]
     }
   >
@@ -45,9 +36,7 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
       collapsable={false}
       style={
         [
-          {
-            "backgroundColor": "rgb(3, 38, 25)",
-          },
+          undefined,
           [
             {
               "borderRadius": 50,
@@ -105,9 +94,7 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
     collapsable={false}
     style={
       [
-        {
-          "backgroundColor": "rgb(3, 38, 25)",
-        },
+        undefined,
         [
           {
             "height": "100%",
@@ -116,9 +103,6 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
           },
           undefined,
         ],
-        {
-          "backgroundColor": "transparent",
-        },
       ]
     }
   >
@@ -140,7 +124,6 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
       collapsable={false}
       style={
         {
-          "backgroundColor": "transparent",
           "borderColor": "rgb(20, 210, 255)",
           "borderRadius": 35,
           "borderWidth": 3,

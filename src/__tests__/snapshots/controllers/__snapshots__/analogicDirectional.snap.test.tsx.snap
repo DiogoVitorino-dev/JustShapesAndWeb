@@ -4,9 +4,7 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
 <View
   style={
     [
-      {
-        "backgroundColor": "rgb(3, 38, 25)",
-      },
+      undefined,
       [
         {
           "alignItems": "center",
@@ -16,9 +14,6 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
         },
         undefined,
       ],
-      {
-        "backgroundColor": "transparent",
-      },
     ]
   }
 >
@@ -26,9 +21,7 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
     collapsable={false}
     style={
       [
-        {
-          "backgroundColor": "rgb(3, 38, 25)",
-        },
+        undefined,
         [
           {
             "borderRadius": 150,

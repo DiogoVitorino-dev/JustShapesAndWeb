@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import {
+import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -12,7 +12,7 @@ import {
 
 import { DirectionalProps, DirectionalData } from "..";
 
-import { AnimatedView, View } from "@/components/shared";
+import { View } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { AnglesUtils } from "@/utils/angleUtils";
 
@@ -92,7 +92,10 @@ export function AnalogicDirectional({
     },
     (currentValue, previousValue) => {
       if (currentValue !== previousValue && onMove) {
-        const angle = AnglesUtils.getAngleFromPosition(pos.value.x, pos.value.y);
+        const angle = AnglesUtils.getAngleFromPosition(
+          pos.value.x,
+          pos.value.y,
+        );
 
         const data = normalizeData({
           angle,
@@ -106,7 +109,7 @@ export function AnalogicDirectional({
   );
 
   return (
-    <View style={[styles.container, containerStyle]} transparent>
+    <View style={[styles.container, containerStyle]}>
       <GestureDetector gesture={pan}>
         <View
           testID="pan"
@@ -115,7 +118,7 @@ export function AnalogicDirectional({
             styles.area,
           ]}
         >
-          <AnimatedView
+          <Animated.View
             style={[
               {
                 width: pointerSize,

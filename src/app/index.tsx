@@ -17,7 +17,7 @@ export default function Menu() {
 
   return (
     <MenuBackground layout={layoutAnimation} style={styles.container}>
-      <View transparent style={styles.containerButtons}>
+      <View style={styles.containerButtons}>
         <MenuButton
           title="Jogar"
           isStart
@@ -38,7 +38,7 @@ export default function Menu() {
           />
         ) : null}
       </View>
-      <View transparent style={styles.containerTitle}>
+      <View style={styles.containerTitle}>
         <BlurView
           style={styles.blur}
           blurReductionFactor={4}

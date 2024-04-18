@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Platform, StyleSheet } from "react-native";
-import {
+import Animated, {
   runOnJS,
   runOnUI,
   useDerivedValue,
@@ -12,7 +12,7 @@ import {
   cancelAnimation,
 } from "react-native-reanimated";
 
-import { AnimatedText, AnimatedView, Icon } from "../shared";
+import { AnimatedText, Icon } from "../shared";
 
 import Colors from "@/constants/Colors";
 import Strings from "@/constants/Strings";
@@ -104,10 +104,12 @@ export default function HeadphoneHint({
   };
 
   return (
-    <AnimatedView style={styles.container}>
-      <AnimatedView style={{ transform: [{ scale }, { translateY }], opacity }}>
+    <Animated.View style={styles.container}>
+      <Animated.View
+        style={{ transform: [{ scale }, { translateY }], opacity }}
+      >
         <Icon name="headset" color={Colors.UI.text} size={36} />
-      </AnimatedView>
+      </Animated.View>
       <AnimatedText.Text
         style={{
           opacity: opacityText,
@@ -117,7 +119,7 @@ export default function HeadphoneHint({
         {Strings.headphoneHint}
       </AnimatedText.Text>
       {skipAnimationOnMobile()}
-    </AnimatedView>
+    </Animated.View>
   );
 }
 

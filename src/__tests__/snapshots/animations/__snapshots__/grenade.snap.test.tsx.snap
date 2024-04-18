@@ -4,13 +4,8 @@ exports[`Grenade - Snapshot animation test should render correctly 1`] = `
 <View
   style={
     [
-      {
-        "backgroundColor": "rgb(3, 38, 25)",
-      },
       undefined,
-      {
-        "backgroundColor": "transparent",
-      },
+      undefined,
     ]
   }
 >

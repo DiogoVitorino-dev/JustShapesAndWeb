@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Button, StyleSheet } from "react-native";
+import Animated from "react-native-reanimated";
 
 import { AnimatedAttacks } from "@/animations/attacks";
-import { AnimatedView } from "@/components/shared";
 
 export default function AnimationGrenadeChamber() {
   const [boom, setBoom] = useState(false);
   return (
-    <AnimatedView style={[styles.container]}>
+    <Animated.View style={[styles.container]}>
       <AnimatedAttacks.Grenade
         x={200}
         y={670}
@@ -47,7 +47,7 @@ export default function AnimationGrenadeChamber() {
           setBoom((prev) => !prev);
         }}
       />
-    </AnimatedView>
+    </Animated.View>
   );
 }
 

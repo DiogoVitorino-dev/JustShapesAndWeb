@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, StyleSheet } from "react-native";
+import Animated from "react-native-reanimated";
 
 import { AnimatedEffects } from "@/animations/effects";
-import { AnimatedView } from "@/components/shared";
 
 export default function AnimationFlashChamber() {
   const [start, setStart] = useState(false);
@@ -11,7 +11,7 @@ export default function AnimationFlashChamber() {
     setStart((prev) => !prev);
   };
   return (
-    <AnimatedView style={[styles.container]}>
+    <Animated.View style={[styles.container]}>
       <Button title="run Animation" onPress={run} />
       <AnimatedEffects.Flash
         start={start}
@@ -19,7 +19,7 @@ export default function AnimationFlashChamber() {
         duration={200}
         delayOfReps={200}
       >
-        <AnimatedView style={[styles.feedbackObject]}>
+        <Animated.View style={[styles.feedbackObject]}>
           <AnimatedEffects.Flash
             start={start}
             numbersOfReps={-1}
@@ -28,9 +28,9 @@ export default function AnimationFlashChamber() {
             intensity={100}
             delayOfReps={320}
           />
-        </AnimatedView>
+        </Animated.View>
       </AnimatedEffects.Flash>
-    </AnimatedView>
+    </Animated.View>
   );
 }
 
