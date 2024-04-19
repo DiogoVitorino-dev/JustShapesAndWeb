@@ -17,7 +17,7 @@ export function useAudioSystem() {
   const [sound, setSound] = useState(new Audio.Sound());
   const [volumeTrack, setVolumeTrack] = useState(0.5);
   const [status, setStatus] = useState<AudioStatus>(AudioStatus.IDLE);
-  const [track, setTrack] = useState<AudioTrack | undefined>();
+  const [track, setTrack] = useState<AudioTrack>();
 
   const pause: AudioPause = async () => {
     switch (status) {
@@ -91,9 +91,21 @@ export function useAudioSystem() {
       }
     });
 
+  const updateVolume = async (volume: number) => sound.setVolumeAsync(volume);
+
   useEffect(() => {
     setListener(sound);
   }, [sound]);
+
+  useEffect(() => {
+    switch (status) {
+      case AudioStatus.READY:
+      case AudioStatus.PLAYING:
+      case AudioStatus.FINISHED:
+        updateVolume(volumeTrack);
+        break;
+    }
+  }, [volumeTrack, status]);
 
   return useMemo(
     () => ({
@@ -105,6 +117,6 @@ export function useAudioSystem() {
       setVolume,
       getProgress,
     }),
-    [status, track],
+    [status, track, play, pause, setProgress, setVolume, getProgress],
   );
 }

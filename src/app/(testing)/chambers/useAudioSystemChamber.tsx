@@ -8,7 +8,7 @@ import Colors from "@/constants/Colors";
 export default function UseAudioSystemChamber() {
   const [progressValue, setProgressValue] = useState(0);
   const [volumeValue, setVolumeValue] = useState("1");
-  const { getProgress, pause, play, setProgress, setVolume, load } =
+  const { getProgress, pause, play, setProgress, setVolume } =
     useSoundContext();
 
   const handleGetProgress = async () => {
@@ -17,12 +17,11 @@ export default function UseAudioSystemChamber() {
   const handlePause = () => {
     pause();
   };
-  const handleResume = () => {
-    play("start");
-  };
-  const handlePlay = () => {
-    
-  };
+
+  const handleResume = async () => play();
+
+  const handlePlay = async () => play("start");
+
   const handleSetProgress = () => {
     setProgress(progressValue);
   };
@@ -32,7 +31,7 @@ export default function UseAudioSystemChamber() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.input}>{volumeValue}</Text>
+      <Text style={styles.input}>Volume to set: {volumeValue}</Text>
       <View style={styles.row}>
         <Button title="PLAY" onPress={handlePlay} />
         <Button title="PAUSE" onPress={handlePause} />
@@ -77,6 +76,7 @@ const styles = StyleSheet.create({
 
     justifyContent: "space-around",
     flexDirection: "row",
+    flexWrap: "wrap",
   },
 
   column: {
