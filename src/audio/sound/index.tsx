@@ -6,6 +6,8 @@ import { AudioFunctions, AudioProps, AudioStatus } from "@/audio/audio.types";
 import { useAppSelector } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
+// The property key MUST have the same name as the file (without the type)
+// Example:  jumpSound: require("example/sound/jumpSound.mp3")
 const menuAssets = {
   "close-menu": require("@/assets/audio/sounds/menu/close-menu.mp3"),
   "close-nested-menu": require("@/assets/audio/sounds/menu/close-nested-menu.mp3"),

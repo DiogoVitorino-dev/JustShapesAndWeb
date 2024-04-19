@@ -11,7 +11,7 @@ export enum AudioStatus {
 export type AudioTrack = Asset;
 
 export type AudioPlay = (track?: AudioTrack) => Promise<void>;
-export type AudioPause = () => Promise<void>;
+export type AudioPause = (fade?: number) => Promise<void>;
 export type AudioGetProgress = () => Promise<number>;
 
 /**

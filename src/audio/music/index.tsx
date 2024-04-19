@@ -6,6 +6,8 @@ import { AudioFunctions, AudioProps, AudioStatus } from "@/audio/audio.types";
 import { useAppSelector } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
+// The property key MUST have the same name as the file (without the type)
+// Example: introMusic: require("example/music/introMusic.mp3")
 const gameAssets = {};
 
 export type MusicList = keyof typeof gameAssets;

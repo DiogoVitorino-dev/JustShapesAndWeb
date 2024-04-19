@@ -1,5 +1,6 @@
 import { Audio } from "expo-av";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Animated } from "react-native";
 
 import {
   AudioStatus,
@@ -19,12 +20,22 @@ export function useAudioSystem() {
   const [status, setStatus] = useState<AudioStatus>(AudioStatus.IDLE);
   const [track, setTrack] = useState<AudioTrack>();
 
-  const pause: AudioPause = async () => {
-    switch (status) {
-      case AudioStatus.PLAYING:
+  const fade = useRef(new Animated.Value(0)).current;
+
+  const pause: AudioPause = async (duration = 300) => {
+    const callback: Animated.EndCallback = async ({ finished }) => {
+      if (status === AudioStatus.PLAYING && finished) {
         await sound.pauseAsync();
-        break;
-    }
+      }
+    };
+
+    fade.setValue(volumeTrack);
+
+    Animated.timing(fade, {
+      toValue: 0,
+      duration,
+      useNativeDriver: true,
+    }).start(callback);
   };
 
   const play: AudioPlay = async (newTrack) => {
@@ -93,8 +104,19 @@ export function useAudioSystem() {
 
   const updateVolume = async (volume: number) => sound.setVolumeAsync(volume);
 
+  const prepareFade = () => {
+    if (fade.hasListeners()) {
+      fade.removeAllListeners();
+    }
+
+    fade.addListener(({ value }) => {
+      return updateVolume(value);
+    });
+  };
+
   useEffect(() => {
     setListener(sound);
+    prepareFade();
   }, [sound]);
 
   useEffect(() => {

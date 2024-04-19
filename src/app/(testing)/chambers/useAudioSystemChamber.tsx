@@ -29,12 +29,15 @@ export default function UseAudioSystemChamber() {
     setVolume(parseFloat(volumeValue.replace(/[^0-9.]/g, "")));
   };
 
+  const handleFadedPause = () => pause(3000);
+
   return (
     <View style={styles.container}>
       <Text style={styles.input}>Volume to set: {volumeValue}</Text>
       <View style={styles.row}>
         <Button title="PLAY" onPress={handlePlay} />
         <Button title="PAUSE" onPress={handlePause} />
+        <Button title="FADED PAUSE" onPress={handleFadedPause} />
         <Button title="RESUME" onPress={handleResume} />
       </View>
 
