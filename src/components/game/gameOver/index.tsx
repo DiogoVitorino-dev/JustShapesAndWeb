@@ -18,7 +18,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { PlayerActions } from "@/store/reducers/player/playerActions";
 import { PlayerStatus } from "@/store/reducers/player/playerReducer";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
-import { SubstageActions } from "@/store/reducers/substages/substagesActions";
+import { StageActions } from "@/store/reducers/stages/stagesActions";
+import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
 
 export default function GameOver() {
   const entryDuration = 3000;
@@ -28,6 +29,8 @@ export default function GameOver() {
   const display = useSharedValue<DisplayOptions>("none");
 
   const status = useAppSelector(PlayerSelectors.selectStatus);
+
+  const substages = useAppSelector(SubstagesSelectors.selectAllSubstages);
 
   const router = useRouter();
 
@@ -44,8 +47,12 @@ export default function GameOver() {
   }));
 
   const handleContinue = () => {
-    dispatch(SubstageActions.chosenSubstage(1));
-    dispatch(PlayerActions.restored());
+    if (substages.length > 0) {
+      dispatch(StageActions.chosenSubstage(substages[0].id));
+      dispatch(PlayerActions.restored());
+    } else {
+      handleOver();
+    }
   };
 
   const handleOver = () => {

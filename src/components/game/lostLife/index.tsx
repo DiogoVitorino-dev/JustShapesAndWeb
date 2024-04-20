@@ -16,7 +16,7 @@ import Colors from "@/constants/Colors";
 import { DisplayOptions } from "@/constants/commonTypes";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
-import { SubstageActions } from "@/store/reducers/substages/substagesActions";
+import { StageActions } from "@/store/reducers/stages/stagesActions";
 
 export default function LostLife() {
   const currentLife = useAppSelector(PlayerSelectors.selectLife);
@@ -31,7 +31,7 @@ export default function LostLife() {
   const dispatch = useAppDispatch();
 
   const restart = () => {
-    dispatch(SubstageActions.restartedFromCheckpoint());
+    dispatch(StageActions.restartedFromCheckpoint());
   };
 
   const shakeDelayed = (delay: number) =>
