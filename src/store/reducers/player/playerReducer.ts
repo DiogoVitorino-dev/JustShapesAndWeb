@@ -3,9 +3,9 @@ import { createReducer } from "@reduxjs/toolkit";
 import { PlayerActions } from "./playerActions";
 
 export enum PlayerStatus {
-  Alive,
-  Invulnerable,
-  Dead,
+  Alive = "ALIVE",
+  Invulnerable = "INVULNERABLE",
+  Dead = "DEAD",
 }
 
 export interface HealthAtributes {
@@ -15,11 +15,8 @@ export interface HealthAtributes {
   maxHealth: number;
 }
 
-export type HealthHistory = HealthAtributes[];
-
 interface Player extends HealthAtributes {
   status: PlayerStatus;
-  history: HealthHistory;
 }
 
 export interface PlayerState extends Player {}
@@ -31,7 +28,6 @@ const initialState: PlayerState = {
   health: 3,
   maxHealth: 3,
 
-  history: [],
   status: PlayerStatus.Alive,
 };
 
