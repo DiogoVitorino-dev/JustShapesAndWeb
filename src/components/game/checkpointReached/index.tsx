@@ -14,6 +14,7 @@ import Colors from "@/constants/Colors";
 import { DisplayOptions } from "@/constants/commonTypes";
 import { useAppSelector } from "@/hooks";
 import { StagesSelectors } from "@/store/reducers/stages/stagesSelectors";
+import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
 
 interface CheckpointReachedProps {
   style?: AnimatedStyledTextProps["style"];
@@ -31,6 +32,7 @@ export default function CheckpointReached({ style }: CheckpointReachedProps) {
   const opacity = useSharedValue(0);
 
   const checkpoint = useAppSelector(StagesSelectors.selectCheckpoint);
+  const firstSubstage = useAppSelector(SubstagesSelectors.selectFirstSubstage);
 
   const startAnimation = () => {
     display.value = "flex";
@@ -76,11 +78,13 @@ export default function CheckpointReached({ style }: CheckpointReachedProps) {
   };
 
   useEffect(() => {
-    if (checkpoint) {
-      startAnimation();
-      setTimeout(endAnimation, delay);
+    if (checkpoint && firstSubstage) {
+      if (checkpoint !== firstSubstage.id) {
+        startAnimation();
+        setTimeout(endAnimation, delay);
+      }
     }
-  }, [checkpoint]);
+  }, [checkpoint, firstSubstage]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     display: display.value,
