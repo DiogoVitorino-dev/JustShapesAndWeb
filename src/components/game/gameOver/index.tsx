@@ -71,20 +71,21 @@ export default function GameOver() {
 
   const endAnimation = (onFinish?: () => void) => {
     "worklet";
-    background.value = withTiming(0, { duration: exitDuration }, (fin) => {
-      if (fin && onFinish) {
-        runOnJS(onFinish)();
-      }
-    });
+    background.value = withTiming(0, { duration: exitDuration });
     display.value = withDelay(
       exitDuration,
-      withTiming("none", { duration: 0 }),
+      withTiming("none", { duration: 0 }, (fin) => {
+        if (fin && onFinish) {
+          runOnJS(onFinish)();
+        }
+      }),
     );
   };
 
   useEffect(() => {
     switch (status) {
       case PlayerStatus.Dead:
+        dispatch(StageActions.statusUpdated(StageStatus.Failed));
         startAnimation();
         break;
     }
