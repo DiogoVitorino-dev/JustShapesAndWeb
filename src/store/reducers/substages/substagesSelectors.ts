@@ -1,8 +1,11 @@
-import { substagesAdapter } from "./substagesReducer";
+import { Substage, substagesAdapter } from "./substagesReducer";
 
 import { RootState } from "@/store";
 
 const selectStage = (state: RootState) => state.substage.stage;
+
+const selectFirstSubstage = (state: RootState): Substage | undefined =>
+  state.substage.entities[state.substage.ids[0]];
 
 const {
   selectAll: selectAllSubstages,
@@ -30,4 +33,9 @@ export const SubstagesSelectors = {
    * @DocMissing
    */
   selectStage,
+
+  /**
+   * @DocMissing
+   */
+  selectFirstSubstage,
 };
