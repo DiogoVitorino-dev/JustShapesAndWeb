@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Text } from "react-native";
 import {
   runOnJS,
   runOnUI,
@@ -11,21 +10,17 @@ import {
 } from "react-native-reanimated";
 
 import { RunnableAnimation } from "@/animations/animations.type";
-import { AnimatedText } from "@/components/shared";
+import {
+  AnimatedStyledTextProps,
+  AnimatedText,
+  StyledTextProps,
+} from "@/components/shared";
 
 export interface CharacterProps extends RunnableAnimation {
-  children?: React.ComponentProps<typeof Text>["children"];
+  children?: StyledTextProps["children"];
   index?: number;
   duration?: number;
-  textStyle?: Omit<
-    React.ComponentProps<typeof AnimatedText.Text>["style"],
-    | "margin"
-    | "marginHorizontal"
-    | "marginVertical"
-    | "padding"
-    | "paddingHorizontal"
-    | "paddingVertical"
-  >;
+  style?: AnimatedStyledTextProps["style"];
 }
 
 export default function Character({
@@ -34,7 +29,7 @@ export default function Character({
   index = 0,
   start,
   onFinish,
-  textStyle,
+  style,
 }: CharacterProps) {
   duration -= index * 100;
 
@@ -77,9 +72,10 @@ export default function Character({
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
     transform: [{ translateY: translateY.value }],
+    fontSize: 46,
   }));
   return (
-    <AnimatedText.Title style={[animatedStyle, textStyle]}>
+    <AnimatedText.Title style={[animatedStyle, style]}>
       {children}
     </AnimatedText.Title>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ViewStyle } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,50 +7,43 @@ import Animated, {
 
 import Character, { CharacterProps } from "./character";
 
-import { DisplayOptions } from "@/constants/commonTypes";
+import { AnimatedStyleApp, DisplayOptions } from "@/constants/commonTypes";
 import { useAppSelector } from "@/hooks";
-import { StageStatus } from "@/store/reducers/stages/stagesReducer";
 import { StagesSelectors } from "@/store/reducers/stages/stagesSelectors";
 import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
 
-export interface StageNameProps
-  extends Omit<CharacterProps, "character" | "index" | "start"> {
-  start?: boolean;
-  style?: ViewStyle | ViewStyle[];
+type ForwardCharacterProps = Pick<CharacterProps, "duration" | "onFinish">;
+
+export interface StageNameProps extends ForwardCharacterProps {
+  style?: AnimatedStyleApp;
 }
 
 export default function StageName({
-  start,
   style,
   onFinish,
   ...props
 }: StageNameProps) {
   const [shouldStart, setShouldStart] = useState(false);
-  const name = useAppSelector(StagesSelectors.selectName);
 
-  const allSubstages = useAppSelector(SubstagesSelectors.selectAllSubstages);
+  const name = useAppSelector(StagesSelectors.selectName);
+  const firstSubstage = useAppSelector(SubstagesSelectors.selectFirstSubstage);
   const substage = useAppSelector(StagesSelectors.selectSubstage);
-  const status = useAppSelector(StagesSelectors.selectStatus);
 
   const display = useSharedValue<DisplayOptions>("none");
 
   useEffect(() => {
-    switch (status) {
-      case StageStatus.Playing:
-        if (substage === allSubstages[0]?.id) {
-          setShouldStart(true);
-        }
-        break;
+    if (substage === firstSubstage?.id) {
+      setShouldStart(true);
     }
-  }, [allSubstages, substage, status]);
+  }, [firstSubstage, substage]);
 
   useEffect(() => {
-    if (shouldStart || start) {
+    if (shouldStart) {
       display.value = "flex";
     } else {
       display.value = "none";
     }
-  }, [shouldStart, start]);
+  }, [shouldStart]);
 
   const handleFinish = () => {
     if (shouldStart) {
@@ -69,7 +62,7 @@ export default function StageName({
       AnimatedName.push(
         <Character
           {...props}
-          start={start || shouldStart}
+          start={shouldStart}
           onFinish={index === 0 ? handleFinish : undefined}
           index={index}
           key={`letter_${index}`}
@@ -80,17 +73,28 @@ export default function StageName({
     }
 
     return AnimatedName;
-  }, [shouldStart, name, start]);
+  }, [shouldStart, name]);
 
   const animatedContainer = useAnimatedStyle(() => ({
     display: display.value,
-    width: "auto",
-    flexDirection: "row",
   }));
 
   return (
-    <Animated.View style={[animatedContainer, style]}>
-      {Characters}
+    <Animated.View style={[animatedContainer, styles.container, style]}>
+      <Text style={[styles.text]}>{Characters}</Text>
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    flexDirection: "row",
+  },
+
+  text: {
+    margin: 36,
+  },
+});
