@@ -9,6 +9,11 @@ export interface Substage {
    * @DocMissing
    */
   musicStartTime: number;
+
+  /**
+   * @DocMissing
+   */
+  duration: number;
 }
 
 export const substagesAdapter = createEntityAdapter<Substage>({
