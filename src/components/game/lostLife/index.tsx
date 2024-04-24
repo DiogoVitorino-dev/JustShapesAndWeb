@@ -17,6 +17,7 @@ import { DisplayOptions } from "@/constants/commonTypes";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
 import { StageActions } from "@/store/reducers/stages/stagesActions";
+import { StageStatus } from "@/store/reducers/stages/stagesReducer";
 
 export default function LostLife() {
   const currentLife = useAppSelector(PlayerSelectors.selectLife);
@@ -29,6 +30,10 @@ export default function LostLife() {
   const color = useSharedValue(0);
 
   const dispatch = useAppDispatch();
+
+  const stopStageRuntime = () => {
+    dispatch(StageActions.statusUpdated(StageStatus.Idle));
+  };
 
   const restart = () => {
     dispatch(StageActions.restartedFromCheckpoint());
@@ -69,10 +74,9 @@ export default function LostLife() {
   };
 
   useEffect(() => {
-    if (currentLife > 0 && life === 0) {
-      setLife(currentLife);
-    } else if (life > currentLife) {
+    if (life > currentLife && currentLife > 0) {
       startAnimation(currentLife);
+      stopStageRuntime();
 
       setTimeout(() => {
         endAnimation();
