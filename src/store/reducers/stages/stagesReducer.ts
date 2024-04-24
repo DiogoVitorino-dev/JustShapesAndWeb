@@ -55,7 +55,11 @@ const reducer = createReducer(initialState, (builder) => {
       state.status = StageStatus.Idle;
     })
     .addCase(unloaded, (state) => {
-      state = initialState;
+      const { name, status } = initialState;
+      state.name = name;
+      state.status = status;
+      state.checkpoint = undefined;
+      state.substage = undefined;
     })
     .addCase(checkpointReached, (state, action) => {
       state.checkpoint = action.payload;
