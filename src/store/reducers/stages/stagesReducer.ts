@@ -3,11 +3,11 @@ import { createReducer } from "@reduxjs/toolkit";
 import { StageActions } from "./stagesActions";
 
 export enum StageStatus {
-  Idle,
-  Paused,
-  Playing,
-  Failed,
-  Completed,
+  Idle = "IDLE",
+  Paused = "PAUSED",
+  Playing = "PLAYING",
+  Failed = "FAILED",
+  Completed = "COMPLETED",
 }
 
 export interface StagesState {
