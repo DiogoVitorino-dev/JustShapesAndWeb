@@ -1,4 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer, isAnyOf } from "@reduxjs/toolkit";
 
 import { StageActions } from "./stagesActions";
 
@@ -46,6 +46,12 @@ const {
   statusUpdated,
 } = StageActions;
 
+const isActionWhilePlaying = isAnyOf(
+  chosenSubstage,
+  restartedFromCheckpoint,
+  checkpointReached,
+);
+
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loaded, (state, action) => {
@@ -72,6 +78,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(chosenSubstage, (state, action) => {
       state.substage = action.payload;
+    })
+    .addMatcher(isActionWhilePlaying, (state) => {
+      state.status = StageStatus.Playing;
     });
 });
 
