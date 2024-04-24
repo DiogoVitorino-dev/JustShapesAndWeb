@@ -35,7 +35,7 @@ const reducer = createReducer(initialState, (builder) => {
       substagesAdapter.setAll(state, action.payload.substages);
     })
     .addCase(unloaded, (state) => {
-      state = initialState;
+      state.stage = initialState.stage;
       substagesAdapter.removeAll(state);
     });
 });
