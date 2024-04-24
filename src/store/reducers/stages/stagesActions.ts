@@ -1,10 +1,11 @@
 import { createAction } from "@reduxjs/toolkit";
 
-import type { StagesState, StageStatus } from "./stagesReducer";
+import type { StageStatus } from "./stagesReducer";
 
-export type LoadedStagePayload = Required<
-  Pick<StagesState, "name" | "substage">
->;
+export type LoadedStagePayload = {
+  name: string;
+  initialSubstage: number;
+};
 const loaded = createAction<LoadedStagePayload>("stages/loaded");
 
 const checkpointReached = createAction<number>("stages/checkpointReached");
