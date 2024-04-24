@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "blackbox",
     "collidable",
     "Collidable",
     "cooldown",
@@ -11,6 +12,7 @@
     "phntms",
     "reduxjs",
     "springify",
-    "substages"
+    "substages",
+    "Substages"
   ]
 }
