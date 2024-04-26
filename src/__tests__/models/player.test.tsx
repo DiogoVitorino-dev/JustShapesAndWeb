@@ -1,4 +1,4 @@
-import { render, renderHook } from "@testing-library/react-native";
+import { act, render, renderHook } from "@testing-library/react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
@@ -26,7 +26,9 @@ describe("Player - Model tests", () => {
 
     data.result.current.value = { x: 50, y: 100, angle: 90 };
 
+    act(() => {
     jest.advanceTimersByTime(1000);
+    });
 
     expect(view).toHaveAnimatedStyle({
       left: 50,
@@ -40,7 +42,9 @@ describe("Player - Model tests", () => {
 
     data.result.current.value = { angle: 90 };
 
+    act(() => {
     jest.advanceTimersByTime(1500);
+    });
 
     const style = getAnimatedStyle(getByTestId("playerModel"));
 
@@ -55,7 +59,9 @@ describe("Player - Model tests", () => {
 
     data.result.current.value = { width: 100, height: 150 };
 
+    act(() => {
     jest.advanceTimersByTime(1000);
+    });
 
     const style = getAnimatedStyle(getByTestId("playerModel"));
 

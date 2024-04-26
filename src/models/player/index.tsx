@@ -34,7 +34,7 @@ export interface PlayerProps {
   style?: AnimatedStyleApp;
 }
 
-const initialValues = {
+const initialValues: Required<PlayerData> = {
   x: 0,
   y: 0,
   angle: 0,
