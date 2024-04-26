@@ -24,7 +24,7 @@ export interface CollisionSystem {
    * - `Param target` A value with the collidable property enabled that you want to check for collisions
    * - `Returns` A Function to force remove the `target` from Collision System. `NOTE:` If removed you will need to call `addTarget` again
    *
-   *TIP: You can remove this object just by making the `collidable.enable` property `false`
+   *TIP: You can remove this target just by making the `collidable.enable` property `false`
    */
   addTarget: AddCollidableObject;
 
