@@ -72,7 +72,7 @@ describe("Player - Model tests", () => {
     expect(style.height).toBe(150);
   });
 
-  it.only.each([
+  it.each([
     ["Should collide", 200],
     ["Should not collide", 100],
   ])("%s", async (_, x) => {
