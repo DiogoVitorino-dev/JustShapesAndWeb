@@ -95,6 +95,9 @@ export default function CheckpointReached({ style }: CheckpointReachedProps) {
     ),
     opacity: opacity.value,
     fontSize: 36,
+    position: "absolute",
+    margin: 36,
+    alignSelf:"center",
     transform: [{ rotate: rotate.value + "deg" }, { scale: scale.value }],
   }));
 
