@@ -9,6 +9,7 @@ import Character, { CharacterProps } from "./character";
 
 import { AnimatedStyleApp, DisplayOptions } from "@/constants/commonTypes";
 import { useAppSelector } from "@/hooks";
+import { StageStatus } from "@/store/reducers/stages/stagesReducer";
 import { StagesSelectors } from "@/store/reducers/stages/stagesSelectors";
 import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
 
@@ -26,16 +27,17 @@ export default function StageName({
   const [shouldStart, setShouldStart] = useState(false);
 
   const name = useAppSelector(StagesSelectors.selectName);
+  const status = useAppSelector(StagesSelectors.selectStatus);
   const firstSubstage = useAppSelector(SubstagesSelectors.selectFirstSubstage);
   const substage = useAppSelector(StagesSelectors.selectSubstage);
 
   const display = useSharedValue<DisplayOptions>("none");
 
   useEffect(() => {
-    if (substage === firstSubstage?.id) {
+    if (substage === firstSubstage?.id && status === StageStatus.Idle) {
       setShouldStart(true);
     }
-  }, [firstSubstage, substage]);
+  }, [firstSubstage, substage, status]);
 
   useEffect(() => {
     if (shouldStart) {
