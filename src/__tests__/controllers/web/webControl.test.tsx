@@ -1,11 +1,11 @@
 /**
  * @jest-environment jsdom
  */
+import { act, render as rendering } from "@testing-library/react-native";
+import { Provider } from "react-redux";
 
-import { act } from "@testing-library/react-native";
-
-import { render } from "@/__tests__/test-utils";
 import WebControl, { KeyboardData } from "@/controllers/web";
+import { store } from "@/store";
 
 const defaultKeys = {
   up: "w",
@@ -14,6 +14,9 @@ const defaultKeys = {
   right: "d",
   jump: " ",
 };
+
+const render: typeof rendering = (ui, options) =>
+  rendering(<Provider store={store}>{ui}</Provider>, options);
 
 describe("press and release default keys - Web control tests", () => {
   beforeEach(() => jest.useFakeTimers());
