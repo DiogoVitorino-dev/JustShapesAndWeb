@@ -68,42 +68,6 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
         {
           "value": {
             "backgroundColor": "rgb(20, 255, 170)",
-            "height": 4.222222222222222,
-            "opacity": 0,
-            "right": 0,
-            "top": 0,
-            "transform": [
-              {
-                "translateX": 0,
-              },
-            ],
-            "width": 4.222222222222222,
-          },
-        }
-      }
-      collapsable={false}
-      style={
-        {
-          "backgroundColor": "rgb(20, 255, 170)",
-          "height": 4.222222222222222,
-          "opacity": 0,
-          "right": 0,
-          "top": 0,
-          "transform": [
-            {
-              "translateX": 0,
-            },
-          ],
-          "width": 4.222222222222222,
-        }
-      }
-      testID="PlayerMovementParticle"
-    />
-    <View
-      animatedStyle={
-        {
-          "value": {
-            "backgroundColor": "rgb(20, 255, 170)",
             "height": 2.2222222222222223,
             "opacity": 0,
             "right": 0,
@@ -140,7 +104,7 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
         {
           "value": {
             "backgroundColor": "rgb(20, 255, 170)",
-            "height": 5.222222222222222,
+            "height": 4.222222222222222,
             "opacity": 0,
             "right": 0,
             "top": 0,
@@ -149,7 +113,7 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
                 "translateX": 0,
               },
             ],
-            "width": 5.222222222222222,
+            "width": 4.222222222222222,
           },
         }
       }
@@ -157,7 +121,7 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
       style={
         {
           "backgroundColor": "rgb(20, 255, 170)",
-          "height": 5.222222222222222,
+          "height": 4.222222222222222,
           "opacity": 0,
           "right": 0,
           "top": 0,
@@ -166,7 +130,43 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
               "translateX": 0,
             },
           ],
-          "width": 5.222222222222222,
+          "width": 4.222222222222222,
+        }
+      }
+      testID="PlayerMovementParticle"
+    />
+    <View
+      animatedStyle={
+        {
+          "value": {
+            "backgroundColor": "rgb(20, 255, 170)",
+            "height": 4.222222222222222,
+            "opacity": 0,
+            "right": 0,
+            "top": 0,
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 4.222222222222222,
+          },
+        }
+      }
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(20, 255, 170)",
+          "height": 4.222222222222222,
+          "opacity": 0,
+          "right": 0,
+          "top": 0,
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 4.222222222222222,
         }
       }
       testID="PlayerMovementParticle"

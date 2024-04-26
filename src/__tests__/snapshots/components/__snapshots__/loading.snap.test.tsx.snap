@@ -12,8 +12,9 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     [
       {
         "alignItems": "center",
-        "flex": 1,
+        "height": "100%",
         "justifyContent": "center",
+        "position": "absolute",
         "width": "100%",
       },
     ]
