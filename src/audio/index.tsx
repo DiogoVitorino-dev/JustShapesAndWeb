@@ -102,16 +102,16 @@ export function useAudioSystem() {
       }
     });
 
-  const updateVolume = async (volume: number) => sound.setVolumeAsync(volume);
+  const updateVolume = async (volume: number) => {
+    if (sound._loaded) sound.setVolumeAsync(volume);
+  };
 
   const prepareFade = () => {
     if (fade.hasListeners()) {
       fade.removeAllListeners();
     }
 
-    fade.addListener(({ value }) => {
-      return updateVolume(value);
-    });
+    fade.addListener(({ value }) => updateVolume(value));
   };
 
   useEffect(() => {
