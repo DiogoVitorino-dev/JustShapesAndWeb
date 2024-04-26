@@ -82,6 +82,8 @@ export default function LostLife() {
         endAnimation();
         restart();
       }, 3500);
+    } else if (currentLife > 1 && life === 1) {
+      setLife(currentLife);
     }
   }, [currentLife, life]);
 
