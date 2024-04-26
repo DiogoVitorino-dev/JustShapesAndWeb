@@ -4,7 +4,9 @@ import { RootState } from "@/store";
 
 const selectStage = (state: RootState) => state.substage.stage;
 
-const selectFirstSubstage = (state: RootState): Substage | undefined =>
+const selectFirstSubstage = (
+  state: RootState,
+): Required<Substage> | undefined =>
   state.substage.entities[state.substage.ids[0]];
 
 const {

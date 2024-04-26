@@ -8,7 +8,7 @@ export interface Substage {
   /**
    * @DocMissing
    */
-  musicStartTime: number;
+  musicStartTime?: number;
 
   /**
    * @DocMissing
@@ -16,7 +16,7 @@ export interface Substage {
   duration: number;
 }
 
-export const substagesAdapter = createEntityAdapter<Substage>({
+export const substagesAdapter = createEntityAdapter<Required<Substage>>({
   sortComparer: (A, B) => A.id - B.id,
 });
 
@@ -37,7 +37,22 @@ const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loaded, (state, action) => {
       state.stage = action.payload.stage;
-      substagesAdapter.setAll(state, action.payload.substages);
+
+      const sorted = action.payload.substages.sort((a, b) => a.id - b.id);
+
+      let musicStartTime = 0;
+      let substages: Required<Substage>[] = [];
+
+      substages = sorted.map((item, index) => {
+        if (item.musicStartTime) {
+          musicStartTime = item.musicStartTime;
+        } else if (index !== 0) {
+          musicStartTime += item.duration;
+        }
+        return { ...item, musicStartTime };
+      });
+
+      substagesAdapter.setAll(state, substages);
     })
     .addCase(unloaded, (state) => {
       state.stage = initialState.stage;
