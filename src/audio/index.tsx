@@ -22,10 +22,10 @@ export function useAudioSystem() {
 
   const fade = useRef(new Animated.Value(0)).current;
 
-  const pause: AudioPause = async (duration = 300) => {
+  const fading = (duration: number, onFinish: () => Promise<void> | void) => {
     const callback: Animated.EndCallback = async ({ finished }) => {
-      if (status === AudioStatus.PLAYING && finished) {
-        await sound.pauseAsync();
+      if (finished) {
+        await onFinish();
       }
     };
 
@@ -38,6 +38,14 @@ export function useAudioSystem() {
     }).start(callback);
   };
 
+  const pause: AudioPause = async (duration = 300) => {
+    if (status === AudioStatus.PLAYING) {
+      fading(duration, async () => {
+        await sound.pauseAsync();
+      });
+    }
+  };
+
   const play: AudioPlay = async (newTrack) => {
     try {
       if (newTrack) {
@@ -47,14 +55,17 @@ export function useAudioSystem() {
         });
         setSound(sound);
         setTrack(newTrack);
-      } else if (
-        status !== AudioStatus.BUFFERING &&
-        status !== AudioStatus.PLAYING &&
-        status !== AudioStatus.IDLE
-      ) {
-        await sound.playAsync();
+      } else {
+        switch (status) {
+          case AudioStatus.READY:
+          case AudioStatus.FINISHED:
+            await sound.playAsync();
+            break;
+        }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error("Audio System/play -", e);
+    }
   };
 
   const setProgress: AudioSetProgress = async (progress) => {
