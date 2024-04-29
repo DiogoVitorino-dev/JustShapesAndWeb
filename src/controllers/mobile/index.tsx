@@ -52,7 +52,7 @@ export default function MobileControl({ onMove, velocity }: MobileControlProp) {
   );
 
   return (
-    <View style={styles.container} transparent>
+    <View style={styles.container}>
       <AnalogicDirectional onMove={handleDirectional} velocity={velocity} />
       <AreaButton onPress={handleButtons} />
     </View>

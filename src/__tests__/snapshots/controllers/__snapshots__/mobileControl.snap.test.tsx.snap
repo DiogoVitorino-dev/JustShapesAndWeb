@@ -14,7 +14,6 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
       },
     ]
   }
-  transparent={true}
 >
   <View
     style={

@@ -11,7 +11,7 @@ interface ControllerProp extends ControlProp {}
 
 export default function Controller({ onMove, velocity }: ControllerProp) {
   return (
-    <View style={styles.container} transparent>
+    <View style={styles.container}>
       {Platform.OS === "ios" || Platform.OS === "android" ? (
         <MobileControl onMove={onMove} velocity={velocity} />
       ) : (
