@@ -2,7 +2,7 @@
   "expo": {
     "name": "JustShapesAndWeb",
     "slug": "JustShapesAndWeb",
-    "version": "0.55.9",
+    "version": "0.55.10",
     "orientation": "landscape",
     "icon": "./src/assets/images/icon.png",
     "scheme": "myapp",
