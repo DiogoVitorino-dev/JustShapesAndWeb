@@ -30,12 +30,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -49,12 +49,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -68,12 +68,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -87,12 +87,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -106,12 +106,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -125,12 +125,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -144,12 +144,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -163,12 +163,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -182,12 +182,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -201,12 +201,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -220,12 +220,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -239,12 +239,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -258,12 +258,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -277,12 +277,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -296,12 +296,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -315,12 +315,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -334,12 +334,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -353,12 +353,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -372,12 +372,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -391,12 +391,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -410,12 +410,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -429,12 +429,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -448,12 +448,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -467,12 +467,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -486,12 +486,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -505,12 +505,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -524,12 +524,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -543,12 +543,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -562,12 +562,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -581,12 +581,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -600,12 +600,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -619,12 +619,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -638,12 +638,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -657,12 +657,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -676,12 +676,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -695,12 +695,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -714,12 +714,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />
@@ -733,12 +733,12 @@ exports[`Loading - Snapshot component test should render correctly 1`] = `
     style={
       {
         "backgroundColor": "rgb(20, 255, 170)",
-        "height": 7,
-        "left": 375,
+        "height": 9,
+        "left": 600,
         "opacity": 0,
         "position": "absolute",
-        "top": 667,
-        "width": 7,
+        "top": 1068,
+        "width": 9,
       }
     }
   />

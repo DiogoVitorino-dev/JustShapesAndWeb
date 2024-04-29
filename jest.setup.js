@@ -27,3 +27,11 @@ jest.mock("react-native-reanimated", () => {
     }),
   };
 });
+
+beforeEach(() => {
+  jest.spyOn(global.Math, "random").mockReturnValue(0.8);
+});
+
+afterEach(() => {
+  jest.spyOn(global.Math, "random").mockRestore();
+});
