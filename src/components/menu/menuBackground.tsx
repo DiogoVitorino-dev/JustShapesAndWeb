@@ -22,7 +22,7 @@ export default function MenuBackground({ ...props }: MenuBackgroundProps) {
 
   return (
     <View style={styles.root}>
-      <SafeArea transparent>
+      <SafeArea>
         <Animated.View {...props} />
       </SafeArea>
       <Animated.View

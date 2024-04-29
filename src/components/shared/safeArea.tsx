@@ -1,52 +1,35 @@
-import React from "react";
-import {
-  View as DefaultView,
-  StyleProp,
-  StyleSheet,
-  ViewProps,
-  ViewStyle,
-} from "react-native";
+import React, { forwardRef } from "react";
+import { View, StyleSheet, ViewProps } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/Colors";
 
 interface SafeAreaViewProps extends ViewProps {
-  transparent?: boolean;
+  background?: boolean;
 }
 
-export const SafeArea = ({
-  style,
-  transparent,
-  children,
-  ...others
-}: SafeAreaViewProps) => {
-  const insets = useSafeAreaInsets();
-  const styleArray: StyleProp<ViewStyle> = [styles.default];
-  const contentStyleArray: StyleProp<ViewStyle> = [
-    { ...insets },
-    styles.default,
-    style,
-  ];
+export const SafeArea = forwardRef<View, SafeAreaViewProps>(
+  ({ style, background, children, ...others }: SafeAreaViewProps, ref) => {
+    const insets = useSafeAreaInsets();
 
-  if (transparent) {
-    styleArray.push(styles.transparent);
-    contentStyleArray.push(styles.transparent);
-  }
-
-  return (
-    <DefaultView style={styleArray}>
-      <DefaultView {...others} style={contentStyleArray}>
-        {children}
-      </DefaultView>
-    </DefaultView>
-  );
-};
+    return (
+      <View
+        style={[background ? styles.background : undefined, styles.container]}
+      >
+        <View {...others} ref={ref} style={[{ ...insets }, style]}>
+          {children}
+        </View>
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
-  default: {
-    backgroundColor: Colors.UI.background,
+  container: {
     flex: 1,
   },
 
-  transparent: { backgroundColor: "transparent" },
+  background: {
+    backgroundColor: Colors.UI.background,
+  },
 });
