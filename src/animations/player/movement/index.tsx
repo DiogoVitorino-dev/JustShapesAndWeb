@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Animated, {
   SharedValue,
   runOnJS,
@@ -34,7 +34,7 @@ export function PlayerMovementEffect({
   useAnimatedReaction(
     () => `${data.value.x} ${data.value.y}`,
     (curr, prev) => {
-      if (prev !== curr) {
+      if (prev && prev !== curr) {
         runOnJS(setStart)(true);
       } else {
         runOnJS(setStart)(false);
@@ -42,7 +42,7 @@ export function PlayerMovementEffect({
     },
   );
 
-  const createParticles = useCallback(() => {
+  const createParticles = useMemo(() => {
     const { random } = MathUtils;
     const particles: React.JSX.Element[] = [];
     const quantity = areaHeight / particleSize;
@@ -63,7 +63,5 @@ export function PlayerMovementEffect({
     return particles;
   }, [start]);
 
-  return (
-    <Animated.View style={animatedArea}>{createParticles()}</Animated.View>
-  );
+  return <Animated.View style={animatedArea}>{createParticles}</Animated.View>;
 }
