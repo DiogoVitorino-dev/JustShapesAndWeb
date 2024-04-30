@@ -51,21 +51,25 @@ const playerReducer = createReducer(initialState, (builder) => {
       let health = state.health;
       let life = state.life;
 
-      if (action.payload?.health) {
+      if (action.payload?.health && state.status !== PlayerStatus.Dead) {
         health = health + action.payload.health;
       }
 
       if (action.payload?.life) {
         life = life + action.payload.life;
-      }
-
-      if (health > state.maxHealth) {
-        life += 1;
         health = state.maxHealth;
       }
 
       if (life > state.maxLife) {
         life = state.maxLife;
+      }
+
+      if (health > state.maxHealth) {
+        health = state.maxHealth;
+      }
+
+      if (life > 0 && state.status === PlayerStatus.Dead) {
+        state.status = PlayerStatus.Alive;
       }
 
       state.health = health;
