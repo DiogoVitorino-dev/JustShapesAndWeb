@@ -1,7 +1,7 @@
 {
   "name": "justshapesandweb",
   "main": "expo-router/entry",
-  "version": "0.55.19",
+  "version": "0.55.20",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
