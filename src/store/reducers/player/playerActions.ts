@@ -4,9 +4,9 @@ import type { HealthAtributes } from "./playerReducer";
 
 type HealthAtributesPayload = Partial<Pick<HealthAtributes, "life" | "health">>;
 
-const maxLifeIncreased = createAction<number>("player/maxLifeIncreased");
+const maxLifeChanged = createAction<number>("player/maxLifeChanged");
 
-const maxHealthIncreased = createAction<number>("player/maxHealthIncreased");
+const maxHealthChanged = createAction<number>("player/maxHealthChanged");
 
 const restored = createAction<HealthAtributesPayload | undefined>(
   "player/restored",
@@ -21,12 +21,12 @@ export const PlayerActions = {
   /**
    * @DocMissing
    */
-  maxLifeIncreased,
+  maxLifeChanged,
 
   /**
    * @DocMissing
    */
-  maxHealthIncreased,
+  maxHealthChanged,
 
   /**
    * @DocMissing

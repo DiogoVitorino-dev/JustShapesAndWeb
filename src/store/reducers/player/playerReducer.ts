@@ -31,15 +31,15 @@ const initialState: PlayerState = {
   status: PlayerStatus.Alive,
 };
 
-const { maxLifeIncreased, maxHealthIncreased, healed, hurt, restored } =
+const { maxLifeChanged, maxHealthChanged, healed, hurt, restored } =
   PlayerActions;
 
 const playerReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(maxLifeIncreased, (state, action) => {
+    .addCase(maxLifeChanged, (state, action) => {
       state.maxLife = action.payload;
     })
-    .addCase(maxHealthIncreased, (state, action) => {
+    .addCase(maxHealthChanged, (state, action) => {
       state.maxHealth = action.payload;
     })
     .addCase(restored, (state, action) => {
