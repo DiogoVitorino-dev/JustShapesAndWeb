@@ -2,6 +2,8 @@ import { MathUtils } from "@/utils/mathUtils";
 
 describe("Testing random - Math Utils tests", () => {
   it("Should generate a random number between min and max", () => {
+    jest.spyOn(global.Math, "random").mockRestore();
+
     const { random } = MathUtils;
     let tests = 10000;
     let generated: number;
