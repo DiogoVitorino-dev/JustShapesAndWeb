@@ -76,13 +76,12 @@ const playerReducer = createReducer(initialState, (builder) => {
       state.life = life;
     })
     .addCase(hurt, (state, action) => {
-      if (state.status !== PlayerStatus.Invulnerable) {
+      if (
+        state.status !== PlayerStatus.Invulnerable &&
+        state.status !== PlayerStatus.Dead
+      ) {
         let health = state.health;
         let life = state.life;
-
-        if (action.payload?.health) {
-          health = health - action.payload.health;
-        }
 
         if (action.payload?.life) {
           life = life - action.payload.life;
@@ -91,6 +90,10 @@ const playerReducer = createReducer(initialState, (builder) => {
           if (life > 0) {
             health = state.maxHealth;
           }
+        }
+
+        if (action.payload?.health) {
+          health = health - action.payload.health;
         }
 
         if (health <= 0) {
