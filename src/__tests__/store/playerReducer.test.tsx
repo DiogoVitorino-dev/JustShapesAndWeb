@@ -1,8 +1,10 @@
+import { store } from "@/store";
 import { PlayerActions } from "@/store/reducers/player/playerActions";
 import playerReducer, {
   PlayerState,
   PlayerStatus,
 } from "@/store/reducers/player/playerReducer";
+import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
 
 const initialState: PlayerState = {
   life: 3,
@@ -192,5 +194,35 @@ describe("restored Action - Player Reducer tests", () => {
       life: degradedHealth.maxLife,
       health: degradedHealth.maxHealth,
     });
+  });
+});
+
+describe("selectors - player Reducer tests", () => {
+  const {
+    selectHealth,
+    selectLife,
+    selectMaxHealth,
+    selectMaxLife,
+    selectStatus,
+  } = PlayerSelectors;
+
+  it("Should return health value", () => {
+    expect(selectHealth(store.getState())).toBe(3);
+  });
+
+  it("Should return life value", () => {
+    expect(selectLife(store.getState())).toBe(3);
+  });
+
+  it("Should return maxHealth value", () => {
+    expect(selectMaxHealth(store.getState())).toBe(3);
+  });
+
+  it("Should return maxLife value", () => {
+    expect(selectMaxLife(store.getState())).toBe(3);
+  });
+
+  it("Should return status value", () => {
+    expect(selectStatus(store.getState())).toBe(PlayerStatus.Alive);
   });
 });
