@@ -33,7 +33,7 @@ const initialState = substagesAdapter.getInitialState<SubstagesState>({
   stage: "",
 });
 
-const reducer = createReducer(initialState, (builder) => {
+const substagesReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loaded, (state, action) => {
       state.stage = action.payload.stage;
@@ -60,4 +60,4 @@ const reducer = createReducer(initialState, (builder) => {
     });
 });
 
-export default reducer;
+export default substagesReducer;

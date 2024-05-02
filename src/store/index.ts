@@ -9,7 +9,7 @@ export const store = configureStore({
   reducer: {
     settings: settingsSlice,
     player: playerReducer,
-    substage: substageReducer,
+    substages: substageReducer,
     stage: stageReducer,
   },
 });
