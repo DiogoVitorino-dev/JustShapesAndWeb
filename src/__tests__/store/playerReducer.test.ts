@@ -65,7 +65,7 @@ describe("hurt Action - Player Reducer tests", () => {
   it("Should lose health", () => {
     expect(playerReducer(initialState, hurt({ health: 2 }))).toStrictEqual({
       ...initialState,
-      health: 1,
+      health: initialState.health - 2,
     });
   });
 
@@ -73,22 +73,22 @@ describe("hurt Action - Player Reducer tests", () => {
     expect(playerReducer(initialState, hurt({ health: 3 }))).toStrictEqual({
       ...initialState,
       health: initialState.maxHealth,
-      life: 2,
+      life: initialState.life - 1,
     });
   });
 
   it("Should lose life", () => {
     expect(playerReducer(initialState, hurt({ life: 2 }))).toStrictEqual({
       ...initialState,
-      life: 1,
+      life: initialState.life - 2,
     });
   });
 
   it("Should restore health upon losing life", () => {
     expect(playerReducer(degradedHealth, hurt({ life: 1 }))).toStrictEqual({
-      ...initialState,
-      life: 1,
-      health: initialState.maxHealth,
+      ...degradedHealth,
+      life: degradedHealth.life - 1,
+      health: degradedHealth.maxHealth,
     });
   });
 
@@ -107,8 +107,8 @@ describe("hurt Action - Player Reducer tests", () => {
       playerReducer(initialState, hurt({ life: 1, health: 1 })),
     ).toStrictEqual({
       ...initialState,
-      life: 2,
-      health: 2,
+      life: initialState.life - 1,
+      health: initialState.health - 1,
     });
   });
 
@@ -125,7 +125,7 @@ describe("healed Action - Player Reducer tests", () => {
   it("Should heal health", () => {
     expect(playerReducer(degradedHealth, healed({ health: 1 }))).toStrictEqual({
       ...degradedHealth,
-      health: 3,
+      health: degradedHealth.health + 1,
     });
   });
 
@@ -139,7 +139,7 @@ describe("healed Action - Player Reducer tests", () => {
   it("Should gain life", () => {
     expect(playerReducer(degradedHealth, healed({ life: 1 }))).toStrictEqual({
       ...degradedHealth,
-      life: 3,
+      life: degradedHealth.life + 1,
       health: degradedHealth.maxHealth,
     });
   });
@@ -155,7 +155,7 @@ describe("healed Action - Player Reducer tests", () => {
   it("Should restore health upon gain life", () => {
     expect(playerReducer(degradedHealth, healed({ life: 1 }))).toStrictEqual({
       ...degradedHealth,
-      life: 3,
+      life: degradedHealth.life + 1,
       health: degradedHealth.maxHealth,
     });
   });
@@ -169,7 +169,7 @@ describe("healed Action - Player Reducer tests", () => {
   it("Should restore upon gaining a life", () => {
     expect(playerReducer(lifeless, healed({ life: 1 }))).toStrictEqual({
       ...lifeless,
-      life: 1,
+      life: lifeless.life + 1,
       health: lifeless.maxHealth,
       status: PlayerStatus.Alive,
     });
@@ -206,23 +206,33 @@ describe("selectors - player Reducer tests", () => {
     selectStatus,
   } = PlayerSelectors;
 
+  const { maxHealthChanged, maxLifeChanged, healed } = PlayerActions;
+
+  const loadedStore = store;
+
+  beforeAll(() => {
+    loadedStore.dispatch(maxHealthChanged(10));
+    loadedStore.dispatch(maxLifeChanged(5));
+    loadedStore.dispatch(healed({ health: 2 }));
+  });
+
   it("Should return health value", () => {
-    expect(selectHealth(store.getState())).toBe(3);
+    expect(selectHealth(loadedStore.getState())).toBe(initialState.health + 2);
   });
 
   it("Should return life value", () => {
-    expect(selectLife(store.getState())).toBe(3);
+    expect(selectLife(loadedStore.getState())).toBe(initialState.life);
   });
 
   it("Should return maxHealth value", () => {
-    expect(selectMaxHealth(store.getState())).toBe(3);
+    expect(selectMaxHealth(loadedStore.getState())).toBe(10);
   });
 
   it("Should return maxLife value", () => {
-    expect(selectMaxLife(store.getState())).toBe(3);
+    expect(selectMaxLife(loadedStore.getState())).toBe(5);
   });
 
   it("Should return status value", () => {
-    expect(selectStatus(store.getState())).toBe(PlayerStatus.Alive);
+    expect(selectStatus(loadedStore.getState())).toBe(PlayerStatus.Alive);
   });
 });
