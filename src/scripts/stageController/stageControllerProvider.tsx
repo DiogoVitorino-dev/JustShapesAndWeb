@@ -22,7 +22,7 @@ type MusicList = Parameters<MusicContext["play"]>[0];
 type StageControllerLoad = (
   stage: string,
   substages: Substage[],
-  music: MusicList,
+  music?: MusicList,
 ) => Promise<void>;
 
 type StageControllerUnload = () => Promise<void>;
@@ -45,7 +45,7 @@ export const StageControllerContext = createContext<StageController>({
 });
 
 interface ProviderProps {
-  children: React.JSX.Element | React.JSX.Element[];
+  children?: React.JSX.Element | React.JSX.Element[];
 }
 
 export default function StageControllerProvider({ children }: ProviderProps) {
