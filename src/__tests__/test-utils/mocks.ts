@@ -21,6 +21,21 @@ jest.mock("react-native-reanimated", () => {
   };
 });
 
+// Mock useFrameCallback (Reanimated)
+jest.mock("react-native-reanimated", () => {
+  const originalModule = jest.requireActual("react-native-reanimated");
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useFrameCallback: (callback: () => void, autoStart = true) => {
+      if (autoStart) {
+        setInterval(callback, 1);
+      }
+    },
+  };
+});
+
 // Fixed random
 beforeEach(() => {
   jest.spyOn(global.Math, "random").mockReturnValue(0.8);
