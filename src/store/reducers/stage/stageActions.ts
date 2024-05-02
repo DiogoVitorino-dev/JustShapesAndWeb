@@ -1,6 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 
-import type { StageStatus } from "./stagesReducer";
+import type { StageStatus } from "./stageReducer";
 
 export type LoadedStagePayload = {
   name: string;

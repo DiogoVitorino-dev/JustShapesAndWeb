@@ -9,9 +9,9 @@ import StageName from "@/components/game/stageName";
 import { Loading } from "@/components/shared";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { PlayerActions } from "@/store/reducers/player/playerActions";
-import { StageActions } from "@/store/reducers/stages/stagesActions";
-import { StageStatus } from "@/store/reducers/stages/stagesReducer";
-import { StagesSelectors } from "@/store/reducers/stages/stagesSelectors";
+import { StageActions } from "@/store/reducers/stage/stageActions";
+import { StageStatus } from "@/store/reducers/stage/stageReducer";
+import { StageSelectors } from "@/store/reducers/stage/stageSelectors";
 import { SubstageActions } from "@/store/reducers/substages/substagesActions";
 import { Substage } from "@/store/reducers/substages/substagesReducer";
 import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
@@ -55,9 +55,9 @@ export default function StageControllerProvider({ children }: ProviderProps) {
   const [music, setMusic] = useState<MusicList>();
   const [timerController, setTimerController] = useState<Timer>();
 
-  const substage = useAppSelector(StagesSelectors.selectSubstage);
+  const substage = useAppSelector(StageSelectors.selectSubstage);
   const allSubstages = useAppSelector(SubstagesSelectors.selectAllSubstages);
-  const status = useAppSelector(StagesSelectors.selectStatus);
+  const status = useAppSelector(StageSelectors.selectStatus);
 
   const load: StageControllerLoad = async (stage, substages, music) => {
     const first = substages.reduce(

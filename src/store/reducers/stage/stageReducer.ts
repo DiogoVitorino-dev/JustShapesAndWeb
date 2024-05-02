@@ -1,6 +1,6 @@
 import { createReducer, isAnyOf } from "@reduxjs/toolkit";
 
-import { StageActions } from "./stagesActions";
+import { StageActions } from "./stageActions";
 
 export enum StageStatus {
   Idle = "IDLE",
@@ -52,7 +52,7 @@ const isActionWhilePlaying = isAnyOf(
   checkpointReached,
 );
 
-const reducer = createReducer(initialState, (builder) => {
+const stageReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loaded, (state, action) => {
       state.name = action.payload.name;
@@ -84,4 +84,4 @@ const reducer = createReducer(initialState, (builder) => {
     });
 });
 
-export default reducer;
+export default stageReducer;

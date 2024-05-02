@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import playerReducer from "./reducers/player/playerReducer";
 import settingsSlice from "./reducers/settings/settingsSlice";
-import stageReducer from "./reducers/stages/stagesReducer";
+import stageReducer from "./reducers/stage/stageReducer";
 import substageReducer from "./reducers/substages/substagesReducer";
 
 export const store = configureStore({

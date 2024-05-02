@@ -8,7 +8,7 @@ const selectSubstage = (state: RootState) => state.stage.substage;
 
 const selectCheckpoint = (state: RootState) => state.stage.checkpoint;
 
-export const StagesSelectors = {
+export const StageSelectors = {
   /**
    * @DocMissing
    */

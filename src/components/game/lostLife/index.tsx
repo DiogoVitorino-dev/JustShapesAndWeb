@@ -16,8 +16,8 @@ import Colors from "@/constants/Colors";
 import { DisplayOptions } from "@/constants/commonTypes";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
-import { StageActions } from "@/store/reducers/stages/stagesActions";
-import { StageStatus } from "@/store/reducers/stages/stagesReducer";
+import { StageActions } from "@/store/reducers/stage/stageActions";
+import { StageStatus } from "@/store/reducers/stage/stageReducer";
 
 export default function LostLife() {
   const currentLife = useAppSelector(PlayerSelectors.selectLife);

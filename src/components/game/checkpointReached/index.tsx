@@ -13,7 +13,7 @@ import { AnimatedStyledTextProps, AnimatedText } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { DisplayOptions } from "@/constants/commonTypes";
 import { useAppSelector } from "@/hooks";
-import { StagesSelectors } from "@/store/reducers/stages/stagesSelectors";
+import { StageSelectors } from "@/store/reducers/stage/stageSelectors";
 import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
 
 interface CheckpointReachedProps {
@@ -31,7 +31,7 @@ export default function CheckpointReached({ style }: CheckpointReachedProps) {
   const scale = useSharedValue(0.5);
   const opacity = useSharedValue(0);
 
-  const checkpoint = useAppSelector(StagesSelectors.selectCheckpoint);
+  const checkpoint = useAppSelector(StageSelectors.selectCheckpoint);
   const firstSubstage = useAppSelector(SubstagesSelectors.selectFirstSubstage);
 
   const startAnimation = () => {
@@ -97,7 +97,7 @@ export default function CheckpointReached({ style }: CheckpointReachedProps) {
     fontSize: 36,
     position: "absolute",
     margin: 36,
-    alignSelf:"center",
+    alignSelf: "center",
     transform: [{ rotate: rotate.value + "deg" }, { scale: scale.value }],
   }));
 

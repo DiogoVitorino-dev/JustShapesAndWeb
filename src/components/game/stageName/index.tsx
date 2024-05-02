@@ -9,8 +9,8 @@ import Character, { CharacterProps } from "./character";
 
 import { AnimatedStyleApp, DisplayOptions } from "@/constants/commonTypes";
 import { useAppSelector } from "@/hooks";
-import { StageStatus } from "@/store/reducers/stages/stagesReducer";
-import { StagesSelectors } from "@/store/reducers/stages/stagesSelectors";
+import { StageStatus } from "@/store/reducers/stage/stageReducer";
+import { StageSelectors } from "@/store/reducers/stage/stageSelectors";
 import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
 
 type ForwardCharacterProps = Pick<CharacterProps, "duration" | "onFinish">;
@@ -26,10 +26,10 @@ export default function StageName({
 }: StageNameProps) {
   const [shouldStart, setShouldStart] = useState(false);
 
-  const name = useAppSelector(StagesSelectors.selectName);
-  const status = useAppSelector(StagesSelectors.selectStatus);
+  const name = useAppSelector(StageSelectors.selectName);
+  const status = useAppSelector(StageSelectors.selectStatus);
   const firstSubstage = useAppSelector(SubstagesSelectors.selectFirstSubstage);
-  const substage = useAppSelector(StagesSelectors.selectSubstage);
+  const substage = useAppSelector(StageSelectors.selectSubstage);
 
   const display = useSharedValue<DisplayOptions>("none");
 

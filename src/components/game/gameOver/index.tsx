@@ -18,8 +18,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { PlayerActions } from "@/store/reducers/player/playerActions";
 import { PlayerStatus } from "@/store/reducers/player/playerReducer";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
-import { StageActions } from "@/store/reducers/stages/stagesActions";
-import { StageStatus } from "@/store/reducers/stages/stagesReducer";
+import { StageActions } from "@/store/reducers/stage/stageActions";
+import { StageStatus } from "@/store/reducers/stage/stageReducer";
 import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
 
 export default function GameOver() {
