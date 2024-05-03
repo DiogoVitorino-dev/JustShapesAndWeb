@@ -9,11 +9,19 @@ const initialState = {
   entities: {},
 };
 
-const substages: Substage[] = [
+let substages: Substage[] = [
   { id: 0, duration: 1000 },
-  { id: 2, duration: 1000 },
-  { id: 1, duration: 1000 },
+  { id: 1, duration: 500 },
+  { id: 2, duration: 3000 },
 ];
+
+beforeEach(() => {
+  substages = [
+    { id: 0, duration: 1000 },
+    { id: 1, duration: 500 },
+    { id: 2, duration: 3000 },
+  ];
+});
 
 describe("Reducer - Substages Reducer tests", () => {
   it("Should return the initial state", () => {
@@ -64,37 +72,46 @@ describe("loaded Action - Substages Reducer tests", () => {
       undefined,
       loaded({ stage: "substage-test", substages }),
     );
-    const musicStartTimeExpected = [0, 1000, 2000];
+    const expected = [0, 1000, 1500];
 
-    Object.values(newState.entities).forEach((substage, index) => {
-      expect(substage.musicStartTime).toBe(musicStartTimeExpected[index]);
-    });
-  });
-
-  it("Should calculate the music start time when assigned manually", () => {
-    const musicStartTimeExpected = [0, 500, 1500];
-
-    const modified = substages.map((substage, index) => {
-      if (index === 1) {
-        substage.musicStartTime = 500;
-      }
-      return substage;
-    });
-
-    const newState = reducer(
-      undefined,
-      loaded({ stage: "substage-test", substages: modified }),
+    const result = Object.values(newState.entities).map(
+      (substage) => substage.musicStartTime,
     );
 
-    Object.values(newState.entities).forEach((substage, index) => {
-      expect(substage.musicStartTime).toBe(musicStartTimeExpected[index]);
-    });
+    expect(result).toStrictEqual(expected);
   });
+
+  it.each([
+    [0, 500, [500, 1500, 2000]],
+    [1, 500, [0, 500, 1000]],
+    [2, 500, [0, 1000, 500]],
+  ])(
+    "Should calculate musicStartTime when manually assigned to index %i",
+    (position, musicStartTime, expected) => {
+      const modified = substages.map((substage, index) => {
+        if (position === index) {
+          substage.musicStartTime = musicStartTime;
+        }
+        return substage;
+      });
+
+      const newState = reducer(
+        undefined,
+        loaded({ stage: "substage-test", substages: modified }),
+      );
+
+      const result = Object.values(newState.entities).map(
+        (substage) => substage.musicStartTime,
+      );
+
+      expect(result).toStrictEqual(expected);
+    },
+  );
 
   it("Substages should be ordered by id", () => {
     const newState = reducer(
       undefined,
-      loaded({ stage: "substage-test", substages }),
+      loaded({ stage: "substage-test", substages: substages.reverse() }),
     );
 
     Object.values(newState.entities).forEach((substage, index) => {

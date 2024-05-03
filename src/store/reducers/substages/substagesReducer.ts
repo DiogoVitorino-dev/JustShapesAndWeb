@@ -40,17 +40,19 @@ const substagesReducer = createReducer(initialState, (builder) => {
 
       const sorted = action.payload.substages.sort((a, b) => a.id - b.id);
 
-      let musicStartTime = 0;
-      let substages: Required<Substage>[] = [];
+      const substages = sorted.reduce<Required<Substage>[]>((prev, curr) => {
+        const item: Required<Substage> = { musicStartTime: 0, ...curr };
 
-      substages = sorted.map((item, index) => {
-        if (item.musicStartTime) {
-          musicStartTime = item.musicStartTime;
-        } else if (index !== 0) {
-          musicStartTime += item.duration;
+        if (!curr.musicStartTime) {
+          const prevItem = prev.at(-1);
+
+          if (prevItem) {
+            item.musicStartTime = prevItem.duration + prevItem.musicStartTime;
+          }
         }
-        return { ...item, musicStartTime };
-      });
+
+        return [...prev, item];
+      }, []);
 
       substagesAdapter.setAll(state, substages);
     })
