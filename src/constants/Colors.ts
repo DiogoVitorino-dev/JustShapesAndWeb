@@ -107,6 +107,13 @@ const game = {
     textOver: Pink["100"],
     text: White["60"],
   },
+  thanks: {
+    ring: Blue["80"],
+    text: {
+      primary: White["100"],
+      variant_1: Green["100"],
+    },
+  },
 };
 
 export default {

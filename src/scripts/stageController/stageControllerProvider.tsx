@@ -12,6 +12,7 @@ import ControllablePlayer from "@/components/game/controllablePlayer";
 import GameOver from "@/components/game/gameOver";
 import LostLife from "@/components/game/lostLife";
 import StageName from "@/components/game/stageName";
+import Thanks from "@/components/game/thanks";
 import { Loading } from "@/components/shared";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { PlayerActions } from "@/store/reducers/player/playerActions";
@@ -199,6 +200,7 @@ export default function StageControllerProvider({ children }: ProviderProps) {
       <CheckpointReached />
       <LostLife />
       <GameOver />
+      <Thanks />
       {!substage ? <Loading /> : null}
     </StageControllerContext.Provider>
   );
