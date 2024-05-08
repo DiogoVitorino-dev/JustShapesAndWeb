@@ -1,4 +1,10 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { MusicContext, useMusicContext } from "@/audio/music";
 import CheckpointReached from "@/components/game/checkpointReached";
@@ -44,6 +50,8 @@ export const StageControllerContext = createContext<StageController>({
   unload: async () => {},
 });
 
+type Cleanup = () => Promise<void> | void;
+
 interface ProviderProps {
   children?: React.JSX.Element | React.JSX.Element[];
 }
@@ -54,6 +62,8 @@ export default function StageControllerProvider({ children }: ProviderProps) {
 
   const [music, setMusic] = useState<MusicList>();
   const [timerController, setTimerController] = useState<Timer>();
+
+  const cleanup = useRef<Cleanup[]>([]);
 
   const substage = useAppSelector(StageSelectors.selectSubstage);
   const allSubstages = useAppSelector(SubstagesSelectors.selectAllSubstages);
@@ -76,9 +86,6 @@ export default function StageControllerProvider({ children }: ProviderProps) {
     dispatch(SubstageActions.unloaded());
     dispatch(StageActions.unloaded());
     dispatch(PlayerActions.restored());
-    setMusic(undefined);
-    timerController?.clear();
-    await pause();
   };
 
   const start = () => {
@@ -104,7 +111,12 @@ export default function StageControllerProvider({ children }: ProviderProps) {
           dispatch(StageActions.chosenSubstage(next.id));
         };
       }
-      setTimerController(setTimer(callback, current.duration));
+      const newTimer = setTimer(callback, current.duration);
+
+      setTimerController(newTimer);
+      cleanup.current[1] = () => {
+        newTimer?.clear();
+      };
     }
   };
 
@@ -133,11 +145,14 @@ export default function StageControllerProvider({ children }: ProviderProps) {
         }
         break;
     }
+    cleanup.current[0] = () => {
+      pause();
+      setProgress(0);
+    };
   };
 
   const timerControl = () => {
     switch (status) {
-      case StageStatus.Idle:
       case StageStatus.Failed:
         timerController?.clear();
         break;
@@ -152,17 +167,27 @@ export default function StageControllerProvider({ children }: ProviderProps) {
     }
   };
 
+  const stop = () => cleanup.current.forEach((clear) => clear());
+
   useEffect(() => {
     stageProgressControl();
-  }, [substage, status]);
+  }, [status, substage]);
 
   useEffect(() => {
     timerControl();
-  }, [status, timerController]);
+  }, [status]);
 
   useEffect(() => {
     musicControl();
-  }, [status, track, music, pause, play]);
+  }, [status, pause, play]);
+
+  useEffect(
+    () => () => {
+      stop();
+      unload();
+    },
+    [],
+  );
 
   const value = useMemo(() => ({ unload, load }), [unload, load]);
 
