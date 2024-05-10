@@ -3,6 +3,7 @@ import { createReducer, isAnyOf } from "@reduxjs/toolkit";
 import { StageActions } from "./stageActions";
 
 export enum StageStatus {
+  None = "NONE",
   Idle = "IDLE",
   Paused = "PAUSED",
   Playing = "PLAYING",
@@ -34,7 +35,7 @@ export interface StagesState {
 
 const initialState: StagesState = {
   name: "",
-  status: StageStatus.Idle,
+  status: StageStatus.None,
 };
 
 const {

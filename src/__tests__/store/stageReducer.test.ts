@@ -8,7 +8,7 @@ import { StageSelectors } from "@/store/reducers/stage/stageSelectors";
 
 const initialState: StagesState = {
   name: "",
-  status: StageStatus.Idle,
+  status: StageStatus.None,
 };
 
 describe("Reducer - Stage Reducer tests", () => {
@@ -64,7 +64,7 @@ describe("unloaded Action - Stage Reducer tests", () => {
     const newState = stageReducer(previousState, unloaded());
 
     expect(newState.name).toBe("");
-    expect(newState.status).toBe(StageStatus.Idle);
+    expect(newState.status).toBe(StageStatus.None);
     expect(newState.checkpoint).toBe(undefined);
     expect(newState.substage).toBe(undefined);
   });

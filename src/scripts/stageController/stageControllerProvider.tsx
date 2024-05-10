@@ -129,11 +129,6 @@ export default function StageControllerProvider({ children }: ProviderProps) {
 
   const musicControl = async () => {
     switch (status) {
-      case StageStatus.Idle:
-      case StageStatus.Failed:
-        await pause(3000);
-        break;
-
       case StageStatus.Paused:
         await pause(1000);
         break;
@@ -144,6 +139,10 @@ export default function StageControllerProvider({ children }: ProviderProps) {
         } else {
           await play();
         }
+        break;
+
+      default:
+        await pause(3000);
         break;
     }
     cleanup.current[0] = () => {
