@@ -6,6 +6,8 @@ import React, {
   useState,
 } from "react";
 
+import { useTimerController } from "./useTimerController";
+
 import { MusicContext, useMusicContext } from "@/audio/music";
 import CheckpointReached from "@/components/game/checkpointReached";
 import ControllablePlayer from "@/components/game/controllablePlayer";
@@ -22,7 +24,7 @@ import { StageSelectors } from "@/store/reducers/stage/stageSelectors";
 import { SubstageActions } from "@/store/reducers/substages/substagesActions";
 import { Substage } from "@/store/reducers/substages/substagesReducer";
 import { SubstagesSelectors } from "@/store/reducers/substages/substagesSelectors";
-import { Timer, TimerUtils } from "@/utils/timerUtils";
+import { TimerUtils } from "@/utils/timerUtils";
 
 type MusicList = Parameters<MusicContext["play"]>[0];
 
@@ -30,9 +32,9 @@ type StageControllerLoad = (
   stage: string,
   substages: Substage[],
   music?: MusicList,
-) => Promise<void>;
+) => void;
 
-type StageControllerUnload = () => Promise<void>;
+type StageControllerUnload = () => void;
 
 interface StageController {
   /**
@@ -62,15 +64,15 @@ export default function StageControllerProvider({ children }: ProviderProps) {
   const { track, pause, play, setProgress } = useMusicContext();
 
   const [music, setMusic] = useState<MusicList>();
-  const [timerController, setTimerController] = useState<Timer>();
+  const { setTimer, removeTimer } = useTimerController();
 
-  const cleanup = useRef<Cleanup[]>([]);
+  const cleanup = useRef<Cleanup>();
 
   const substage = useAppSelector(StageSelectors.selectSubstage);
   const allSubstages = useAppSelector(SubstagesSelectors.selectAllSubstages);
   const status = useAppSelector(StageSelectors.selectStatus);
 
-  const load: StageControllerLoad = async (stage, substages, music) => {
+  const load: StageControllerLoad = (stage, substages, music) => {
     const first = substages.reduce(
       (prev, curr) => Math.min(prev, curr.id),
       Number.MAX_SAFE_INTEGER,
@@ -83,7 +85,12 @@ export default function StageControllerProvider({ children }: ProviderProps) {
     setMusic(music);
   };
 
-  const unload: StageControllerUnload = async () => {
+  const unload: StageControllerUnload = () => {
+    if (cleanup.current) {
+      cleanup.current();
+    }
+    removeTimer();
+
     dispatch(SubstageActions.unloaded());
     dispatch(StageActions.unloaded());
     dispatch(PlayerActions.restored());
@@ -94,7 +101,6 @@ export default function StageControllerProvider({ children }: ProviderProps) {
   };
 
   const switchingSubstages = async () => {
-    const { setTimer } = TimerUtils;
     const currentIndex = allSubstages.findIndex(({ id }) => id === substage);
 
     const current = allSubstages[currentIndex];
@@ -112,12 +118,8 @@ export default function StageControllerProvider({ children }: ProviderProps) {
           dispatch(StageActions.chosenSubstage(next.id));
         };
       }
-      const newTimer = setTimer(callback, current.duration);
 
-      setTimerController(newTimer);
-      cleanup.current[1] = () => {
-        newTimer?.clear();
-      };
+      setTimer(TimerUtils.setTimer(callback, current.duration));
     }
   };
 
@@ -145,37 +147,15 @@ export default function StageControllerProvider({ children }: ProviderProps) {
         await pause(3000);
         break;
     }
-    cleanup.current[0] = () => {
+    cleanup.current = () => {
       pause();
       setProgress(0);
     };
   };
 
-  const timerControl = () => {
-    switch (status) {
-      case StageStatus.Failed:
-        timerController?.clear();
-        break;
-
-      case StageStatus.Paused:
-        timerController?.stop();
-        break;
-
-      case StageStatus.Playing:
-        timerController?.resume();
-        break;
-    }
-  };
-
-  const stop = () => cleanup.current.forEach((clear) => clear());
-
   useEffect(() => {
     stageProgressControl();
   }, [status, substage]);
-
-  useEffect(() => {
-    timerControl();
-  }, [status]);
 
   useEffect(() => {
     musicControl();
@@ -183,7 +163,6 @@ export default function StageControllerProvider({ children }: ProviderProps) {
 
   useEffect(
     () => () => {
-      stop();
       unload();
     },
     [],
