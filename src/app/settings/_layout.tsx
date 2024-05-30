@@ -8,19 +8,13 @@ import { useSoundContext } from "@/audio/sound";
 import { HeaderBackButton } from "@/components/shared";
 
 export default function SettingsLayout() {
-  const sound = useSoundContext();
+  const { playSound } = useSoundContext();
 
-  const focus = async () => {
-    await sound.play("open-nested-menu");
-  };
+  const focus = async () => playSound("open-nested-menu");
 
-  const beforeRemove = async () => {
-    await sound.play("close-menu");
-  };
+  const beforeRemove = async () => playSound("close-menu");
 
-  const beforeRemoveScreen = async () => {
-    await sound.play("close-nested-menu");
-  };
+  const beforeRemoveScreen = async () => playSound("close-nested-menu");
 
   return (
     <Stack

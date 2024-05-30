@@ -19,8 +19,8 @@ export default function Audio() {
   const { musicVolume, soundVolume } = useAppSelector(
     SettingsSelectors.selectAudioSettings,
   );
-  const { play } = useSoundContext();
-  const handleVolumeSound = () => play("volume");
+  const { playSound } = useSoundContext();
+  const handleVolumeSound = () => playSound("volume");
 
   const handleMusicVolume = async (musicVolume: number) => {
     await handleVolumeSound();

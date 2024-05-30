@@ -34,7 +34,7 @@ export default function Options({
   delayPress = 4000,
   style,
 }: OptionsProps) {
-  const { play } = useSoundContext();
+  const { playSound } = useSoundContext();
   const pressAnimationDuration = delayPress / 4;
   const delay = pressAnimationDuration + delayPress / 2.5;
 
@@ -87,7 +87,7 @@ export default function Options({
   };
 
   const pressAudio = runOnJS((isOver: boolean) =>
-    isOver ? play("open-menu") : play("start"),
+    isOver ? playSound("open-menu") : playSound("start"),
   );
 
   const reset = () => {

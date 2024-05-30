@@ -24,7 +24,7 @@ import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
 
 export default function ControllablePlayer() {
   const { width, height } = useWindowDimensions();
-  const { play } = useSoundContext();
+  const { playSound } = useSoundContext();
   const { collided } = useCollisionSystem();
   const opacity = useSharedValue(1);
   const jump = useSharedValue(false);
@@ -43,7 +43,7 @@ export default function ControllablePlayer() {
   useMovementSystem(movement);
 
   const collisionEffect = () => {
-    play("hit");
+    playSound("hit");
     opacity.value = withRepeat(
       withSequence(
         withTiming(0.5, { duration: 150 }),
