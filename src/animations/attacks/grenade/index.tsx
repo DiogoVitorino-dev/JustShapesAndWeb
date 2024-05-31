@@ -4,6 +4,7 @@ import GrenadeFragment, { GrenadeFragmentProps } from "./grenadeFragment";
 
 import { View } from "@/components/shared";
 import { Position } from "@/constants/commonTypes";
+import { AnglesUtils } from "@/utils/angleUtils";
 
 export type GrenadeFragmentOptions = Omit<
   GrenadeFragmentProps,
@@ -17,10 +18,16 @@ export interface GrenadeProps
    * @DocMissing
    */
   fragments?: number;
+
+  /**
+   * @DocMissing
+   */
+  rotate?: number;
 }
 
 export function Grenade({
   fragments = 5,
+  rotate = 0,
   onFinish,
   duration,
   ...fragmentProps
@@ -30,13 +37,15 @@ export function Grenade({
     let index = fragments;
     const partialAngle = 360 / index;
 
+    const { shiftAngle } = AnglesUtils;
+
     while (index > 0) {
       fragmentsView.push(
         <GrenadeFragment
           {...fragmentProps}
           onFinish={index === 1 ? onFinish : undefined}
           duration={duration}
-          angleDirection={partialAngle * index}
+          angleDirection={shiftAngle(partialAngle * index, rotate)}
           key={index}
         />,
       );

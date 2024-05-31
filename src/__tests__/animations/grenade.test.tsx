@@ -1,4 +1,9 @@
-import { act, render, renderHook } from "@testing-library/react-native";
+import {
+  act,
+  render,
+  renderHook,
+  waitFor,
+} from "@testing-library/react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
@@ -181,4 +186,48 @@ describe("Grenade Attack - Animation tests", () => {
       (reason) => reason,
     );
   });
+
+  it("Should rotate the grenade", async () => {
+    const { getByTestId } = render(
+      <Grenade
+        duration={1000}
+        distance={1000}
+        fragments={1}
+        rotate={90}
+        start
+      />,
+    );
+
+    await waitFor(() =>
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      }),
+    );
+
+    const style = getAnimatedStyle(getByTestId("circleModel"));
+    expect(style.top).toBe(1000);
+  });
+
+  it("Should delay the animation", async () => {
+    const callback = jest.fn(() => {});
+    render(<Grenade duration={1000} delay={1000} onFinish={callback} start />);
+
+    await waitFor(() =>
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      }),
+    );
+
+    expect(callback).not.toHaveBeenCalled();
+
+    await waitFor(() =>
+      act(() => {
+        jest.runAllTimers();
+      }),
+    );
+
+    expect(callback).toHaveBeenCalled();
+  });
+
+  test.todo("Should delay the animation between repeats");
 });

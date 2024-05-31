@@ -8,6 +8,7 @@ import {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
+  withDelay,
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
@@ -41,14 +42,26 @@ export interface GrenadeFragmentProps
    * @DocMissing
    */
   numbersOfReps?: number;
+
+  /**
+   * @DocMissing
+   */
+  delay?: number;
+
+  /**
+   * @DocMissing
+   */
+  delayOfReps?: number;
 }
 
 export default function GrenadeFragment({
   angleDirection,
-  numbersOfReps = 1,
+  numbersOfReps = 0,
   size = 10,
   x = 0,
   y = 0,
+  delay = 0,
+  delayOfReps = 0,
   start,
   onFinish,
   distance = 100,
@@ -74,6 +87,30 @@ export default function GrenadeFragment({
     easing: Easing.inOut(Easing.linear),
   };
 
+  const repeated = ({ x, y }: Position) => {
+    "worklet";
+    const callback = (finished?: boolean) => {
+      "worklet";
+      if (finished) endAnimation();
+    };
+
+    if (delayOfReps) {
+      position.value = withRepeat(
+        withDelay(delayOfReps, withTiming({ x, y }, positionTiming)),
+        numbersOfReps,
+        false,
+        callback,
+      );
+    } else {
+      position.value = withRepeat(
+        withTiming({ x, y }, positionTiming),
+        numbersOfReps,
+        false,
+        callback,
+      );
+    }
+  };
+
   const endAnimation = runOnUI(() => {
     collision.value = { ...collision.value, ignore: true };
 
@@ -93,18 +130,29 @@ export default function GrenadeFragment({
       ...position.value,
     });
 
-    opacity.value = withTiming(1, { duration: durationOpacity });
+    const callback = (finished?: boolean) => {
+      "worklet";
+      if (finished) {
+        if (numbersOfReps) repeated(finalPosition);
+        else endAnimation();
+      }
+    };
 
-    position.value = withRepeat(
-      withTiming(finalPosition, positionTiming),
-      numbersOfReps,
-      false,
-      (fin) => {
-        if (fin) {
-          endAnimation();
-        }
-      },
-    );
+    if (delay) {
+      opacity.value = withDelay(
+        delay,
+        withTiming(1, { duration: durationOpacity }),
+      );
+
+      position.value = withDelay(
+        delay,
+        withTiming(finalPosition, positionTiming, callback),
+      );
+    } else {
+      opacity.value = withTiming(1, { duration: durationOpacity });
+      position.value = withTiming(finalPosition, positionTiming, callback);
+    }
+
     collision.value = { ...collision.value, ignore: false };
   });
 
@@ -121,9 +169,11 @@ export default function GrenadeFragment({
   useEffect(() => {
     if (start) {
       startAnimation();
-    } else {
-      cancelAnimation();
     }
+
+    return () => {
+      if (start) cancelAnimation();
+    };
   }, [start]);
 
   return <Circle data={circle} style={animatedStyle} />;
