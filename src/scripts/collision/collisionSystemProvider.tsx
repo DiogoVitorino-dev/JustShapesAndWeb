@@ -125,7 +125,7 @@ export default function CollisionSystemProvider({
   ) => {
     "worklet";
     list.modify((listObjects: CollidableObjects[]) =>
-      listObjects.filter((val, idx) => index !== idx),
+      listObjects.splice(index, 1),
     );
     object.removeListener(index);
   };
