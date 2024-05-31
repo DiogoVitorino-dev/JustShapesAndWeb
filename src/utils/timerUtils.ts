@@ -23,6 +23,11 @@ export interface Timer {
   /**
    * @DocMissing
    */
+  advanceTime: (by?: number) => void;
+
+  /**
+   * @DocMissing
+   */
   clear: () => void;
 }
 
@@ -49,6 +54,17 @@ const setTimer: SetTimer = (callback, timeout) => {
     }
   };
 
+  const advanceTime = (by?: number) => {
+    if (by) {
+      remaining -= by;
+      stop();
+      resume();
+    } else {
+      clear();
+      callback();
+    }
+  };
+
   const resume = () => {
     if (!data && remaining >= 0) {
       start = Date.now();
@@ -58,7 +74,7 @@ const setTimer: SetTimer = (callback, timeout) => {
 
   resume();
 
-  return { clear, resume, stop, data };
+  return { clear, resume, stop, advanceTime, data };
 };
 
 /**

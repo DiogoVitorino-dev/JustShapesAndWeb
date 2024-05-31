@@ -68,4 +68,14 @@ describe("Testing setTimer - Timer Utils tests", () => {
     jest.advanceTimersByTime(500);
     expect(callback).not.toHaveBeenCalled();
   });
+
+  it("Should advance the time", () => {
+    const timer = setTimer(callback, 1000);
+
+    timer.advanceTime(500);
+
+    jest.advanceTimersByTime(500);
+
+    expect(callback).toHaveBeenCalled();
+  });
 });
