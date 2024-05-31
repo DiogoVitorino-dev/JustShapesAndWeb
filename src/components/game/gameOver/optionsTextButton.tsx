@@ -48,7 +48,7 @@ export default function OptionsTextButton({
   style,
   ...props
 }: OptionsTextButtonProps) {
-  const { play } = useSoundContext();
+  const { playSound } = useSoundContext();
 
   const scale = useSharedValue(1);
   const rotate = useSharedValue(0);
@@ -133,8 +133,8 @@ export default function OptionsTextButton({
     transform: [{ scale: scale.value }, { rotate: rotate.value + "deg" }],
   }));
 
-  const hoverAudio = async () => runOnJS(play)("hover");
-  const pressAudio = async () => runOnJS(play)("open-menu");
+  const hoverAudio = async () => runOnJS(playSound)("hover");
+  const pressAudio = async () => runOnJS(playSound)("open-menu");
 
   return (
     <AnimatedPressable

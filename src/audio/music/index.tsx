@@ -2,29 +2,37 @@ import { useAssets } from "expo-asset";
 import React, { createContext, useContext, useEffect } from "react";
 
 import { useAudioSystem } from "@/audio";
-import { AudioFunctions, AudioProps, AudioStatus } from "@/audio/audio.types";
+import { AudioFunctions, AudioTrack } from "@/audio/audio.types";
 import { useAppSelector } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
 // The property key MUST have the same name as the file (without the type)
 // Example: introMusic: require("example/music/introMusic.mp3")
-const gameAssets = {};
+const gameAssets = {
+  "blackbox-ani": require("@/assets/audio/music/blackbox-ani.mp3"),
+};
 
 export type MusicList = keyof typeof gameAssets;
 
-type MusicFunctions = Omit<AudioFunctions, "play">;
-
-export interface MusicContext extends MusicFunctions, AudioProps {
-  play: (name?: MusicList) => Promise<void>;
+export interface MusicContext extends AudioFunctions {
+  playMusic: (list: MusicList) => Promise<void>;
 }
 
 const Context = createContext<MusicContext>({
-  status: AudioStatus.IDLE,
+  playMusic: async () => {},
   pause: async () => {},
   setProgress: async () => {},
   getProgress: async () => -1,
   play: async () => {},
   setVolume: async () => {},
+  add: async () => {},
+  getCurrentIndex: () => -1,
+  getCurrentTrack: () => undefined,
+  getTrack: () => undefined,
+  getPlaylist: () => [],
+  remove: async () => {},
+  skip: async () => {},
+  stop: async () => {},
 });
 
 export const useMusicContext = () => useContext(Context);
@@ -42,21 +50,32 @@ export default function MusicProvider({ children }: ProviderProps) {
   ).musicVolume;
 
   useEffect(() => {
+    if (assets) {
+      const tracks = assets.map<AudioTrack>((asset) => {
+        return {
+          title: asset.name.substring(0, asset.name.lastIndexOf(".")),
+          asset,
+        };
+      });
+
+      value.add(tracks);
+    }
+  }, [assets]);
+
+  useEffect(() => {
     value.setVolume(musicVolume);
   }, [musicVolume]);
 
-  const handlePlay: Pick<MusicContext, "play">["play"] = async (name) => {
-    if (assets && name && Object.hasOwn(gameAssets, name)) {
-      await value.play(
-        assets.find((data) => data.name.replace(/\.[^/.]+$/, "") === name),
-      );
-    } else {
-      await value.play();
-    }
+  const playMusic: MusicContext["playMusic"] = async (name) => {
+    const index = value
+      .getPlaylist()
+      .findIndex((track) => track.title === name);
+
+    if (index !== -1) await value.skip(index);
   };
 
   return (
-    <Context.Provider value={{ ...value, play: handlePlay }}>
+    <Context.Provider value={{ ...value, playMusic }}>
       {children}
     </Context.Provider>
   );

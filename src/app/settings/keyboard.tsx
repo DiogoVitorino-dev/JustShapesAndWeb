@@ -24,16 +24,16 @@ export default function Keyboard() {
   const [modalData, setModalData] = useState<KeyboardListenerModalData>();
   const [data, setData] = useState<CommandListItemData[]>([]);
   const { keys } = useAppSelector(SettingsSelectors.selectKeyboardSettings);
-  const { play } = useSoundContext();
+  const { playSound } = useSoundContext();
 
   const handlePress: CommandListItemPress = async (key, command) => {
     setModalData({ key, command });
-    await play("open-nested-menu");
+    await playSound("open-nested-menu");
   };
 
   const handleModalDismiss = async () => {
     setModalData(undefined);
-    await play("close-nested-menu");
+    await playSound("close-nested-menu");
   };
 
   useEffect(() => {

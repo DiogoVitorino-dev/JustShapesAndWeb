@@ -53,7 +53,7 @@ export default function MenuButton({
   const router = useRouter();
   const padding = ((width / 15) * (index + 1)) / 2.1 + width / 15;
   const paddingExpanded = padding * 2;
-  const { play } = useSoundContext();
+  const { playSound } = useSoundContext();
 
   const [disabled, setDisabled] = useState(false);
   const horizontalScale = useSharedValue(0);
@@ -136,8 +136,9 @@ export default function MenuButton({
     );
   };
 
-  const hoverAudio = async () => play("hover");
-  const pressAudio = async () => (isStart ? play("start") : play("open-menu"));
+  const hoverAudio = async () => playSound("hover");
+  const pressAudio = async () =>
+    isStart ? playSound("start") : playSound("open-menu");
 
   return (
     <Animated.View style={[styles.root, animatedRootStyle, style]}>

@@ -37,15 +37,13 @@ const entryExitAnimation =
 export default function SettingsList() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { play } = useSoundContext();
+  const { playSound } = useSoundContext();
 
   const handlePressItem: SettingItemPress = async (to) => {
     router.push(to);
   };
 
-  const handleHover = async () => {
-    await play("hover");
-  };
+  const handleHover = () => playSound("hover");
 
   return (
     <View style={styles.container}>

@@ -2,7 +2,7 @@ import { useAssets } from "expo-asset";
 import React, { createContext, useContext, useEffect } from "react";
 
 import { useAudioSystem } from "@/audio";
-import { AudioFunctions, AudioProps, AudioStatus } from "@/audio/audio.types";
+import { AudioFunctions, AudioTrack } from "@/audio/audio.types";
 import { useAppSelector } from "@/hooks";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
@@ -25,19 +25,25 @@ const gameAssets = {
 
 export type SoundList = keyof typeof menuAssets | keyof typeof gameAssets;
 
-type SoundAudioFunctions = Omit<AudioFunctions, "play">;
-
-export interface SoundContext extends SoundAudioFunctions, AudioProps {
-  play: (name?: SoundList) => Promise<void>;
+export interface SoundContext extends AudioFunctions {
+  playSound: (name: SoundList) => Promise<void>;
 }
 
 const Context = createContext<SoundContext>({
-  status: AudioStatus.IDLE,
+  playSound: async () => {},
   pause: async () => {},
   setProgress: async () => {},
   getProgress: async () => -1,
   play: async () => {},
   setVolume: async () => {},
+  add: async () => {},
+  getCurrentIndex: () => -1,
+  getCurrentTrack: () => undefined,
+  getTrack: () => undefined,
+  getPlaylist: () => [],
+  remove: async () => {},
+  skip: async () => {},
+  stop: async () => {},
 });
 
 export const useSoundContext = () => useContext(Context);
@@ -58,23 +64,32 @@ export default function SoundProvider({ children }: ProviderProps) {
   ).soundVolume;
 
   useEffect(() => {
+    if (assets) {
+      const tracks = assets.map<AudioTrack>((asset) => {
+        return {
+          title: asset.name.substring(0, asset.name.lastIndexOf(".")),
+          asset,
+        };
+      });
+
+      value.add(tracks);
+    }
+  }, [assets]);
+
+  useEffect(() => {
     value.setVolume(soundVolume);
   }, [soundVolume]);
 
-  const handlePlay: Pick<SoundContext, "play">["play"] = async (name) => {
-    if (assets && name) {
-      if (Object.hasOwn(menuAssets, name) || Object.hasOwn(gameAssets, name)) {
-        value.play(
-          assets.find((data) => data.name.replace(/\.[^/.]+$/, "") === name),
-        );
-      }
-    } else {
-      await value.play();
-    }
+  const playSound: SoundContext["playSound"] = async (name) => {
+    const index = value
+      .getPlaylist()
+      .findIndex((track) => track.title === name);
+
+    if (index !== -1) await value.skip(index);
   };
 
   return (
-    <Context.Provider value={{ ...value, play: handlePlay }}>
+    <Context.Provider value={{ ...value, playSound }}>
       {children}
     </Context.Provider>
   );

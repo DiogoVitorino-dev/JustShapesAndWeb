@@ -1,44 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, StyleSheet, TextInput } from "react-native";
 
-import { useSoundContext } from "@/audio/sound";
-import { View, Text } from "@/components/shared";
+import { useMusicContext } from "@/audio/music";
+import { View } from "@/components/shared";
 import Colors from "@/constants/Colors";
 
 export default function UseAudioSystemChamber() {
   const [progressValue, setProgressValue] = useState(0);
   const [volumeValue, setVolumeValue] = useState("1");
-  const { getProgress, pause, play, setProgress, setVolume } =
-    useSoundContext();
+  const {
+    getProgress,
+    stop,
+    pause,
+    play,
+    skip,
+    playMusic,
+    setProgress,
+    setVolume,
+  } = useMusicContext();
 
   const handleGetProgress = async () => {
     setProgressValue((await getProgress()) || -1);
   };
-  const handlePause = () => {
-    pause();
-  };
-
-  const handleResume = async () => play();
-
-  const handlePlay = async () => play("start");
-
-  const handleSetProgress = () => {
-    setProgress(progressValue);
-  };
-  const handleSetVolume = () => {
-    setVolume(parseFloat(volumeValue.replace(/[^0-9.]/g, "")));
-  };
-
+  const handlePause = () => pause();
   const handleFadedPause = () => pause(3000);
 
+  const handlePlay = async () => play();
+  const handleFadedPlay = async () => play(3000);
+
+  const handleStop = async () => stop();
+  const handleFadedStop = async () => stop(3000);
+
+  const handleSkip = async () => skip(0);
+  const handleFadedSkip = async () => skip(0, 3000);
+
+  const handleMusic = async () => playMusic("blackbox-ani");
+
+  const handleSetProgress = () => setProgress(progressValue);
+
+  const handleSetVolume = () =>
+    setVolume(parseFloat(volumeValue.replace(/[^0-9.]/g, "")));
+
+  useEffect(() => {
+    handleMusic();
+    return () => {
+      stop();
+    };
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.input}>Volume to set: {volumeValue}</Text>
-      <View style={styles.row}>
+    <View style={[styles.container]}>
+      <View style={styles.column}>
         <Button title="PLAY" onPress={handlePlay} />
+        <Button title="FADED PLAY" onPress={handleFadedPlay} />
+      </View>
+
+      <View style={styles.column}>
         <Button title="PAUSE" onPress={handlePause} />
         <Button title="FADED PAUSE" onPress={handleFadedPause} />
-        <Button title="RESUME" onPress={handleResume} />
+      </View>
+
+      <View style={styles.column}>
+        <Button title="SKIP" onPress={handleSkip} />
+        <Button title="FADED SKIP" onPress={handleFadedSkip} />
+      </View>
+
+      <View style={styles.column}>
+        <Button title="STOP" onPress={handleStop} />
+        <Button title="FADED STOP" onPress={handleFadedStop} />
       </View>
 
       <View style={styles.column}>
@@ -71,6 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    flexWrap: "wrap",
     flexDirection: "row",
   },
   row: {
