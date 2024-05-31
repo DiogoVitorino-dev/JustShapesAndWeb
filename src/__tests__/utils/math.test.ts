@@ -27,3 +27,11 @@ describe("Testing interpolate - Math Utils tests", () => {
     expect(test_1).toBe(0.2);
   });
 });
+
+describe("Testing percentage - Math Utils tests", () => {
+  it("Should calculate the percentage correctly", () => {
+    const { percentage } = MathUtils;
+    expect(percentage(50, 100)).toBe(50);
+    expect(percentage(20, 100)).toBe(20);
+  });
+});

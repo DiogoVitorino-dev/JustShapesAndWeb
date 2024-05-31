@@ -24,4 +24,6 @@ function interpolate(
   return interpolated;
 }
 
-export const MathUtils = { random, interpolate };
+const percentage = (percentage: number, of: number) => (percentage / 100) * of;
+
+export const MathUtils = { random, interpolate, percentage };
