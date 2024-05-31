@@ -22,6 +22,7 @@ export interface FlashConfig {
   color?: ColorValue;
   numbersOfReps?: number;
   delayOfReps?: number;
+  delay?: number;
 }
 
 export interface FlashProps
@@ -34,9 +35,10 @@ type FlashEffect = (flash: FlashProps) => React.JSX.Element;
 export const Flash: FlashEffect = ({
   color = Colors.effects.flash,
   delayOfReps = 0,
-  intensity = 40,
+  delay = 0,
+  intensity = 10,
   duration = 200,
-  numbersOfReps = 1,
+  numbersOfReps = 0,
   start,
   onFinish,
   children,
@@ -59,8 +61,7 @@ export const Flash: FlashEffect = ({
   };
 
   const repeated = () => {
-    "worklet";
-    if (numbersOfReps !== 1 && numbersOfReps !== 0) {
+    if (delayOfReps) {
       opacity.value = withRepeat(
         withDelay(
           delayOfReps,
@@ -69,23 +70,48 @@ export const Flash: FlashEffect = ({
             withTiming(0, { duration: duration / 2 }),
           ),
         ),
-        numbersOfReps - 1,
+        numbersOfReps,
         false,
         handleOnFinished,
       );
     } else {
-      handleOnFinished(true);
+      opacity.value = withRepeat(
+        withSequence(
+          withTiming(intensity, { duration: duration / 2 }),
+          withTiming(0, { duration: duration / 2 }),
+        ),
+        numbersOfReps,
+        false,
+        handleOnFinished,
+      );
     }
   };
 
   const startAnimation = () => {
     "worklet";
-    opacity.value = withSequence(
-      withTiming(intensity, { duration: duration / 2 }),
-      withTiming(0, { duration: duration / 2 }, (fin) =>
-        fin ? repeated() : undefined,
-      ),
-    );
+
+    const callback = (finished?: boolean) => {
+      "worklet";
+      if (finished) {
+        if (numbersOfReps) repeated();
+        else handleOnFinished(finished);
+      }
+    };
+
+    if (delay) {
+      opacity.value = withDelay(
+        delay,
+        withSequence(
+          withTiming(intensity, { duration: duration / 2 }),
+          withTiming(0, { duration: duration / 2 }, callback),
+        ),
+      );
+    } else {
+      opacity.value = withSequence(
+        withTiming(intensity, { duration: duration / 2 }),
+        withTiming(0, { duration: duration / 2 }, callback),
+      );
+    }
   };
 
   const cancelAnimation = () => {
@@ -97,9 +123,12 @@ export const Flash: FlashEffect = ({
   useEffect(() => {
     if (start) {
       runOnUI(startAnimation)();
-    } else {
-      runOnUI(cancelAnimation)();
     }
+    return () => {
+      if (start) {
+        runOnUI(cancelAnimation)();
+      }
+    };
   }, [start]);
 
   return (

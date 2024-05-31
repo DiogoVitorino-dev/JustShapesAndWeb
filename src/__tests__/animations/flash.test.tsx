@@ -56,7 +56,26 @@ describe("Shake effect - Animation tests", () => {
     const view = getByTestId("flashAnimation");
 
     jest.advanceTimersByTime(1500);
-    const style = getAnimatedStyle(view);
+    let style = getAnimatedStyle(view);
+    expect(style.opacity).toBeCloseTo(1);
+
+    jest.runAllTimers();
+    style = getAnimatedStyle(view);
+    expect(style.opacity).toBe(0);
+  });
+
+  it("Should delay the animation", () => {
+    const { getByTestId } = render(
+      <Flash duration={1000} intensity={100} delay={500} start />,
+    );
+    const view = getByTestId("flashAnimation");
+
+    jest.advanceTimersByTime(500);
+    let style = getAnimatedStyle(view);
+    expect(style.opacity).toBe(0);
+
+    jest.advanceTimersByTime(500);
+    style = getAnimatedStyle(view);
     expect(style.opacity).toBeCloseTo(1);
   });
 
@@ -85,7 +104,7 @@ describe("Shake effect - Animation tests", () => {
     jest.advanceTimersByTime(800);
     expect(callback).not.toHaveBeenCalled();
 
-    jest.runAllTimers();
+    jest.advanceTimersByTime(200);
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
