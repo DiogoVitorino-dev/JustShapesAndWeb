@@ -133,4 +133,33 @@ describe("Shake effect - Animation tests", () => {
     jest.runAllTimers();
     expect(callback).toHaveBeenCalledTimes(1);
   });
+
+  it("Should delay the animation", () => {
+    const { root } = render(<Shake duration={1000} delay={1000} start />);
+
+    jest.advanceTimersByTime(1000);
+    const style = getAnimatedStyle(root);
+    expect(style.transform[1].translateY).toBe(0);
+    expect(style.transform[0].translateX).toBe(0);
+  });
+
+  it("Shouldn't shake on Vertical axis", () => {
+    const { root } = render(
+      <Shake duration={1000} impact={{ vertical: "none" }} start />,
+    );
+
+    jest.advanceTimersByTime(500);
+    const style = getAnimatedStyle(root);
+    expect(style.transform[1].translateY).toBe(0);
+  });
+
+  it("Shouldn't shake on Horizontal axis", () => {
+    const { root } = render(
+      <Shake duration={1000} impact={{ horizontal: "none" }} start />,
+    );
+
+    jest.advanceTimersByTime(500);
+    const style = getAnimatedStyle(root);
+    expect(style.transform[0].translateX).toBe(0);
+  });
 });

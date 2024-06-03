@@ -3,9 +3,11 @@ import Animated, {
   Easing,
   WithSpringConfig,
   WithTimingConfig,
+  cancelAnimation,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withSequence,
   withSpring,
   withTiming,
@@ -14,18 +16,17 @@ import Animated, {
 import { AnimatedEffectProps, RunnableAnimation } from "../animations.type";
 
 import { AnimatedStyleApp } from "@/constants/commonTypes";
-import { useTimeoutUI } from "@/hooks";
 import { MathUtils } from "@/utils/mathUtils";
 
-export type ShakeImpact = "start" | "end" | "all";
+export type ShakeImpact = "none" | "start" | "end" | "all";
 
 export interface ShakeImpactDirection {
   /**
-   * Sets the impact side to left (Start), right (End), or both sides (All).
+   * Sets the impact side to left (Start), right (End), both sides (All) or none.
    */
   horizontal?: ShakeImpact;
   /**
-   * Sets the impact side to up (Start), down (End), or both sides (All).
+   * Sets the impact side to up (Start), down (End), both sides (All) or none.
    */
   vertical?: ShakeImpact;
 }
@@ -50,6 +51,10 @@ export interface ShakeConfig {
    * Setting for the impacts.
    */
   impact?: ShakeImpactConfig;
+  /**
+   * Sets a delay for the effect to start
+   */
+  delay?: number;
 }
 
 const InitialShakeImpactConfig: Required<ShakeImpactConfig> = {
@@ -67,6 +72,7 @@ type ShakeEffect = (props: ShakeProps) => React.JSX.Element;
 
 export const Shake: ShakeEffect = ({
   amount = 20,
+  delay = 0,
   duration = 200,
   impact = InitialShakeImpactConfig,
   start = false,
@@ -77,58 +83,62 @@ export const Shake: ShakeEffect = ({
 }) => {
   const shakeY = useSharedValue(0);
   const shakeX = useSharedValue(0);
-  const timer = useTimeoutUI(duration);
+
   impact = { ...InitialShakeImpactConfig, ...impact };
+
+  const shakeDuration = 80 / impact!.frequency!;
+
+  const timingConfig: WithTimingConfig = {
+    duration: shakeDuration,
+    easing: Easing.out(Easing.ease),
+  };
+
+  const springConfig: WithSpringConfig = {
+    stiffness: 200,
+  };
 
   const animatedStyle: AnimatedStyleApp = useAnimatedStyle(() => ({
     transform: [{ translateX: shakeX.value }, { translateY: shakeY.value }],
   }));
 
   const run = () => {
-    if (!timer.result.value) {
-      const shakeDuration = 80 / impact!.frequency!;
+    let frequency = Number((duration / shakeDuration).toFixed(0)) - 1;
 
-      const timingConfig: WithTimingConfig = {
-        duration: shakeDuration,
-        easing: Easing.out(Easing.ease),
-      };
+    const sequenceX: number[] = [];
+    const sequenceY: number[] = [];
 
-      const springConfig: WithSpringConfig = {
-        stiffness: 200,
-      };
+    while (frequency > 0) {
+      frequency--;
 
-      let frequency = Number((duration / shakeDuration).toFixed(0));
+      sequenceY.push(
+        withTiming(selectDirection(impact.vertical), timingConfig),
+      );
+      sequenceX.push(
+        withTiming(selectDirection(impact.horizontal), timingConfig),
+      );
 
-      const sequenceX: number[] = [];
-      const sequenceY: number[] = [];
-
-      while (frequency > 0) {
-        frequency--;
-
+      if (frequency === 0) {
+        sequenceX.push(withSpring(0, springConfig));
         sequenceY.push(
-          withTiming(selectDirection(impact.vertical), timingConfig),
+          withSpring(0, springConfig, (fin) =>
+            fin && onFinish ? runOnJS(onFinish)() : undefined,
+          ),
         );
-        sequenceX.push(
-          withTiming(selectDirection(impact.horizontal), timingConfig),
-        );
-
-        if (frequency === 0) {
-          sequenceX.push(withSpring(0, springConfig));
-          sequenceY.push(
-            withSpring(0, springConfig, (fin) =>
-              fin && onFinish ? runOnJS(onFinish)() : undefined,
-            ),
-          );
-        }
       }
-
-      shakeY.value = withSequence(...sequenceY);
-      shakeX.value = withSequence(...sequenceX);
-
-      timer.run();
     }
+
+    shakeY.value = withDelay(delay, withSequence(...sequenceY));
+    shakeX.value = withDelay(delay, withSequence(...sequenceX));
   };
 
+  const cancel = () => {
+    cancelAnimation(shakeX);
+    cancelAnimation(shakeY);
+    shakeX.value = withSpring(0, springConfig);
+    shakeY.value = withSpring(0, springConfig, (fin) =>
+      fin && onFinish ? runOnJS(onFinish)() : undefined,
+    );
+  };
   const selectDirection = (direction: ShakeImpact = "all") => {
     const { random } = MathUtils;
 
@@ -139,15 +149,20 @@ export const Shake: ShakeEffect = ({
       case "end":
         return random(0, amount);
 
-      default:
+      case "all":
         return random(amount * -1, amount);
+
+      default:
+        return 0;
     }
   };
 
   useEffect(() => {
-    if (start) {
-      run();
-    }
+    if (start) run();
+
+    return () => {
+      if (start) cancel();
+    };
   }, [start]);
 
   return (
