@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   SharedValue,
@@ -40,7 +40,7 @@ const initialValues: Required<CircleData> = {
 type RemoveListeners = { collision: () => void };
 
 export default function Circle({ data, collisionMode, style }: CircleProps) {
-  const [removeListeners, setRemoveListeners] = useState<RemoveListeners>();
+  const removeListeners = useRef<RemoveListeners>();
   const { addObject, addTarget } = useCollisionSystem();
 
   const derivedData = useDerivedValue<Required<CircleData>>(() => {
@@ -80,19 +80,21 @@ export default function Circle({ data, collisionMode, style }: CircleProps) {
         } else {
           forceRemover = addObject(derivedData);
         }
-        runOnJS(setRemoveListeners)({ collision: forceRemover });
+        runOnJS((collision: RemoveListeners["collision"]) => {
+          removeListeners.current = { ...removeListeners.current, collision };
+        })(forceRemover);
       }
     },
   );
 
   useEffect(
     () => () => {
-      if (removeListeners)
-        Object.values(removeListeners).forEach((remove) => {
+      if (removeListeners.current)
+        Object.values(removeListeners.current).forEach((remove) => {
           remove();
         });
     },
-    [removeListeners],
+    [],
   );
 
   return (

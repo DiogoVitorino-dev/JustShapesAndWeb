@@ -104,4 +104,6 @@ describe("Rectangle - Model tests", () => {
       expect(getByText("don't collided"));
     }
   });
+
+  it.todo("should remove collision on unmount");
 });

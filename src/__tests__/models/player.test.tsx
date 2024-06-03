@@ -107,4 +107,6 @@ describe("Player - Model tests", () => {
       (reason) => reason,
     );
   });
+
+  it.todo("should remove collision on unmount");
 });
