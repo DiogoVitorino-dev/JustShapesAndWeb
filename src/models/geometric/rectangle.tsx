@@ -10,7 +10,7 @@ import Animated, {
 
 import Colors from "@/constants/Colors";
 import {
-  AnimatedStyleApp,
+  AnimatedProps,
   Position,
   Size,
   Angle,
@@ -30,7 +30,7 @@ export interface RectangleData
 export interface RectangleProps {
   collisionMode?: "target" | "object";
   data?: SharedValue<RectangleData> | RectangleData;
-  style?: AnimatedStyleApp;
+  style?: AnimatedProps<"View">["style"];
 }
 
 const initialValues: Required<RectangleData> = {

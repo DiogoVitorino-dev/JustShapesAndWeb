@@ -6,7 +6,7 @@ import Animated, {
 
 import Character, { CharacterProps } from "./character";
 
-import { AnimatedStyleApp, DisplayOptions } from "@/constants/commonTypes";
+import { AnimatedProps, DisplayOptions } from "@/constants/commonTypes";
 
 type ForwardCharacterProps = Omit<CharacterProps, "index" | "style">;
 
@@ -15,7 +15,7 @@ type BouncingTextStyle =
   | ((characterIndex: number) => CharacterProps["style"]);
 
 export interface BouncingTextProps extends ForwardCharacterProps {
-  containerStyle?: AnimatedStyleApp;
+  containerStyle?: AnimatedProps<"View">["style"];
   style?: BouncingTextStyle;
 }
 

@@ -15,7 +15,6 @@ import Animated, {
 
 import { AnimatedEffectProps, RunnableAnimation } from "../animations.type";
 
-import { AnimatedStyleApp } from "@/constants/commonTypes";
 import { MathUtils } from "@/utils/mathUtils";
 
 export type ShakeImpact = "none" | "start" | "end" | "all";
@@ -97,7 +96,7 @@ export const Shake: ShakeEffect = ({
     stiffness: 200,
   };
 
-  const animatedStyle: AnimatedStyleApp = useAnimatedStyle(() => ({
+  const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: shakeX.value }, { translateY: shakeY.value }],
   }));
 

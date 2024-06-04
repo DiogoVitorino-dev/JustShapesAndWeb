@@ -14,7 +14,7 @@ import { AnimatedPlayer } from "@/animations/player";
 import Colors from "@/constants/Colors";
 import type {
   Angle,
-  AnimatedStyleApp,
+  AnimatedProps,
   Entries,
   Position,
   Size,
@@ -31,7 +31,7 @@ export interface PlayerData
 
 export interface PlayerProps {
   data: SharedValue<PlayerData>;
-  style?: AnimatedStyleApp;
+  style?: AnimatedProps<"View">["style"];
 }
 
 const initialValues: Required<PlayerData> = {

@@ -14,7 +14,7 @@ import OptionsTextButton from "./optionsTextButton";
 import { useSoundContext } from "@/audio/sound";
 import { AnimatedText, View } from "@/components/shared";
 import Colors from "@/constants/Colors";
-import { AnimatedStyleApp, DisplayOptions } from "@/constants/commonTypes";
+import { AnimatedProps, DisplayOptions } from "@/constants/commonTypes";
 import { useAppSelector } from "@/hooks";
 import { PlayerStatus } from "@/store/reducers/player/playerReducer";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
@@ -25,7 +25,7 @@ interface OptionsProps {
   onPressContinue?: OnPressOption;
   onPressOver?: OnPressOption;
   delayPress?: number;
-  style?: AnimatedStyleApp;
+  style?: AnimatedProps<"View">["style"];
 }
 
 export default function Options({

@@ -10,7 +10,7 @@ import Animated, {
 
 import Colors from "@/constants/Colors";
 import {
-  AnimatedStyleApp,
+  AnimatedProps,
   Diameter,
   Entries,
   Position,
@@ -26,7 +26,7 @@ export interface CircleData extends Partial<Position>, Partial<Collidable> {
 export interface CircleProps {
   data?: SharedValue<CircleData> | CircleData;
   collisionMode?: "target" | "object";
-  style?: AnimatedStyleApp;
+  style?: AnimatedProps<"View">["style"];
 }
 
 const initialValues: Required<CircleData> = {
