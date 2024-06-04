@@ -31,22 +31,20 @@ describe("Rectangle Smash Attack - Animation tests", () => {
       <RectangleSmash prepareDuration={100} start />,
     );
 
-    let style!: Record<string, any>;
-
     await waitFor(() =>
       act(() => {
         jest.advanceTimersByTime(250);
-        style = getAnimatedStyle(getByTestId("rectangleModel"));
       }),
     );
 
+    const style = getAnimatedStyle(getByTestId("rectangleModel"));
     expect(style.width).toBe(window.result.current.width);
   });
 
   it("Should increment the size value according to the quantity and preparation time", async () => {
     const { getByTestId } = render(
       <RectangleSmash
-        initialWidth={100}
+        initialLength={100}
         prepareDuration={100}
         prepareAmount={100}
         start
@@ -55,34 +53,38 @@ describe("Rectangle Smash Attack - Animation tests", () => {
 
     const view = getByTestId("rectangleModel");
 
-    let style!: Record<string, any>;
-
     await act(() => {
       jest.advanceTimersByTime(100);
-      style = getAnimatedStyle(view);
     });
 
-    expect(style.width).toBeCloseTo(200.5, 0);
+    let style = getAnimatedStyle(view);
+    expect(style.width).toBeCloseTo(200, 0);
 
     await act(() => {
       jest.advanceTimersByTime(200);
-      style = getAnimatedStyle(view);
     });
 
+    style = getAnimatedStyle(view);
     expect(style.width).toBe(window.result.current.width);
   });
 
   it("Should increment the size value according to the smash direction", async () => {
-    const { getByTestId } = render(<RectangleSmash smashTo="vertical" start />);
-
-    const view = getByTestId("rectangleModel");
-
-    let style!: Record<string, any>;
+    const { getByTestId } = render(
+      <RectangleSmash
+        attackDuration={100}
+        attackSpeed={100}
+        prepareDuration={100}
+        smashTo="vertical"
+        start
+      />,
+    );
 
     await act(() => {
-      jest.runAllTimers();
-      style = getAnimatedStyle(view);
+      jest.advanceTimersByTime(300);
     });
+
+    const view = getByTestId("rectangleModel");
+    const style = getAnimatedStyle(view);
 
     expect(style.height).toBe(window.result.current.height);
   });
@@ -96,12 +98,14 @@ describe("Rectangle Smash Attack - Animation tests", () => {
     };
     const { getByTestId } = render(
       <RectangleSmash
-        initialWidth={initial.width}
-        initialHeight={initial.height}
+        initialLength={initial.width}
+        size={initial.height}
         x={initial.x}
         y={initial.y}
-        prepareDuration={100}
         prepareAmount={100}
+        attackDuration={100}
+        attackSpeed={100}
+        prepareDuration={100}
         start
       />,
     );
@@ -116,10 +120,10 @@ describe("Rectangle Smash Attack - Animation tests", () => {
     expect(style.top).toBe(initial.y);
 
     await act(() => {
-      jest.runAllTimers();
-      style = getAnimatedStyle(view);
+      jest.advanceTimersByTime(300);
     });
 
+    style = getAnimatedStyle(view);
     expect(style.width).toBe(window.result.current.width);
     expect(style.height).toBe(initial.height);
     expect(style.left).toBe(initial.x);
@@ -137,8 +141,8 @@ describe("Rectangle Smash Attack - Animation tests", () => {
     const wrapper: Wrapper = ({ children }) => (
       <CollisionSystemProvider>
         <RectangleSmash
-          initialWidth={50}
-          initialHeight={500}
+          initialLength={50}
+          size={500}
           prepareAmount={20}
           prepareDuration={50}
           y={0}
@@ -181,5 +185,103 @@ describe("Rectangle Smash Attack - Animation tests", () => {
       },
       (reason) => reason,
     );
+  });
+
+  it("Should perform attack with specified attack speed", async () => {
+    const { getByTestId } = render(
+      <RectangleSmash
+        initialLength={100}
+        prepareDuration={100}
+        prepareAmount={100}
+        attackSpeed={100}
+        start
+      />,
+    );
+
+    const view = getByTestId("rectangleModel");
+
+    await act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    const style = getAnimatedStyle(view);
+    expect(style.width).toBeCloseTo(window.result.current.width, 0);
+  });
+
+  it("Should remain visible after attack with specific duration", async () => {
+    const { getByTestId } = render(
+      <RectangleSmash
+        prepareDuration={100}
+        attackSpeed={100}
+        attackDuration={500}
+        start
+      />,
+    );
+
+    const view = getByTestId("rectangleModel");
+
+    await act(() => {
+      jest.advanceTimersByTime(700);
+    });
+
+    let style = getAnimatedStyle(view);
+    expect(style.width).toBeCloseTo(window.result.current.width, 0);
+
+    await act(() => {
+      jest.advanceTimersByTime(100);
+    });
+
+    style = getAnimatedStyle(view);
+    expect(style.width).not.toBeCloseTo(window.result.current.width, 0);
+  });
+
+  it("Should hide the attack with a specific duration", async () => {
+    const { getByTestId } = render(
+      <RectangleSmash
+        prepareDuration={100}
+        attackSpeed={100}
+        attackDuration={100}
+        hideDuration={500}
+        start
+      />,
+    );
+
+    const view = getByTestId("rectangleModel");
+
+    await act(() => {
+      jest.advanceTimersByTime(300 + 499);
+    });
+
+    let style = getAnimatedStyle(view);
+    expect(style.width).not.toBe(0);
+
+    await act(() => {
+      jest.advanceTimersByTime(1);
+    });
+
+    style = getAnimatedStyle(view);
+    expect(style.width).toBe(0);
+  });
+
+  it("Should delay the animation", async () => {
+    const { getByTestId } = render(
+      <RectangleSmash prepareDuration={100} delay={50} start />,
+    );
+
+    const view = getByTestId("rectangleModel");
+
+    await act(() => {
+      jest.advanceTimersByTime(50);
+    });
+
+    let style = getAnimatedStyle(view);
+    expect(style.width).toBe(0);
+
+    await act(() => {
+      jest.advanceTimersByTime(50);
+    });
+
+    style = getAnimatedStyle(view);
+    expect(style.width).not.toBe(0);
   });
 });
