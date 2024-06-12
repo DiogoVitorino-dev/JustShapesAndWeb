@@ -87,23 +87,23 @@ export default function GrenadeFragment({
     easing: Easing.inOut(Easing.linear),
   };
 
-  const repeated = ({ x, y }: Position) => {
+  const repeated = (final: Position) => {
     "worklet";
-    const callback = (finished?: boolean) => {
-      "worklet";
-      if (finished) endAnimation();
-    };
+    const callback = (finished?: boolean) =>
+      finished ? endAnimation() : undefined;
+
+    position.value = { x, y };
 
     if (delayOfReps) {
       position.value = withRepeat(
-        withDelay(delayOfReps, withTiming({ x, y }, positionTiming)),
+        withDelay(delayOfReps, withTiming({ ...final }, positionTiming)),
         numbersOfReps,
         false,
         callback,
       );
     } else {
       position.value = withRepeat(
-        withTiming({ x, y }, positionTiming),
+        withTiming({ ...final }, positionTiming),
         numbersOfReps,
         false,
         callback,
@@ -133,7 +133,7 @@ export default function GrenadeFragment({
     const callback = (finished?: boolean) => {
       "worklet";
       if (finished) {
-        if (numbersOfReps) repeated(finalPosition);
+        if (numbersOfReps || numbersOfReps === -1) repeated(finalPosition);
         else endAnimation();
       }
     };
