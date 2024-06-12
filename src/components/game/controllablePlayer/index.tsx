@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import {
+  interpolateColor,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -12,6 +13,7 @@ import {
 import { AnimatedEffects } from "@/animations/effects";
 import { useSoundContext } from "@/audio/sound";
 import { View } from "@/components/shared";
+import Colors from "@/constants/Colors";
 import Controller from "@/controllers";
 import { ControlData } from "@/controllers/controllers.type";
 import { useAppDispatch, useAppSelector, useCollisionSystem } from "@/hooks";
@@ -33,11 +35,15 @@ export default function ControllablePlayer() {
   const jump = useSharedValue(false);
   const angle = useSharedValue(0);
 
+  const [color, setColor] = useState("");
+
   const { upsertTimer } = useStageTimer();
 
   const dispatch = useAppDispatch();
 
   const status = useAppSelector(PlayerSelectors.selectStatus);
+  const maxHealth = useAppSelector(PlayerSelectors.selectMaxHealth);
+  const health = useAppSelector(PlayerSelectors.selectHealth);
 
   const movement = useSharedValue<MovableObject>({
     x: width / 4,
@@ -116,12 +122,24 @@ export default function ControllablePlayer() {
     }
   }, [collided]);
 
-  const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
+  useEffect(() => {
+    setColor(
+      interpolateColor(
+        health,
+        [1, maxHealth],
+        [Colors.entity.enemy, Colors.entity.player],
+      ),
+    );
+  }, [health, maxHealth]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
 
   return (
     <View style={styles.container}>
       <AnimatedEffects.Shake start={collided} impact={{ frequency: 4 }}>
-        <Player data={player} style={animatedStyle} />
+        <Player data={player} style={animatedStyle} color={color} />
       </AnimatedEffects.Shake>
       <Controller onMove={move} velocity={3} />
     </View>
