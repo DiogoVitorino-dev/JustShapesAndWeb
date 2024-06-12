@@ -31,8 +31,14 @@ const initialState: PlayerState = {
   status: PlayerStatus.Alive,
 };
 
-const { maxLifeChanged, maxHealthChanged, healed, hurt, restored } =
-  PlayerActions;
+const {
+  maxLifeChanged,
+  invulnerable,
+  maxHealthChanged,
+  healed,
+  hurt,
+  restored,
+} = PlayerActions;
 
 const playerReducer = createReducer(initialState, (builder) => {
   builder
@@ -41,6 +47,13 @@ const playerReducer = createReducer(initialState, (builder) => {
     })
     .addCase(maxHealthChanged, (state, action) => {
       state.maxHealth = action.payload;
+    })
+    .addCase(invulnerable, (state, action) => {
+      if (state.status !== PlayerStatus.Dead && action.payload) {
+        state.status = PlayerStatus.Invulnerable;
+      } else if (state.status !== PlayerStatus.Dead) {
+        state.status = PlayerStatus.Alive;
+      }
     })
     .addCase(restored, (state, action) => {
       state.health = action.payload?.health || state.maxHealth;

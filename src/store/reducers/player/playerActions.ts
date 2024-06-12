@@ -8,6 +8,8 @@ const maxLifeChanged = createAction<number>("player/maxLifeChanged");
 
 const maxHealthChanged = createAction<number>("player/maxHealthChanged");
 
+const invulnerable = createAction<boolean | undefined>("player/invulnerable");
+
 const restored = createAction<HealthAtributesPayload | undefined>(
   "player/restored",
 );
@@ -42,4 +44,9 @@ export const PlayerActions = {
    * @DocMissing
    */
   hurt,
+
+  /**
+   * @DocMissing
+   */
+  invulnerable,
 };

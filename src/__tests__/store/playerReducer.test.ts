@@ -59,6 +59,31 @@ describe("maxHealthChanged Action - Player Reducer tests", () => {
   });
 });
 
+describe("invulnerable Action - Player Reducer tests", () => {
+  const { invulnerable } = PlayerActions;
+
+  it("Should become invulnerable", () => {
+    expect(playerReducer(initialState, invulnerable(true))).toStrictEqual({
+      ...initialState,
+      status: PlayerStatus.Invulnerable,
+    });
+  });
+
+  it("should remove invulnerability", () => {
+    const newState = playerReducer(initialState, invulnerable(true));
+    expect(playerReducer(newState, invulnerable(false))).toStrictEqual({
+      ...newState,
+      status: PlayerStatus.Alive,
+    });
+  });
+
+  it("Shouldn't become invulnerable while dead", () => {
+    expect(playerReducer(lifeless, invulnerable(true))).toStrictEqual({
+      ...lifeless,
+    });
+  });
+});
+
 describe("hurt Action - Player Reducer tests", () => {
   const { hurt } = PlayerActions;
 
