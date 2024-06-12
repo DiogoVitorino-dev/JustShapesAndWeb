@@ -13,6 +13,7 @@
     "reduxjs",
     "springify",
     "substages",
-    "Substages"
+    "Substages",
+    "upsert"
   ]
 }
