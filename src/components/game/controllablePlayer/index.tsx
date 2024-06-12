@@ -14,13 +14,16 @@ import { useSoundContext } from "@/audio/sound";
 import { View } from "@/components/shared";
 import Controller from "@/controllers";
 import { ControlData } from "@/controllers/controllers.type";
-import { useAppSelector, useCollisionSystem } from "@/hooks";
+import { useAppDispatch, useAppSelector, useCollisionSystem } from "@/hooks";
 import Player, { PlayerData } from "@/models/player";
 import { MovableObject } from "@/scripts/movement/movement.type";
 import useJump from "@/scripts/movement/useJump";
 import { useMovementSystem } from "@/scripts/movement/useMovementSystem";
+import { useStageTimer } from "@/scripts/stageController/useStageTimer";
+import { PlayerActions } from "@/store/reducers/player/playerActions";
 import { PlayerStatus } from "@/store/reducers/player/playerReducer";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
+import { TimerUtils } from "@/utils/timerUtils";
 
 export default function ControllablePlayer() {
   const { width, height } = useWindowDimensions();
@@ -29,6 +32,10 @@ export default function ControllablePlayer() {
   const opacity = useSharedValue(1);
   const jump = useSharedValue(false);
   const angle = useSharedValue(0);
+
+  const { upsertTimer } = useStageTimer();
+
+  const dispatch = useAppDispatch();
 
   const status = useAppSelector(PlayerSelectors.selectStatus);
 
@@ -51,6 +58,16 @@ export default function ControllablePlayer() {
       ),
       2,
       true,
+    );
+  };
+
+  const damage = () => {
+    const { setTimer } = TimerUtils;
+    dispatch(PlayerActions.hurt({ health: 1 }));
+    dispatch(PlayerActions.invulnerable(true));
+    upsertTimer(
+      setTimer(() => dispatch(PlayerActions.invulnerable(false)), 2000),
+      1,
     );
   };
 
@@ -95,6 +112,7 @@ export default function ControllablePlayer() {
   useEffect(() => {
     if (collided) {
       collisionEffect();
+      damage();
     }
   }, [collided]);
 
@@ -105,7 +123,7 @@ export default function ControllablePlayer() {
       <AnimatedEffects.Shake start={collided} impact={{ frequency: 4 }}>
         <Player data={player} style={animatedStyle} />
       </AnimatedEffects.Shake>
-      <Controller onMove={move} velocity={2} />
+      <Controller onMove={move} velocity={3} />
     </View>
   );
 }
