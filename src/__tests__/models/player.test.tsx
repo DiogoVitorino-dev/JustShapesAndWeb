@@ -72,6 +72,22 @@ describe("Player - Model tests", () => {
     expect(style.height).toBe(150);
   });
 
+  it("Should change the color of the player and particles", () => {
+    const color = "#fff";
+    const data = renderHook(() => useSharedValue<PlayerData>({}));
+    const { getByTestId, getAllByTestId } = render(
+      <Player data={data.result.current} color={color} />,
+    );
+
+    const modelStyle = getAnimatedStyle(getByTestId("playerModel"));
+    const particlesStyle = getAnimatedStyle(
+      getAllByTestId("PlayerMovementParticle")[0],
+    );
+
+    expect(modelStyle.backgroundColor).toBe(color);
+    expect(particlesStyle.backgroundColor).toBe(color);
+  });
+
   it.each([
     ["Should collide", 200],
     ["Should not collide", 100],

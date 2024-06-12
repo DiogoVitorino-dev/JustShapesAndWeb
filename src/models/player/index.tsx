@@ -31,6 +31,7 @@ export interface PlayerData
 
 export interface PlayerProps {
   data: SharedValue<PlayerData>;
+  color?: string;
   style?: AnimatedProps<"View">["style"];
 }
 
@@ -43,7 +44,11 @@ const initialValues: Required<PlayerData> = {
   collidable: { enabled: true },
 };
 
-export default function Player({ data, style }: PlayerProps) {
+export default function Player({
+  data,
+  color = Colors.entity.player,
+  style,
+}: PlayerProps) {
   const { addTarget } = useCollisionSystem();
 
   const scaleY = useSharedValue(1);
@@ -92,6 +97,7 @@ export default function Player({ data, style }: PlayerProps) {
     height: derivedData.value.height,
     top: derivedData.value.y,
     left: derivedData.value.x,
+    backgroundColor: color,
     transform: [
       { rotate: withSpring(derivedData.value.angle + "deg") },
       {
@@ -106,14 +112,16 @@ export default function Player({ data, style }: PlayerProps) {
       testID="playerModel"
       style={[playerAnimatedStyle, styles.default, style]}
     >
-      <AnimatedPlayer.PlayerMovementEffect data={derivedData} />
+      <AnimatedPlayer.PlayerMovementEffect
+        data={derivedData}
+        particle={{ color }}
+      />
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   default: {
-    backgroundColor: Colors.entity.player,
     borderRadius: 2,
     position: "absolute",
   },
