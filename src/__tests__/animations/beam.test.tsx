@@ -363,7 +363,5 @@ describe("Beam attack - Animation tests", () => {
     expect(style.height).toBeCloseTo(50);
   });
 
-  it.todo(
-    "Should call onFinishEach when the animation ends between repeats BUG JEST",
-  );
+  it.todo("Should call onFinishEach when the animation ends between repeats");
 });

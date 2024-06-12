@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "react-native";
 import Animated, {
   Easing,
@@ -83,8 +83,9 @@ export interface BeamProps extends BeamConfig, RunnableAnimation {
 type BeamAttack = (props: BeamProps) => React.JSX.Element;
 
 enum DelayID {
-  START,
-  REPS,
+  START = 0,
+  REPS = 1,
+  ATTACK = 2,
 }
 
 export const Beam: BeamAttack = ({
@@ -109,6 +110,8 @@ export const Beam: BeamAttack = ({
   const { setTimer } = TimerUtils;
 
   const [reps, setReps] = useState(numbersOfReps);
+
+  const callback = useRef([onFinish, onFinishEach]);
 
   const indicatorDimension: Size = {
     width: direction === "horizontal" ? length || window.width : size,
@@ -147,30 +150,36 @@ export const Beam: BeamAttack = ({
         delayController.upsertTimer(setTimer(callback, delayOfReps), id);
         break;
 
+      case DelayID.ATTACK:
+        delayController.upsertTimer(setTimer(callback, attackDuration), id);
+        break;
+
       default:
         callback();
         break;
     }
   };
 
-  const handleFinish = () => {
-    if (reps > 0) {
-      setReps(reps - 1);
+  const handleFinish = (repsUpdated: number) => {
+    const [onFinish, onFinishEach] = callback.current;
+    if (onFinishEach) onFinishEach();
+
+    if (repsUpdated > 0) {
+      setReps(repsUpdated - 1);
     } else if (onFinish) {
       onFinish();
     }
-
-    if (onFinishEach) onFinishEach();
   };
 
-  const holdAnimation = (dimension: SharedValue<number>) => {
+  const holdAnimation = (
+    dimension: SharedValue<number>,
+    repsUpdated: number,
+  ) => {
     "worklet";
-    setTimeout(() => {
-      endAnimation(dimension);
-    }, attackDuration);
+    setDelay(() => endAnimation(dimension, repsUpdated), DelayID.ATTACK);
   };
 
-  const attack = (dimension: SharedValue<number>) => {
+  const attack = (dimension: SharedValue<number>, repsUpdated: number) => {
     "worklet";
 
     collidable.value = { ...collidable.value, ignore: false };
@@ -180,23 +189,26 @@ export const Beam: BeamAttack = ({
     dimension.value = withTiming(
       size,
       { duration: attackSpeed, easing: Easing.out(Easing.ease) },
-      (fin) => (fin ? holdAnimation(dimension) : undefined),
+      (fin) => (fin ? holdAnimation(dimension, repsUpdated) : undefined),
     );
   };
 
-  const startByDirection = () => {
+  const startByDirection = (repsUpdated: number) => {
     switch (direction) {
       case "vertical":
-        runOnUI(startAnimation)(width);
+        runOnUI(startAnimation)(width, repsUpdated);
         break;
 
       default:
-        runOnUI(startAnimation)(height);
+        runOnUI(startAnimation)(height, repsUpdated);
         break;
     }
   };
 
-  const startAnimation = (dimension: SharedValue<number>) => {
+  const startAnimation = (
+    dimension: SharedValue<number>,
+    repsUpdated: number,
+  ) => {
     "worklet";
 
     // Prepare
@@ -206,17 +218,20 @@ export const Beam: BeamAttack = ({
     dimension.value = withTiming(
       size / 2,
       { duration: prepareDuration },
-      (prepared) => (prepared ? attack(dimension) : undefined),
+      (prepared) => (prepared ? attack(dimension, repsUpdated) : undefined),
     );
   };
 
-  const endAnimation = (dimension: SharedValue<number>) => {
+  const endAnimation = (
+    dimension: SharedValue<number>,
+    repsUpdated: number,
+  ) => {
     "worklet";
     collidable.value = { ...collidable.value, ignore: true };
     beamOpacity.value = withTiming(0, { duration: prepareDuration / 2 });
 
     dimension.value = withTiming(0, { duration: prepareDuration / 2 }, (fin) =>
-      fin ? runOnJS(handleFinish)() : undefined,
+      fin ? runOnJS(handleFinish)(repsUpdated) : undefined,
     );
   };
 
@@ -226,21 +241,26 @@ export const Beam: BeamAttack = ({
     cancel(collidable);
     cancel(beamOpacity);
     cancel(dimension);
-    endAnimation(dimension);
+    endAnimation(dimension, 0);
   };
 
   useEffect(() => {
+    callback.current = [onFinish, onFinishEach];
     if (start) {
-      setReps(numbersOfReps !== -1 ? numbersOfReps : Number.MAX_SAFE_INTEGER);
-      if (delay) setDelay(() => startByDirection(), DelayID.START);
-      else startByDirection();
+      const initReps =
+        numbersOfReps !== -1 ? numbersOfReps : Number.MAX_SAFE_INTEGER;
+      setReps(initReps);
+      
+      
+      if (delay) setDelay(() => startByDirection(initReps), DelayID.START);
+      else startByDirection(initReps);
     }
     return () => {
       if (start) {
         if (direction === "horizontal") {
           runOnUI(cancelAnimation)(height);
         } else {
-          runOnUI(startAnimation)(width);
+          runOnUI(cancelAnimation)(width);
         }
       }
     };
@@ -248,10 +268,11 @@ export const Beam: BeamAttack = ({
 
   useEffect(() => {
     if (reps > 0 && reps !== numbersOfReps) {
+      callback.current = [onFinish, onFinishEach];
       if (delayOfReps) {
-        setDelay(() => startByDirection(), DelayID.REPS);
+        setDelay(() => startByDirection(reps), DelayID.REPS);
       } else {
-        startByDirection();
+        startByDirection(reps);
       }
     }
   }, [reps]);
