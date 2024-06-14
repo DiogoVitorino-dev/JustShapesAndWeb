@@ -26,12 +26,14 @@ const MenuButtonEffect = forwardRef<Svg, MenuButtonEffectProps>(
         />
 
         {Platform.OS === "web" ? (
-          <Svg style={{ transform: [{ skewX: "25deg" }] }}>
+          <Svg >
             <Rect
               width="50%"
               height="100%"
               fill={fill || "#000"}
+              skewx={25}
               skewX={25}
+
               scale={scale}
             />
           </Svg>
