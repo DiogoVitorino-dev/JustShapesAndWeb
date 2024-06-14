@@ -7,7 +7,7 @@ interface CustomViewProps {
   background?: boolean;
 }
 
-interface StyledViewProps extends ViewProps, CustomViewProps {}
+export interface StyledViewProps extends ViewProps, CustomViewProps {}
 
 export const View = forwardRef<DefaultView, StyledViewProps>(
   ({ style, background, ...props }, ref) => (
