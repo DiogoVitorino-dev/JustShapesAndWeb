@@ -1,4 +1,10 @@
-import React, { createContext, useEffect, useMemo, useRef } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { useStageTimer } from "./useStageTimer";
 
@@ -22,6 +28,8 @@ import { TimerUtils } from "@/utils/timerUtils";
 
 type MusicList = Parameters<MusicContext["playMusic"]>[0];
 
+type ColorList = { id: number; color: string }[];
+
 type StageControllerLoad = (
   stage: string,
   substages: Substage[],
@@ -30,6 +38,7 @@ type StageControllerLoad = (
 
 type StageControllerUnload = () => void;
 type StageControllerSelectSubstage = (id: number) => void;
+type StageControllerAddSubstageColor = (id: number, color: string) => void;
 
 interface StageController {
   /**
@@ -46,12 +55,24 @@ interface StageController {
    * @DocMissing
    */
   selectSubstage: StageControllerSelectSubstage;
+
+  /**
+   * @DocMissing
+   */
+  substageColor: string;
+
+  /**
+   * @DocMissing
+   */
+  addSubstageColor: StageControllerAddSubstageColor;
 }
 
 export const StageControllerContext = createContext<StageController>({
+  substageColor: "",
   load: () => {},
   unload: () => {},
   selectSubstage: () => {},
+  addSubstageColor: () => {},
 });
 
 enum TimerID {
@@ -66,6 +87,9 @@ export default function StageControllerProvider({ children }: ProviderProps) {
   const { pause, stop, play, setProgress, playMusic, getCurrentTrack } =
     useMusicContext();
   const music = useRef<MusicList>();
+  const colors = useRef<ColorList>([]);
+
+  const [substageColor, setSubstageColor] = useState("");
 
   const timerController = useStageTimer();
 
@@ -104,6 +128,10 @@ export default function StageControllerProvider({ children }: ProviderProps) {
       timerController.pauseTimer();
       dispatch(StageActions.chosenSubstage(id));
     }
+  };
+
+  const addSubstageColor: StageControllerAddSubstageColor = (id, color) => {
+    colors.current = [...colors.current, { id, color }];
   };
 
   const start = () => {
@@ -194,9 +222,16 @@ export default function StageControllerProvider({ children }: ProviderProps) {
     [],
   );
 
+  useEffect(() => {
+    const index = colors.current.findIndex((color) => color.id === substage);
+    if (index !== -1) {
+      setSubstageColor(colors.current[index].color);
+    }
+  }, [substage]);
+
   const value = useMemo(
-    () => ({ unload, load, selectSubstage }),
-    [unload, load, selectSubstage],
+    () => ({ unload, load, selectSubstage, substageColor, addSubstageColor }),
+    [unload, load, selectSubstage, substageColor, addSubstageColor],
   );
 
   return (
@@ -208,7 +243,7 @@ export default function StageControllerProvider({ children }: ProviderProps) {
       <LostLife />
       <GameOver />
       <Thanks />
-      {!substage ? <Loading /> : null}
+      <Loading visible={!substage} />
     </StageControllerContext.Provider>
   );
 }
