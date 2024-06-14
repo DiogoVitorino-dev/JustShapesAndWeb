@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -45,7 +45,11 @@ const Particle = ({ x, y, size = 10, visibleDuration }: ParticleProps) => {
   );
 };
 
-export function Loading() {
+interface LoadingProps {
+  visible?: boolean;
+}
+
+export function Loading({ visible }: LoadingProps) {
   const opacity = useSharedValue(1);
   const window = useWindowDimensions();
 
@@ -53,34 +57,36 @@ export function Loading() {
     opacity.value = withRepeat(withTiming(0.5, { duration: 500 }), -1, true);
   }, []);
 
-  const createSquares = useCallback(() => {
-    const { random } = MathUtils;
+  const Squares = useMemo(() => {
     const squares: React.JSX.Element[] = [];
-    const quantity = window.width / 20;
+    if (visible) {
+      const { random } = MathUtils;
+      const quantity = window.width / 20;
 
-    for (let index = 0; index < quantity; index++) {
-      squares.push(
-        <Particle
-          size={random(3, 10)}
-          visibleDuration={random(500, 2000)}
-          x={random(0, window.width)}
-          y={random(0, window.height)}
-          key={`loadingSquare${index}`}
-        />,
-      );
+      for (let index = 0; index < quantity; index++) {
+        squares.push(
+          <Particle
+            size={random(3, 10)}
+            visibleDuration={random(500, 2000)}
+            x={random(0, window.width)}
+            y={random(0, window.height)}
+            key={`loadingSquare${index}`}
+          />,
+        );
+      }
     }
 
     return squares;
-  }, [window]);
+  }, [window, visible]);
 
   const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
   return (
     <LinearGradient
-      style={[styles.container]}
+      style={[styles.container, { display: visible ? "flex" : "none" }]}
       colors={[Colors.loading.gradientStart, Colors.loading.gradientEnd]}
     >
-      {createSquares()}
+      {Squares}
       <AnimatedText.Title style={[styles.text, animatedStyle]}>
         Loading
       </AnimatedText.Title>
