@@ -5,6 +5,7 @@ import { SlideInLeft } from "react-native-reanimated";
 import { useSoundContext } from "@/audio/sound";
 import AudioVolume from "@/components/settings/audio/audioVolume";
 import { SafeArea, View } from "@/components/shared";
+import Colors from "@/constants/Colors";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     flexDirection: "column",
+    backgroundColor: Colors.UI.background,
   },
 
   containerVolumes: {

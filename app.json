@@ -2,7 +2,7 @@
   "expo": {
     "name": "JustShapesAndWeb",
     "slug": "JustShapesAndWeb",
-    "version": "0.62.0",
+    "version": "0.62.1",
     "orientation": "landscape",
     "icon": "./src/assets/images/icon.png",
     "scheme": "myapp",
@@ -27,7 +27,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "single",
       "favicon": "./src/assets/images/favicon.png"
     },
     "experiments": {
