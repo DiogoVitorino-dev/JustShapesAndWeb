@@ -3,6 +3,7 @@ import { Button, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 
 import { AnimatedAttacks } from "@/animations/attacks";
+import ControllablePlayer from "@/components/game/controllablePlayer";
 
 export default function AnimationBeamChamber() {
   const [start, setStart] = useState(false);
@@ -12,8 +13,9 @@ export default function AnimationBeamChamber() {
   };
   return (
     <Animated.View style={styles.container}>
-      <Button title="run Animation" onPress={run} />
       <AnimatedAttacks.Beam start={start} y={100} />
+      <ControllablePlayer />
+      <Button title="run Animation" onPress={run} />
     </Animated.View>
   );
 }
