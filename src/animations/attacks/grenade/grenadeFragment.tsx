@@ -16,7 +16,6 @@ import {
 import { RunnableAnimation } from "@/animations/animations.type";
 import { Diameter, Position } from "@/constants/commonTypes";
 import Circle, { CircleData } from "@/models/geometric/circle";
-import { Collidable } from "@/scripts/collision/collisionDetector";
 import { AnglesUtils } from "@/utils/angleUtils";
 
 export interface GrenadeFragmentProps
@@ -71,20 +70,31 @@ export default function GrenadeFragment({
   const opacity = useSharedValue(0);
   const durationOpacity = duration / 8;
 
-  const collision = useSharedValue<Collidable["collidable"]>({
-    enabled: true,
-    ignore: true,
-  });
+  const collision = useSharedValue(false);
 
   const circle = useDerivedValue<CircleData>(() => ({
     ...position.value,
     diameter: size,
-    collidable: { ...collision.value },
+    collidable: collision.value,
   }));
 
   const positionTiming: WithTimingConfig = {
     duration,
     easing: Easing.inOut(Easing.linear),
+  };
+
+  const endAnimation = () => {
+    "worklet";
+    collision.value = false;
+
+    opacity.value = withTiming(0, { duration: durationOpacity }, (fin) => {
+      if (fin) {
+        position.value = { x, y };
+        if (onFinish) {
+          runOnJS(onFinish)();
+        }
+      }
+    });
   };
 
   const repeated = (final: Position) => {
@@ -110,19 +120,6 @@ export default function GrenadeFragment({
       );
     }
   };
-
-  const endAnimation = runOnUI(() => {
-    collision.value = { ...collision.value, ignore: true };
-
-    opacity.value = withTiming(0, { duration: durationOpacity }, (fin) => {
-      if (fin) {
-        position.value = { x, y };
-        if (onFinish) {
-          runOnJS(onFinish)();
-        }
-      }
-    });
-  });
 
   const startAnimation = runOnUI(() => {
     const { getDistanceFromAngle } = AnglesUtils;
@@ -153,7 +150,7 @@ export default function GrenadeFragment({
       position.value = withTiming(finalPosition, positionTiming, callback);
     }
 
-    collision.value = { ...collision.value, ignore: false };
+    collision.value = true;
   });
 
   const cancelAnimation = runOnUI(() => {

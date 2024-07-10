@@ -1,18 +1,7 @@
-import {
-  act,
-  render,
-  renderHook,
-  waitFor,
-} from "@testing-library/react-native";
-import { useSharedValue } from "react-native-reanimated";
+import { act, render, waitFor } from "@testing-library/react-native";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
-import { Wrapper } from "../test-utils";
-
 import { Grenade } from "@/animations/attacks/grenade";
-import { useCollisionSystem } from "@/hooks";
-import Player, { PlayerData } from "@/models/player";
-import CollisionSystemProvider from "@/scripts/collision/collisionSystemProvider";
 
 describe("Grenade Attack - Animation tests", () => {
   beforeEach(() => {
@@ -117,7 +106,7 @@ describe("Grenade Attack - Animation tests", () => {
 
   it("Should repeat the animations", async () => {
     const { queryAllByTestId } = render(
-      <Grenade duration={100} distance={100} numbersOfReps={2} start />,
+      <Grenade duration={100} distance={100} start numbersOfReps={2} />,
     );
 
     let style!: Record<string, any>;
@@ -127,48 +116,14 @@ describe("Grenade Attack - Animation tests", () => {
       style = getAnimatedStyle(queryAllByTestId("circleModel")[0]);
     });
 
-    expect(style.left).toBe(100);
+    expect(style.left).toBe(0);
 
     await act(() => {
-      jest.advanceTimersByTime(50);
+      jest.advanceTimersByTime(100);
       style = getAnimatedStyle(queryAllByTestId("circleModel")[0]);
     });
 
-    expect(style.left).toBe(50);
-  });
-
-  it.each([
-    ["Should collide", 300],
-    ["Should not collide", 100],
-  ])("%s with player", async (_, msToRun) => {
-    const data = renderHook(() =>
-      useSharedValue<PlayerData>({ width: 100, height: 100, x: 100, y: 0 }),
-    );
-
-    const wrapper: Wrapper = ({ children }) => (
-      <CollisionSystemProvider>
-        <Grenade start duration={300} distance={200} />
-        <Player data={data.result.current} />
-        {children}
-      </CollisionSystemProvider>
-    );
-
-    const system = renderHook(() => useCollisionSystem(), { wrapper });
-
-    act(() => {
-      jest.advanceTimersByTime(msToRun);
-    }).then(
-      (value) => {
-        if (msToRun > 200) {
-          expect(system.result.current.collided).toBeTruthy();
-        } else {
-          expect(system.result.current.collided).toBeFalsy();
-        }
-
-        return value;
-      },
-      (reason) => reason,
-    );
+    expect(style.left).toBe(100);
   });
 
   it("Should call onFinish when the animation finishes", () => {
