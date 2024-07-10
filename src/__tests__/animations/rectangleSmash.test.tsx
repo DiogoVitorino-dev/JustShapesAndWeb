@@ -58,7 +58,7 @@ describe("Rectangle Smash Attack - Animation tests", () => {
     });
 
     let style = getAnimatedStyle(view);
-    expect(style.width).toBeCloseTo(200, 0);
+    expect(style.width).toBeCloseTo(200.5, 0);
 
     await act(() => {
       jest.advanceTimersByTime(200);

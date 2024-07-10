@@ -16,7 +16,6 @@ import { RunnableAnimation } from "@/animations/animations.type";
 import Colors from "@/constants/Colors";
 import { AnimatedProps, Position } from "@/constants/commonTypes";
 import Rectangle, { RectangleData } from "@/models/geometric/rectangle";
-import { Collidable } from "@/scripts/collision/collisionDetector";
 
 export type SmashDirection = "vertical" | "horizontal";
 
@@ -96,18 +95,30 @@ export function RectangleSmash({
 
   const opacity = useSharedValue(0);
   const opacityIndicator = useSharedValue(0);
-  const collidable = useSharedValue<Collidable["collidable"]>({
-    enabled: true,
-    ignore: true,
-  });
+  const collidable = useSharedValue(false);
 
   const rect = useDerivedValue<RectangleData>(() => ({
     width: width.value,
     height: height.value,
     x,
     y,
-    collidable: { ...collidable.value },
+    collidable: collidable.value,
   }));
+
+  const endAnimation = (dimension: SharedValue<number>) => {
+    "worklet";
+    collidable.value = false;
+    opacityIndicator.value = 0;
+
+    dimension.value = withTiming(0, {
+      duration: hideDuration,
+      easing: Easing.out(Easing.ease),
+    });
+
+    opacity.value = withTiming(0, { duration: hideDuration }, (fin) =>
+      fin && onFinish ? runOnJS(onFinish)() : undefined,
+    );
+  };
 
   const holdAnimation = (dimension: SharedValue<number>) => {
     "worklet";
@@ -133,7 +144,7 @@ export function RectangleSmash({
 
   const prepare = (dimension: SharedValue<number>) => {
     "worklet";
-    collidable.value = { ...collidable.value, ignore: false };
+    collidable.value = true;
     if (delay) {
       opacity.value = withDelay(delay, withTiming(1, { duration: 100 }));
       opacityIndicator.value = withDelay(
@@ -159,21 +170,6 @@ export function RectangleSmash({
         (finished) => (finished ? SMASH(dimension) : undefined),
       );
     }
-  };
-
-  const endAnimation = (dimension: SharedValue<number>) => {
-    "worklet";
-    collidable.value = { ...collidable.value, ignore: true };
-    opacityIndicator.value = 0;
-
-    dimension.value = withTiming(0, {
-      duration: hideDuration,
-      easing: Easing.out(Easing.ease),
-    });
-
-    opacity.value = withTiming(0, { duration: hideDuration }, (fin) =>
-      fin && onFinish ? runOnJS(onFinish)() : undefined,
-    );
   };
 
   const cancel = (dimension: SharedValue<number>) => {
