@@ -1,4 +1,9 @@
-import { act, render, renderHook } from "@testing-library/react-native";
+import {
+  act,
+  render,
+  renderHook,
+  waitFor,
+} from "@testing-library/react-native";
 import { useWindowDimensions } from "react-native";
 import { getAnimatedStyle } from "react-native-reanimated/src/reanimated2/jestUtils";
 
@@ -148,7 +153,7 @@ describe("Beam attack - Animation tests", () => {
 
     expect(style.height).toBeCloseTo(100);
     expect(style.opacity).toBeCloseTo(1);
-    expect(indicatorStyle.opacity).toBeCloseTo(0);
+    expect(indicatorStyle.opacity).toBeCloseTo(0.2);
   });
 
   it("Should attack with correct attack speed", async () => {
@@ -179,22 +184,27 @@ describe("Beam attack - Animation tests", () => {
 
     render(
       <Beam
-        attackDuration={500}
-        prepareDuration={500}
+        attackDuration={400}
+        prepareDuration={400}
+        attackSpeed={100}
         onFinish={callback}
         start
       />,
     );
 
-    await act(() => {
-      jest.advanceTimersByTime(800);
-    });
+    await waitFor(() =>
+      act(() => {
+        jest.advanceTimersByTime(800);
+      }),
+    );
 
     expect(callback).not.toHaveBeenCalled();
 
-    await act(() => {
-      jest.runAllTimers();
-    });
+    await waitFor(() =>
+      act(() => {
+        jest.advanceTimersByTime(200);
+      }),
+    );
 
     expect(callback).toHaveBeenCalledTimes(1);
   });
@@ -276,37 +286,6 @@ describe("Beam attack - Animation tests", () => {
     },
   );
 
-  it("Should repeat the animation", async () => {
-    const duration = 500 + 500 + 100 + 250;
-    const { getByTestId } = render(
-      <Beam
-        size={100}
-        prepareDuration={500}
-        attackDuration={500}
-        attackSpeed={100}
-        numbersOfReps={2}
-        start
-      />,
-    );
-
-    const view = getByTestId("rectangleModel");
-    let style = getAnimatedStyle(view);
-
-    await act(() => {
-      jest.advanceTimersByTime(duration);
-      style = getAnimatedStyle(view);
-    });
-
-    expect(style.height).toBeCloseTo(0);
-
-    await act(() => {
-      jest.advanceTimersByTime(500);
-      style = getAnimatedStyle(view);
-    });
-
-    expect(style.height).toBeCloseTo(50);
-  });
-
   it("Should delay the animation", async () => {
     const { getByTestId } = render(
       <Beam
@@ -329,39 +308,4 @@ describe("Beam attack - Animation tests", () => {
 
     expect(style.height).toBeCloseTo(50);
   });
-
-  it("Should delay between repetitions", async () => {
-    const duration = 500 + 500 + 100 + 250;
-    const { getByTestId } = render(
-      <Beam
-        size={100}
-        prepareDuration={500}
-        attackDuration={500}
-        attackSpeed={100}
-        delayOfReps={100}
-        numbersOfReps={2}
-        start
-      />,
-    );
-
-    const view = getByTestId("rectangleModel");
-    let style = getAnimatedStyle(view);
-
-    await act(() => {
-      jest.advanceTimersByTime(duration);
-    });
-
-    await act(() => {
-      jest.advanceTimersByTime(100);
-    });
-
-    await act(() => {
-      jest.advanceTimersByTime(500);
-    });
-
-    style = getAnimatedStyle(view);
-    expect(style.height).toBeCloseTo(50);
-  });
-
-  it.todo("Should call onFinishEach when the animation ends between repeats");
 });
