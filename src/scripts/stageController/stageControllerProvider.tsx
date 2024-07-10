@@ -1,12 +1,4 @@
-import React, {
-  createContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-
-import { useStageTimer } from "./useStageTimer";
+import React, { createContext, useEffect, useMemo, useRef } from "react";
 
 import { MusicContext, useMusicContext } from "@/audio/music";
 import CheckpointReached from "@/components/game/checkpointReached";
@@ -16,7 +8,7 @@ import LostLife from "@/components/game/lostLife";
 import StageName from "@/components/game/stageName";
 import Thanks from "@/components/game/thanks";
 import { Loading } from "@/components/shared";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector, useTimerController } from "@/hooks";
 import { PlayerActions } from "@/store/reducers/player/playerActions";
 import { StageActions } from "@/store/reducers/stage/stageActions";
 import { StageStatus } from "@/store/reducers/stage/stageReducer";
@@ -28,8 +20,6 @@ import { TimerUtils } from "@/utils/timerUtils";
 
 type MusicList = Parameters<MusicContext["playMusic"]>[0];
 
-type ColorList = { id: number; color: string }[];
-
 type StageControllerLoad = (
   stage: string,
   substages: Substage[],
@@ -38,7 +28,6 @@ type StageControllerLoad = (
 
 type StageControllerUnload = () => void;
 type StageControllerSelectSubstage = (id: number) => void;
-type StageControllerAddSubstageColor = (id: number, color: string) => void;
 
 interface StageController {
   /**
@@ -55,24 +44,12 @@ interface StageController {
    * @DocMissing
    */
   selectSubstage: StageControllerSelectSubstage;
-
-  /**
-   * @DocMissing
-   */
-  substageColor: string;
-
-  /**
-   * @DocMissing
-   */
-  addSubstageColor: StageControllerAddSubstageColor;
 }
 
 export const StageControllerContext = createContext<StageController>({
-  substageColor: "",
   load: () => {},
   unload: () => {},
   selectSubstage: () => {},
-  addSubstageColor: () => {},
 });
 
 enum TimerID {
@@ -87,11 +64,8 @@ export default function StageControllerProvider({ children }: ProviderProps) {
   const { pause, stop, play, setProgress, playMusic, getCurrentTrack } =
     useMusicContext();
   const music = useRef<MusicList>();
-  const colors = useRef<ColorList>([]);
 
-  const [substageColor, setSubstageColor] = useState("");
-
-  const timerController = useStageTimer();
+  const timerController = useTimerController();
 
   const dispatch = useAppDispatch();
   const substage = useAppSelector(StageSelectors.selectSubstage);
@@ -128,10 +102,6 @@ export default function StageControllerProvider({ children }: ProviderProps) {
       timerController.pauseTimer();
       dispatch(StageActions.chosenSubstage(id));
     }
-  };
-
-  const addSubstageColor: StageControllerAddSubstageColor = (id, color) => {
-    colors.current = [...colors.current, { id, color }];
   };
 
   const start = () => {
@@ -222,16 +192,9 @@ export default function StageControllerProvider({ children }: ProviderProps) {
     [],
   );
 
-  useEffect(() => {
-    const index = colors.current.findIndex((color) => color.id === substage);
-    if (index !== -1) {
-      setSubstageColor(colors.current[index].color);
-    }
-  }, [substage]);
-
   const value = useMemo(
-    () => ({ unload, load, selectSubstage, substageColor, addSubstageColor }),
-    [unload, load, selectSubstage, substageColor, addSubstageColor],
+    () => ({ unload, load, selectSubstage }),
+    [unload, load, selectSubstage],
   );
 
   return (
