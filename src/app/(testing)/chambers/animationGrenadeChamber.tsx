@@ -3,11 +3,13 @@ import { Button, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 
 import { AnimatedAttacks } from "@/animations/attacks";
+import ControllablePlayer from "@/components/game/controllablePlayer";
 
 export default function AnimationGrenadeChamber() {
   const [boom, setBoom] = useState(false);
   return (
     <Animated.View style={[styles.container]}>
+      <ControllablePlayer />
       <AnimatedAttacks.Grenade
         x={200}
         y={670}

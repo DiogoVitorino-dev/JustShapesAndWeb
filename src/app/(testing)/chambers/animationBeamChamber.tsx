@@ -8,14 +8,17 @@ import ControllablePlayer from "@/components/game/controllablePlayer";
 export default function AnimationBeamChamber() {
   const [start, setStart] = useState(false);
 
-  const run = () => {
-    setStart((prev) => !prev);
-  };
+  const run = () => setStart(true);
+
+  const cancel = () => setStart(false);
+
   return (
     <Animated.View style={styles.container}>
       <AnimatedAttacks.Beam start={start} y={100} />
+      <AnimatedAttacks.Beam start={start} direction="vertical" />
       <ControllablePlayer />
       <Button title="run Animation" onPress={run} />
+      <Button title="cancel Animation" onPress={cancel} />
     </Animated.View>
   );
 }
