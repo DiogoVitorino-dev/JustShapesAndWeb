@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, StyleSheet } from "react-native";
 import Animated, {
+  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -17,7 +18,9 @@ import { CollidableRectangle } from "@/scripts/collision/collisionDetector";
 
 export default function UseCollisionSystemChamber() {
   const bg = useSharedValue(Colors.entity.player);
-  const { addTarget, collided } = useCollisionSystem();
+  const { addObject, removeObject, updateObject, collided } =
+    useCollisionSystem();
+  const collisionID = useRef(-1);
 
   const target = useSharedValue<CollidableRectangle>({
     x: 100,
@@ -25,7 +28,7 @@ export default function UseCollisionSystemChamber() {
     angle: 0,
     width: 50,
     height: 50,
-    collidable: { enabled: true },
+    collidable: true,
   });
 
   const animatedTarget = useAnimatedStyle(() => ({
@@ -42,7 +45,6 @@ export default function UseCollisionSystemChamber() {
     ...objectPos.value,
     width: 50,
     height: 50,
-    collidable: { enabled: true },
   }));
 
   const triggerCollision = () => {
@@ -58,11 +60,19 @@ export default function UseCollisionSystemChamber() {
   }, [collided]);
 
   useEffect(() => {
-    const remove = addTarget(target);
+    addObject(target.value, "target");
     return () => {
-      remove();
+      removeObject(collisionID.current, "target");
     };
   }, []);
+
+  useAnimatedReaction(
+    () => target.value,
+    (curr, prev) =>
+      curr !== prev
+        ? updateObject(collisionID.current, curr, "target")
+        : undefined,
+  );
 
   return (
     <View style={styles.container}>
