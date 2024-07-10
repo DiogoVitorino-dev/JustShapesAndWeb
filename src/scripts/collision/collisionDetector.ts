@@ -1,16 +1,10 @@
 import { SATVerification, SAT, SATCircle, SATRectangle } from "./SAT";
 
 export interface Collidable {
-  collidable: {
-    /**
-     * Add and Remove the object from the Collision System. `NOTE:` If you only need to disable collision for a period of time, use `ignore` instead
-     */
-    enabled: boolean;
-    /**
-     * Makes the object ignore collisions
-     */
-    ignore?: boolean;
-  };
+  /**
+   * Enable and disable collision
+   */
+  collidable?: boolean;
 }
 
 export type CollidableCircle = SATCircle & Collidable;
@@ -31,16 +25,11 @@ export const collisionDetector: CollisionDetector = (targets, objects) =>
       objects: CollidableObjects[] = [],
     ) {
       const collided = targets.some((target) => {
-        const verification =
-          target?.collidable.enabled && !target?.collidable.ignore
-            ? verifyTarget(target)
-            : null;
+        const verification = target?.collidable ? verifyTarget(target) : null;
 
         if (verification)
           return objects.some((object) =>
-            object?.collidable.enabled && !object?.collidable.ignore
-              ? verifyObject(object, verification)
-              : false,
+            object?.collidable ? verifyObject(object, verification) : false,
           );
       });
 

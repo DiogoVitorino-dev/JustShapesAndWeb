@@ -1,6 +1,5 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import {
-  SharedValue,
   runOnJS,
   useAnimatedReaction,
   useSharedValue,
@@ -8,39 +7,35 @@ import {
 
 import { CollidableObjects, collisionDetector } from "./collisionDetector";
 
-export type ForceRemoveCollidableObject = () => void;
+export type CollidableType = "colisor" | "target";
 
 export type AddCollidableObject = (
-  value: SharedValue<CollidableObjects>,
-) => ForceRemoveCollidableObject;
+  value: CollidableObjects,
+  type: CollidableType,
+) => number;
+
+export type UpdateCollidableObject = (
+  id: number,
+  newValues: CollidableObjects,
+  type: CollidableType,
+) => void;
+
+export type RemoveCollidableObject = (id: number, type: CollidableType) => void;
 
 export interface CollisionSystem {
   /**
    * Changes to `true` if any collision is happening
    */
   collided: boolean;
-  /**
-   * add a `target` to check the collision with the other `object` added through `addObject`
-   * - `Param target` A value with the collidable property enabled that you want to check for collisions
-   * - `Returns` A Function to force remove the `target` from Collision System. `NOTE:` If removed you will need to call `addTarget` again
-   *
-   *TIP: You can remove this target just by making the `collidable.enable` property `false`
-   */
-  addTarget: AddCollidableObject;
-
-  /**
-   * add a `object` to check the collision with the other `target` added through `addTarget`
-   * - `Param object` A value with the collidable property enabled that you want to check for collisions
-   * - `Returns` A Function to force remove the `object` from Collision System. `NOTE:` If removed you will need to call `addObject` again
-   *
-   *TIP: You can remove this object just by making the `collidable.enable` property `false`
-   */
   addObject: AddCollidableObject;
+  updateObject: UpdateCollidableObject;
+  removeObject: RemoveCollidableObject;
 }
 
 export const CollisionSystemContext = createContext<CollisionSystem>({
-  addObject: () => () => {},
-  addTarget: () => () => {},
+  addObject: () => 0,
+  updateObject: () => {},
+  removeObject: () => {},
   collided: false,
 });
 
@@ -52,104 +47,9 @@ export default function CollisionSystemProvider({
   children,
 }: CollisionSystemProviderProps) {
   const [collided, setCollided] = useState(false);
-  const [activeCollector, setActiveCollector] = useState(false);
-  const targets = useSharedValue<CollidableObjects[]>([]);
-  const objects = useSharedValue<CollidableObjects[]>([]);
 
-  const pushToList = (
-    list: SharedValue<CollidableObjects[]>,
-    object: SharedValue<CollidableObjects>,
-  ) => {
-    "worklet";
-    let index = 0;
-    list.modify((mutateList: CollidableObjects[]) => {
-      // if the object has more properties
-      // Only the properties of the collidable objects will be pushed to the list
-
-      // Circles
-      if ("diameter" in object.value) {
-        const { collidable, diameter, x, y } = object.value;
-        index = mutateList.push({ collidable, diameter, x, y }) - 1;
-
-        // Rectangle
-      } else if ("width" in object.value && "height" in object.value) {
-        const { collidable, angle, height, width, x, y } = object.value;
-        index = mutateList.push({ collidable, angle, height, width, x, y }) - 1;
-      }
-      return mutateList;
-    });
-    return index;
-  };
-
-  const addListener = (
-    index: number,
-    list: SharedValue<CollidableObjects[]>,
-    object: SharedValue<CollidableObjects>,
-  ) => {
-    "worklet";
-    object.addListener(index, (value: CollidableObjects) => {
-      // if the object has more properties
-      // Only changes to the properties of collidable objects modify the list
-
-      list.modify((list: CollidableObjects[]) => {
-        let newValue: CollidableObjects = list[index];
-        // Circle
-        if ("diameter" in object.value) {
-          const { collidable, diameter, x, y } = object.value;
-          newValue = { collidable, diameter, x, y };
-
-          // Rectangle
-        } else if ("width" in object.value && "height" in object.value) {
-          const { collidable, angle, height, width, x, y } = object.value;
-          newValue = { collidable, angle, height, width, x, y };
-        }
-
-        if (newValue !== list[index]) {
-          list[index] = newValue;
-        }
-        return list;
-      });
-
-      //If the object is deactivated, it will be removed
-      if (!value.collidable.enabled) {
-        runOnJS(setActiveCollector)(true);
-        object.removeListener(index);
-      }
-    });
-  };
-
-  const forceRemoveObject = (
-    index: number,
-    list: SharedValue<CollidableObjects[]>,
-    object: SharedValue<CollidableObjects>,
-  ) => {
-    "worklet";
-    list.modify((listObjects: CollidableObjects[]) =>
-      listObjects.splice(index, 1),
-    );
-    object.removeListener(index);
-  };
-
-  const handleAdd = (
-    list: SharedValue<CollidableObjects[]>,
-    object: SharedValue<CollidableObjects>,
-  ): ForceRemoveCollidableObject => {
-    "worklet";
-    const index = pushToList(list, object);
-    addListener(index, list, object);
-    return () => forceRemoveObject(index, list, object);
-  };
-
-  const garbageCollector = () => {
-    "worklet";
-    objects.modify((mutateList: CollidableObjects[]) => {
-      return mutateList.filter((item) => item.collidable.enabled);
-    });
-
-    targets.modify((mutateList: CollidableObjects[]) => {
-      return mutateList.filter((item) => item.collidable.enabled);
-    });
-  };
+  const target = useSharedValue<CollidableObjects[]>([]);
+  const colisor = useSharedValue<CollidableObjects[]>([]);
 
   const verifyCollision = async (
     targets: CollidableObjects[],
@@ -158,37 +58,66 @@ export default function CollisionSystemProvider({
     setCollided(await collisionDetector(targets, objects));
   };
 
-  const addTarget: AddCollidableObject = (target) => {
-    "worklet";
-    return handleAdd(targets, target);
-  };
+  const addObject: AddCollidableObject = (value, type) => {
+    let index = -1;
 
-  const addObject: AddCollidableObject = (object) => {
-    "worklet";
-    return handleAdd(objects, object);
-  };
+    switch (type) {
+      case "colisor":
+        index = colisor.value.length;
+        colisor.value = [...colisor.value, value];
+        break;
 
-  useEffect(() => {
-    if (activeCollector) {
-      garbageCollector();
-      setActiveCollector(false);
+      case "target":
+        index = target.value.length;
+        target.value = [...target.value, value];
+        break;
     }
-  }, [activeCollector]);
+
+    return index;
+  };
+
+  const updateObject: UpdateCollidableObject = (id, value, type) => {
+    let aux = [];
+
+    switch (type) {
+      case "colisor":
+        aux = colisor.value;
+        aux[id] = value;
+        colisor.value = [...aux];
+        break;
+
+      case "target":
+        aux = target.value;
+        aux[id] = value;
+        target.value = [...aux];
+        break;
+    }
+  };
+
+  const removeObject: RemoveCollidableObject = (id, type) => {
+    switch (type) {
+      case "colisor":
+        colisor.modify((list) => list.splice(id, 1));
+        break;
+
+      case "target":
+        target.modify((list) => list.splice(id, 1));
+        break;
+    }
+  };
 
   useAnimatedReaction(
-    () => {
-      return { target: targets.value, object: objects.value };
-    },
-    (current, prev) => {
-      if (current !== prev) {
-        runOnJS(verifyCollision)(current.target, current.object);
+    () => JSON.stringify(colisor.value) + JSON.stringify(target.value),
+    (curr, prev) => {
+      if (curr !== prev) {
+        runOnJS(verifyCollision)(target.value, colisor.value);
       }
     },
   );
 
   const value = useMemo(
-    () => ({ addTarget, addObject, collided }),
-    [collided, addTarget, addObject],
+    () => ({ addObject, removeObject, updateObject, collided }),
+    [collided, addObject, removeObject, updateObject],
   );
   return (
     <CollisionSystemContext.Provider value={value}>
