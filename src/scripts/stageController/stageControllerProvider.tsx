@@ -53,7 +53,7 @@ export const StageControllerContext = createContext<StageController>({
 });
 
 enum TimerID {
-  STAGE,
+  STAGE = 10,
 }
 
 interface ProviderProps {
@@ -93,14 +93,16 @@ export default function StageControllerProvider({ children }: ProviderProps) {
   };
 
   const selectSubstage: StageControllerSelectSubstage = async (id) => {
-    const selected = allSubstages.find((item) => item.id === id);
+    if (id !== substage) {
+      const selected = allSubstages.find((item) => item.id === id);
 
-    if (selected && music.current) {
-      await playMusic(music.current);
-      await setProgress(selected.musicStartTime);
+      if (selected && music.current) {
+        await playMusic(music.current);
+        await setProgress(selected.musicStartTime);
 
-      timerController.pauseTimer();
-      dispatch(StageActions.chosenSubstage(id));
+        timerController.removeTimer();
+        dispatch(StageActions.chosenSubstage(id));
+      }
     }
   };
 
@@ -161,12 +163,12 @@ export default function StageControllerProvider({ children }: ProviderProps) {
 
   const timerControl = () => {
     switch (status) {
-      case StageStatus.Failed:
       case StageStatus.Completed:
         timerController.removeTimer(TimerID.STAGE);
         break;
 
       case StageStatus.Paused:
+      case StageStatus.Failed:
         timerController.pauseTimer(TimerID.STAGE);
         break;
 
