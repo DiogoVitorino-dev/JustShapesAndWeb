@@ -1,4 +1,5 @@
-import { Href, useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
+import { ExpoRouter } from "expo-router/types/expo-router";
 import React, { useCallback, useState } from "react";
 import {
   StyleSheet,
@@ -10,6 +11,7 @@ import Animated, {
   Easing,
   WithSpringConfig,
   WithTimingConfig,
+  runOnJS,
   runOnUI,
   useAnimatedStyle,
   useSharedValue,
@@ -35,7 +37,7 @@ const paddingConfig: WithSpringConfig = {
 };
 
 interface MenuButtonProps {
-  href?: Href<string>;
+  href?: ExpoRouter.Href;
   title?: string;
   index?: number;
   isStart?: boolean;
@@ -130,7 +132,7 @@ export default function MenuButton({
       true,
       (fin) => {
         if (fin) {
-          callWhenAnimationFinished();
+          runOnJS(callWhenAnimationFinished)();
         }
       },
     );
