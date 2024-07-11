@@ -31,7 +31,7 @@ export default function ControllablePlayer() {
   const { width, height } = useWindowDimensions();
   const { playSound } = useSoundContext();
   const { collided } = useCollisionSystem();
-  const opacity = useSharedValue(1);
+  const opacity = useSharedValue(0);
   const jump = useSharedValue(false);
   const angle = useSharedValue(0);
 
@@ -55,26 +55,24 @@ export default function ControllablePlayer() {
 
   useMovementSystem(movement);
 
-  const collisionEffect = () => {
-    playSound("hit");
-    opacity.value = withRepeat(
-      withSequence(
-        withTiming(0.5, { duration: 150 }),
-        withTiming(1, { duration: 150 }),
-      ),
-      2,
-      true,
-    );
+  const collisionSound = () => {
+    if (status !== PlayerStatus.Invulnerable) {
+      playSound("hit");
+    }
   };
 
   const damage = () => {
     const { setTimer } = TimerUtils;
-    dispatch(PlayerActions.hurt({ health: 1 }));
-    dispatch(PlayerActions.invulnerable(true));
-    upsertTimer(
-      setTimer(() => dispatch(PlayerActions.invulnerable(false)), 2000),
-      1,
-    );
+    if (status === PlayerStatus.Alive) {
+      dispatch(PlayerActions.hurt({ health: 1 }));
+      if (health > 1) {
+        dispatch(PlayerActions.invulnerable(true));
+        upsertTimer(
+          setTimer(() => dispatch(PlayerActions.invulnerable(false)), 2000),
+          1,
+        );
+      }
+    }
   };
 
   const move = (data: ControlData) => {
@@ -110,17 +108,40 @@ export default function ControllablePlayer() {
     angle: angle.value,
     width: 20,
     height: 20,
-    collidable: { enabled: true, ignore: isJumping.value },
+    collidable: !isJumping.value,
     x: movement.value.x,
     y: movement.value.y,
   }));
 
   useEffect(() => {
     if (collided) {
-      collisionEffect();
+      collisionSound();
       damage();
     }
   }, [collided]);
+
+  useEffect(() => {
+    switch (status) {
+      case PlayerStatus.Alive:
+        opacity.value = withTiming(1, { duration: 150 });
+        break;
+
+      case PlayerStatus.Invulnerable:
+        opacity.value = withRepeat(
+          withSequence(
+            withTiming(1, { duration: 150 }),
+            withTiming(0.5, { duration: 150 }),
+          ),
+          2,
+          true,
+        );
+        break;
+
+      case PlayerStatus.Dead:
+        opacity.value = withTiming(0, { duration: 150 });
+        break;
+    }
+  }, [status]);
 
   useEffect(() => {
     setColor(
