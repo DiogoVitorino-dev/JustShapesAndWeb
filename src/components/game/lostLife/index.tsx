@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
 import { StageActions } from "@/store/reducers/stage/stageActions";
 import { StageStatus } from "@/store/reducers/stage/stageReducer";
+import { ColorUtils } from "@/utils/colorUtils";
 
 export default function LostLife() {
   const currentLife = useAppSelector(PlayerSelectors.selectLife);
@@ -28,11 +29,12 @@ export default function LostLife() {
   const display = useSharedValue<DisplayOptions>("none");
   const opacity = useSharedValue(0);
   const color = useSharedValue(0);
+  const backgroundColor = useSharedValue("transparent");
 
   const dispatch = useAppDispatch();
 
   const stopStageRuntime = () => {
-    dispatch(StageActions.statusUpdated(StageStatus.Idle));
+    dispatch(StageActions.statusUpdated(StageStatus.Failed));
   };
 
   const restart = () => {
@@ -48,6 +50,14 @@ export default function LostLife() {
 
   const startAnimation = (newLife: number) => {
     display.value = "flex";
+    const bgTransparency = ColorUtils.addTransparency(
+      Colors.game.lostLife.background,
+      70,
+    );
+
+    backgroundColor.value = withTiming(bgTransparency, {
+      duration: 200,
+    });
 
     opacity.value = withTiming(1, { duration: 200 });
 
@@ -66,6 +76,8 @@ export default function LostLife() {
 
   const endAnimation = () => {
     "worklet";
+    backgroundColor.value = withTiming("transparent", { duration: 200 });
+
     opacity.value = withTiming(0, { duration: 200 }, (fin) => {
       if (fin) {
         display.value = "none";
@@ -98,6 +110,7 @@ export default function LostLife() {
 
   const animatedContainer = useAnimatedStyle(() => ({
     display: display.value,
+    backgroundColor: backgroundColor.value,
   }));
 
   return (
