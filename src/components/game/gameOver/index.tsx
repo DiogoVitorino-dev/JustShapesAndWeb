@@ -49,8 +49,8 @@ export default function GameOver() {
 
   const handleContinue = async () => {
     if (firstStage) {
-      dispatch(StageActions.chosenSubstage(firstStage.id));
       dispatch(StageActions.checkpointReached(firstStage.id));
+      dispatch(StageActions.chosenSubstage(firstStage.id));
       dispatch(PlayerActions.restored());
     } else {
       handleOver();
