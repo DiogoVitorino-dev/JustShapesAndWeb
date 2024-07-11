@@ -15,7 +15,6 @@ export default function Sandbox() {
     x: 200,
     y: 100,
     diameter: 100,
-    collidable: { enabled: true },
   };
 
   const backgroundColor = useSharedValue<ColorValue>("tomato");
