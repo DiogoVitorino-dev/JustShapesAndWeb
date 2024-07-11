@@ -100,6 +100,7 @@ const game = {
   lostLife: {
     text: Blue["100"],
     textLosing: Pink["100"],
+    background: Black["100"] + "01",
   },
   gameOver: {
     background: Pink["15"],
@@ -116,6 +117,10 @@ const game = {
   },
 };
 
+const substage = {
+  default: Blue["15"],
+};
+
 export default {
   UI,
   Menu,
@@ -124,5 +129,6 @@ export default {
   settings,
   loading,
   effects,
+  substage,
   game,
 };
