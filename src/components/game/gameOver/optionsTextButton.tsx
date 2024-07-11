@@ -55,6 +55,9 @@ export default function OptionsTextButton({
 
   const runningPress = useSharedValue(false);
 
+  const hoverAudio = () => runOnJS(playSound)("hover");
+  const pressAudio = () => runOnJS(playSound)("open-menu");
+
   const startPressAnimation = async () => {
     "worklet";
     runningPress.value = true;
@@ -132,9 +135,6 @@ export default function OptionsTextButton({
   const animatedOption = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }, { rotate: rotate.value + "deg" }],
   }));
-
-  const hoverAudio = async () => runOnJS(playSound)("hover");
-  const pressAudio = async () => runOnJS(playSound)("open-menu");
 
   return (
     <AnimatedPressable

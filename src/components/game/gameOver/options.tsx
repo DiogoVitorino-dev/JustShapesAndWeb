@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import Animated, {
   interpolateColor,
   runOnJS,
+  runOnUI,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -46,7 +47,11 @@ export default function Options({
 
   const status = useAppSelector(PlayerSelectors.selectStatus);
 
-  const changeTextColor = (color: string) => {
+  const pressAudio = runOnJS((isOver: boolean) =>
+    isOver ? playSound("open-menu") : playSound("start"),
+  );
+
+  const changeTextColor = runOnUI((color: string) => {
     "worklet";
 
     colorValue.addListener(0, (value) => {
@@ -58,7 +63,7 @@ export default function Options({
     });
 
     colorValue.value = withDelay(575, withTiming(1, { duration: 50 }));
-  };
+  });
 
   const callOnPress = runOnJS((onPress?: OnPressOption) => {
     if (onPress) {
@@ -85,10 +90,6 @@ export default function Options({
     pressAudio(false);
     callOnPress(onPressContinue);
   };
-
-  const pressAudio = runOnJS((isOver: boolean) =>
-    isOver ? playSound("open-menu") : playSound("start"),
-  );
 
   const reset = () => {
     displayContinue.value = "flex";
