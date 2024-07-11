@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Text } from "react-native";
-import { SharedValue, useDerivedValue } from "react-native-reanimated";
+import {
+  SharedValue,
+  useAnimatedReaction,
+  useDerivedValue,
+} from "react-native-reanimated";
 
 import { Entries } from "@/constants/commonTypes";
 import { useCollisionSystem } from "@/hooks";
 import { CollidableRectangle } from "@/scripts/collision/collisionDetector";
-import { ForceRemoveCollidableObject } from "@/scripts/collision/collisionSystemProvider";
+import { CollidableType } from "@/scripts/collision/collisionSystemProvider";
 
-export type CrashTestObjectMode = "target" | "object";
+export type CrashTestObjectMode = CollidableType;
 export type CrashTestObjectData = Partial<CollidableRectangle>;
 
 export interface CrashTestObjectProps {
@@ -21,16 +25,17 @@ const initialValues: Required<CrashTestObjectData> = {
   angle: 0,
   width: 100,
   height: 100,
-  collidable: {
-    enabled: true,
-  },
+  collidable: true,
 };
 
 export function CrashTestObject({
-  mode = "object",
+  mode = "colisor",
   data,
 }: CrashTestObjectProps) {
-  const { collided, addObject, addTarget } = useCollisionSystem();
+  const { collided, addObject, removeObject, updateObject } =
+    useCollisionSystem();
+
+  const id = useRef(0);
 
   const value = useDerivedValue<Required<CrashTestObjectData>>(() => {
     let entries: Entries<CrashTestObjectData> = [];
@@ -51,17 +56,17 @@ export function CrashTestObject({
     }, initialValues);
   });
 
-  useEffect(() => {
-    let remover: ForceRemoveCollidableObject;
+  useAnimatedReaction(
+    () => value.value,
+    (curr, prev) =>
+      curr !== prev ? updateObject(id.current, curr, mode) : undefined,
+  );
 
-    if (mode === "target") {
-      remover = addTarget(value);
-    } else {
-      remover = addObject(value);
-    }
+  useEffect(() => {
+    id.current = addObject(value.value, mode);
 
     return () => {
-      remover();
+      removeObject(id.current, mode);
     };
   }, []);
 
