@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 
 import { AnimatedProps } from "@/constants/commonTypes";
 import { useAppSelector } from "@/hooks";
+import { useStageController } from "@/hooks/useStageController";
 import { StageStatus } from "@/store/reducers/stage/stageReducer";
 import { StageSelectors } from "@/store/reducers/stage/stageSelectors";
-import { Substage } from "@/store/reducers/substages/substagesReducer";
 
 type SceneOnStart = () => void | Promise<void>;
 type SceneOnPause = () => void | Promise<void>;
@@ -16,7 +16,6 @@ type SceneOnFinalize = () => void;
 
 export interface SceneProps
   extends Pick<AnimatedProps<"View">, "children" | "style"> {
-  data: Substage;
   onStart?: SceneOnStart;
   onFinalize?: SceneOnFinalize;
   onPause?: SceneOnPause;
@@ -25,61 +24,50 @@ export interface SceneProps
 }
 
 export default function Scene({
-  data: { id },
   onStart,
   onFinalize,
   onStageEnd,
   onFail,
   onPause,
+
   style,
   ...props
 }: SceneProps) {
-  const [inScene, setInScene] = useState(false);
-  const current = useAppSelector(StageSelectors.selectSubstage);
   const status = useAppSelector(StageSelectors.selectStatus);
+  const { substageColor } = useStageController();
 
   useEffect(() => {
-    if (current === id) {
-      switch (status) {
-        case StageStatus.Playing:
-          setInScene(true);
-          break;
+    switch (status) {
+      case StageStatus.Playing:
+        if (onStart) onStart();
+        break;
 
-        case StageStatus.Completed:
-          if (onStageEnd) onStageEnd();
-          break;
+      case StageStatus.Completed:
+        if (onStageEnd) onStageEnd();
+        break;
 
-        case StageStatus.Paused:
-          if (onPause) onPause();
-          break;
+      case StageStatus.Paused:
+        if (onPause) onPause();
+        break;
 
-        case StageStatus.Failed:
-          if (onFail) onFail();
-          break;
-
-        default:
-          break;
-      }
-    } else {
-      setInScene(false);
+      case StageStatus.Failed:
+        if (onFail) onFail();
+        break;
     }
-  }, [current, status]);
+  }, [status]);
 
   useEffect(() => {
-    if (inScene && onStart) {
-      onStart();
-    } else if (onFinalize) {
-      onFinalize();
-    }
-
     return () => {
-      if (inScene && onFinalize) {
-        onFinalize();
-      }
+      if (onFinalize) onFinalize();
     };
-  }, [inScene]);
+  }, []);
 
-  return <Animated.View style={[styles.container, style]} {...props} />;
+  return (
+    <Animated.View
+      style={[styles.container, { backgroundColor: substageColor }, style]}
+      {...props}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
