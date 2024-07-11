@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   SharedValue,
@@ -41,7 +41,7 @@ const initialValues: Required<PlayerData> = {
   angle: 0,
   width: 20,
   height: 20,
-  collidable: { enabled: true },
+  collidable: true,
 };
 
 export default function Player({
@@ -49,7 +49,8 @@ export default function Player({
   color = Colors.entity.player,
   style,
 }: PlayerProps) {
-  const { addTarget } = useCollisionSystem();
+  const { addObject, updateObject, removeObject } = useCollisionSystem();
+  const collisionID = useRef(-1);
 
   const scaleY = useSharedValue(1);
   const bounce = useSharedValue(1);
@@ -70,11 +71,12 @@ export default function Player({
   });
 
   useEffect(() => {
-    const remove = addTarget(derivedData);
+    collisionID.current = addObject(derivedData.value, "target");
+
     return () => {
-      remove();
+      removeObject(collisionID.current, "target");
     };
-  }, [addTarget]);
+  }, []);
 
   useAnimatedReaction(
     () => `${derivedData.value.x} ${derivedData.value.y}`,
@@ -88,6 +90,15 @@ export default function Player({
           withSpring(1.1),
           withSpring(1),
         );
+      }
+    },
+  );
+
+  useAnimatedReaction(
+    () => derivedData.value,
+    (curr, prev) => {
+      if (curr !== prev) {
+        updateObject(collisionID.current, curr, "target");
       }
     },
   );

@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   SharedValue,
-  runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
@@ -18,7 +17,6 @@ import {
 } from "@/constants/commonTypes";
 import { useCollisionSystem } from "@/hooks";
 import { Collidable } from "@/scripts/collision/collisionDetector";
-import type { ForceRemoveCollidableObject } from "@/scripts/collision/collisionSystemProvider";
 
 export interface RectangleData
   extends Partial<Position>,
@@ -28,7 +26,7 @@ export interface RectangleData
 }
 
 export interface RectangleProps {
-  collisionMode?: "target" | "object";
+  collisionMode?: "target" | "colisor";
   data?: SharedValue<RectangleData> | RectangleData;
   style?: AnimatedProps<"View">["style"];
 }
@@ -39,20 +37,16 @@ const initialValues: Required<RectangleData> = {
   angle: 0,
   width: 50,
   height: 100,
-  collidable: {
-    enabled: false,
-  },
+  collidable: true,
 };
-
-type RemoveListeners = { collision: () => void };
 
 export default function Rectangle({
   data,
-  collisionMode,
+  collisionMode = "colisor",
   style,
 }: RectangleProps) {
-  const removeListeners = useRef<RemoveListeners>();
-  const { addObject, addTarget } = useCollisionSystem();
+  const collisionID = useRef(-1);
+  const { addObject, updateObject, removeObject } = useCollisionSystem();
 
   const derivedData = useDerivedValue<Required<RectangleData>>(() => {
     let entries: Entries<RectangleData> = [];
@@ -82,31 +76,25 @@ export default function Rectangle({
   }));
 
   useAnimatedReaction(
-    () => derivedData.value.collidable.enabled,
+    () => derivedData.value,
     (curr, prev) => {
-      if (curr !== prev && curr) {
-        let forceRemover: ForceRemoveCollidableObject;
-        if (collisionMode === "target") {
-          forceRemover = addTarget(derivedData);
-        } else {
-          forceRemover = addObject(derivedData);
-        }
-        runOnJS((collision: RemoveListeners["collision"]) => {
-          removeListeners.current = { ...removeListeners.current, collision };
-        })(forceRemover);
+      if (curr !== prev) {
+        updateObject(collisionID.current, curr, collisionMode);
       }
     },
   );
 
-  useEffect(
-    () => () => {
-      if (removeListeners.current)
-        Object.values(removeListeners.current).forEach((remove) => {
-          remove();
-        });
-    },
-    [],
-  );
+  useEffect(() => {
+    if (collisionID.current === -1) {
+      collisionID.current = addObject(derivedData.value, collisionMode);
+    }
+
+    return () => {
+      if (collisionID.current !== -1) {
+        removeObject(collisionID.current, collisionMode);
+      }
+    };
+  }, [collisionMode]);
 
   return (
     <Animated.View
