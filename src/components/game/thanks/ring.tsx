@@ -35,19 +35,6 @@ export default function Ring({
   const scale = useSharedValue(0);
   const opacity = useSharedValue(0);
 
-  const startAnimation = () => {
-    "worklet";
-    opacity.value = withTiming(1, {
-      duration: entryExitDuration,
-      easing: Easing.out(Easing.ease),
-    });
-    scale.value = withTiming(
-      1,
-      { duration, easing: Easing.out(Easing.exp) },
-      (fin) => (fin ? endAnimation() : undefined),
-    );
-  };
-
   const endAnimation = () => {
     "worklet";
     if (opacity.value !== 0) {
@@ -60,6 +47,19 @@ export default function Ring({
         }
       });
     }
+  };
+
+  const startAnimation = () => {
+    "worklet";
+    opacity.value = withTiming(1, {
+      duration: entryExitDuration,
+      easing: Easing.out(Easing.ease),
+    });
+    scale.value = withTiming(
+      1,
+      { duration, easing: Easing.out(Easing.exp) },
+      (fin) => (fin ? endAnimation() : undefined),
+    );
   };
 
   const cancel = () => {
