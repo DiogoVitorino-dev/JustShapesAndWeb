@@ -1,9 +1,10 @@
-import { Href, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Platform, StyleSheet } from "react-native";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { ExpoRouter } from ".expo/types/router";
 import { useSoundContext } from "@/audio/sound";
 import SettingItem, {
   SettingItemPress,
@@ -14,7 +15,7 @@ import Colors from "@/constants/Colors";
 interface ListItemData {
   title: string;
   icon: IconProps["name"];
-  to: Href<string>;
+  to: ExpoRouter.Href;
 }
 
 const data: ListItemData[] = [
@@ -52,10 +53,9 @@ export default function SettingsList() {
         style={[{ ...insets }, styles.list]}
         entering={entryExitAnimation}
         exiting={entryExitAnimation}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <SettingItem
             {...item}
-            index={index}
             onPress={handlePressItem}
             onHoverIn={handleHover}
           />
