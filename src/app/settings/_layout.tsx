@@ -1,6 +1,5 @@
 import { Stack } from "expo-router";
 import React from "react";
-import { Platform } from "react-native";
 
 import { defaultStackScreenOptions } from "../_layout";
 
@@ -28,13 +27,12 @@ export default function SettingsLayout() {
         listeners={{ beforeRemove }}
         options={{ title: "Configurações" }}
       />
-      {Platform.OS === "web" ? (
-        <Stack.Screen
-          name="keyboard"
-          listeners={{ focus, beforeRemove: beforeRemoveScreen }}
-          options={{ title: "Teclado" }}
-        />
-      ) : null}
+
+      <Stack.Screen
+        name="keyboard"
+        listeners={{ focus, beforeRemove: beforeRemoveScreen }}
+        options={{ title: "Teclado" }}
+      />
 
       <Stack.Screen
         name="audio"
