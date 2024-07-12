@@ -3,15 +3,16 @@
 exports[`Beam - Snapshot animation test should render correctly 1`] = `
 [
   <View
-    animatedStyle={
+    collapsable={false}
+    jestAnimatedStyle={
       {
         "value": {
           "backgroundColor": "rgb(255, 64, 20)",
           "height": 100,
-          "left": undefined,
+          "left": 0,
           "opacity": 0,
           "position": "absolute",
-          "top": undefined,
+          "top": 0,
           "transform": [
             {
               "rotate": "0deg",
@@ -21,15 +22,14 @@ exports[`Beam - Snapshot animation test should render correctly 1`] = `
         },
       }
     }
-    collapsable={false}
     style={
       {
         "backgroundColor": "rgb(255, 64, 20)",
         "height": 100,
-        "left": undefined,
+        "left": 0,
         "opacity": 0,
         "position": "absolute",
-        "top": undefined,
+        "top": 0,
         "transform": [
           {
             "rotate": "0deg",
@@ -41,7 +41,8 @@ exports[`Beam - Snapshot animation test should render correctly 1`] = `
     testID="beamIndicator"
   />,
   <View
-    animatedStyle={
+    collapsable={false}
+    jestAnimatedStyle={
       {
         "value": {
           "height": 0,
@@ -58,7 +59,6 @@ exports[`Beam - Snapshot animation test should render correctly 1`] = `
         },
       }
     }
-    collapsable={false}
     style={
       {
         "backgroundColor": "rgb(255, 64, 20)",

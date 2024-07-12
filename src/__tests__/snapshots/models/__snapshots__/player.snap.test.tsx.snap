@@ -2,9 +2,11 @@
 
 exports[`Player model - Snapshot test Should renders correctly 1`] = `
 <View
-  animatedStyle={
+  collapsable={false}
+  jestAnimatedStyle={
     {
       "value": {
+        "backgroundColor": "rgb(20, 255, 170)",
         "height": 20,
         "left": 25,
         "top": 50,
@@ -23,7 +25,6 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
       },
     }
   }
-  collapsable={false}
   style={
     {
       "backgroundColor": "rgb(20, 255, 170)",
@@ -49,14 +50,14 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
   testID="playerModel"
 >
   <View
-    animatedStyle={
+    collapsable={false}
+    jestAnimatedStyle={
       {
         "value": {
           "position": "absolute",
         },
       }
     }
-    collapsable={false}
     style={
       {
         "position": "absolute",
@@ -64,7 +65,8 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
     }
   >
     <View
-      animatedStyle={
+      collapsable={false}
+      jestAnimatedStyle={
         {
           "value": {
             "backgroundColor": "rgb(20, 255, 170)",
@@ -81,7 +83,6 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
           },
         }
       }
-      collapsable={false}
       style={
         {
           "backgroundColor": "rgb(20, 255, 170)",
@@ -100,7 +101,8 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
       testID="PlayerMovementParticle"
     />
     <View
-      animatedStyle={
+      collapsable={false}
+      jestAnimatedStyle={
         {
           "value": {
             "backgroundColor": "rgb(20, 255, 170)",
@@ -117,7 +119,6 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
           },
         }
       }
-      collapsable={false}
       style={
         {
           "backgroundColor": "rgb(20, 255, 170)",
@@ -136,7 +137,8 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
       testID="PlayerMovementParticle"
     />
     <View
-      animatedStyle={
+      collapsable={false}
+      jestAnimatedStyle={
         {
           "value": {
             "backgroundColor": "rgb(20, 255, 170)",
@@ -153,7 +155,6 @@ exports[`Player model - Snapshot test Should renders correctly 1`] = `
           },
         }
       }
-      collapsable={false}
       style={
         {
           "backgroundColor": "rgb(20, 255, 170)",

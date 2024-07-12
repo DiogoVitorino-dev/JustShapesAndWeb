@@ -2,15 +2,16 @@
 
 exports[`Headphone Hint - Snapshot component test should render correctly 1`] = `
 <View
-  animatedStyle={
+  collapsable={false}
+  jestAnimatedStyle={
     {
       "value": {},
     }
   }
-  collapsable={false}
   style={
     {
       "alignItems": "center",
+      "backgroundColor": "rgb(3, 38, 25)",
       "flex": 1,
       "justifyContent": "center",
       "width": "100%",
@@ -18,12 +19,12 @@ exports[`Headphone Hint - Snapshot component test should render correctly 1`] = 
   }
 >
   <View
-    animatedStyle={
+    collapsable={false}
+    jestAnimatedStyle={
       {
         "value": {},
       }
     }
-    collapsable={false}
     style={
       {
         "opacity": 0,
@@ -41,12 +42,12 @@ exports[`Headphone Hint - Snapshot component test should render correctly 1`] = 
     <Text />
   </View>
   <Text
-    animatedStyle={
+    collapsable={false}
+    jestAnimatedStyle={
       {
         "value": {},
       }
     }
-    collapsable={false}
     style={
       {
         "color": "rgb(245, 245, 245)",
@@ -83,7 +84,8 @@ exports[`Headphone Hint - Snapshot component test should render correctly 1`] = 
     }
   >
     <View
-      animatedStyle={
+      collapsable={false}
+      jestAnimatedStyle={
         {
           "value": {
             "left": 0,
@@ -97,7 +99,6 @@ exports[`Headphone Hint - Snapshot component test should render correctly 1`] = 
           },
         }
       }
-      collapsable={false}
       style={
         {
           "borderColor": "rgb(20, 210, 255)",
