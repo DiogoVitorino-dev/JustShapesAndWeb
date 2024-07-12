@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, ViewStyle } from "react-native";
 import Animated from "react-native-reanimated";
 
@@ -16,27 +16,11 @@ interface AudioVolumeProps extends ForwardSliderProps {
 
 export default function AudioVolume({
   title,
-  value,
+  value = 0,
   layoutAnimation,
   style,
   onValueChange,
 }: AudioVolumeProps) {
-  const [valueState, setValue] = useState(0);
-
-  const handleValueChange = (newValue: number) => {
-    setValue(newValue);
-
-    if (onValueChange) {
-      onValueChange(newValue);
-    }
-  };
-
-  useEffect(() => {
-    if (value) {
-      setValue(value);
-    }
-  }, [value]);
-
   return (
     <Animated.View layout={layoutAnimation} style={[styles.container, style]}>
       <View style={styles.containerText}>
@@ -44,10 +28,10 @@ export default function AudioVolume({
           {title}
         </Text>
         <Text selectable={false} secondary>
-          {valueState.toFixed(1)}
+          {value.toFixed(1)}
         </Text>
       </View>
-      <AudioSlider value={valueState} onValueChange={handleValueChange} />
+      <AudioSlider value={value} onValueChange={onValueChange} />
     </Animated.View>
   );
 }

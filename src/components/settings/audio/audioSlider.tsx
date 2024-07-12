@@ -3,9 +3,7 @@ import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   measure,
-  runOnUI,
   useAnimatedRef,
-  useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
 
@@ -31,20 +29,9 @@ export default function AudioSlider({
   const maxImgRef = useAnimatedRef();
   const { interpolate } = MathUtils;
 
+  const heightTrack = useSharedValue(0);
   const minimumTrackWidth = useSharedValue(0);
   const maximumTrackWidth = useSharedValue(0);
-
-  const containerMinimumTrackStyle = useAnimatedStyle(() => ({
-    width: minimumTrackWidth.value,
-    height: "100%",
-    position: "absolute",
-    overflow: "hidden",
-  }));
-
-  const minimumTrackStyle = useAnimatedStyle(() => ({
-    width: maximumTrackWidth.value,
-    height: "100%",
-  }));
 
   const getSizes = () => {
     const dimensions = measure(maxImgRef);
@@ -59,11 +46,12 @@ export default function AudioSlider({
       );
       minimumTrackWidth.value = newWidth;
       maximumTrackWidth.value = dimensions.width;
+      heightTrack.value = dimensions.height;
     }
   };
 
   useEffect(() => {
-    runOnUI(getSizes)();
+    getSizes();
   }, [value, maxImgRef]);
 
   return (
@@ -73,9 +61,11 @@ export default function AudioSlider({
         source={maximumTrack}
         style={[styles.image, styles.maximize]}
       />
-      <Animated.View style={containerMinimumTrackStyle}>
-        <Animated.Image source={miniumTrack} style={minimumTrackStyle} />
-      </Animated.View>
+
+      <Animated.Image
+        source={miniumTrack}
+        style={[styles.image, styles.maximize]}
+      />
 
       <Slider
         value={value}
@@ -83,11 +73,11 @@ export default function AudioSlider({
         maximumValue={maximumValue}
         minimumValue={minimumValue}
         onValueChange={onValueChange}
-        thumbTintColor="transparent"
+        thumbTintColor="#00000000"
         maximumTrackTintColor="transparent"
         minimumTrackTintColor="transparent"
         tapToSeek
-        style={[styles.maximize, styles.slider]}
+        style={[styles.slider]}
         {...props}
       />
     </View>
