@@ -2,12 +2,12 @@
 
 exports[`Grenade - Snapshot animation test should render correctly 1`] = `
 <View
-  animatedStyle={
+  collapsable={false}
+  jestAnimatedStyle={
     {
       "value": {},
     }
   }
-  collapsable={false}
   style={
     {
       "flex": 1,
@@ -16,7 +16,8 @@ exports[`Grenade - Snapshot animation test should render correctly 1`] = `
   }
 >
   <View
-    animatedStyle={
+    collapsable={false}
+    jestAnimatedStyle={
       {
         "value": {
           "backgroundColor": "rgb(245, 245, 245)",
@@ -24,7 +25,6 @@ exports[`Grenade - Snapshot animation test should render correctly 1`] = `
         },
       }
     }
-    collapsable={false}
     style={
       {
         "backgroundColor": "rgb(245, 245, 245)",

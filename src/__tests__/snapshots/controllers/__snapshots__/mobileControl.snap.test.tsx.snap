@@ -55,7 +55,8 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
       testID="pan"
     >
       <View
-        animatedStyle={
+        collapsable={false}
+        jestAnimatedStyle={
           {
             "value": {
               "transform": [
@@ -69,7 +70,6 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
             },
           }
         }
-        collapsable={false}
         style={
           {
             "backgroundColor": "rgb(20, 210, 255)",
@@ -106,7 +106,8 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
     }
   >
     <View
-      animatedStyle={
+      collapsable={false}
+      jestAnimatedStyle={
         {
           "value": {
             "left": 0,
@@ -120,7 +121,6 @@ exports[`Mobile Control - Snapshot mobile control test should render correctly 1
           },
         }
       }
-      collapsable={false}
       style={
         {
           "borderColor": "rgb(20, 210, 255)",

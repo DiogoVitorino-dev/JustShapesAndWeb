@@ -2,7 +2,8 @@
 
 exports[`Rectangle model - Snapshot test Should renders correctly 1`] = `
 <View
-  animatedStyle={
+  collapsable={false}
+  jestAnimatedStyle={
     {
       "value": {
         "height": 100,
@@ -17,7 +18,6 @@ exports[`Rectangle model - Snapshot test Should renders correctly 1`] = `
       },
     }
   }
-  collapsable={false}
   style={
     {
       "backgroundColor": "rgb(255, 64, 20)",

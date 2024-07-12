@@ -2,7 +2,8 @@
 
 exports[`Menu Square - Snapshot component test should render correctly 1`] = `
 <View
-  animatedStyle={
+  collapsable={false}
+  jestAnimatedStyle={
     {
       "value": {
         "backgroundColor": "rgb(8, 94, 63)",
@@ -24,7 +25,6 @@ exports[`Menu Square - Snapshot component test should render correctly 1`] = `
       },
     }
   }
-  collapsable={false}
   style={
     {
       "backgroundColor": "rgb(8, 94, 63)",

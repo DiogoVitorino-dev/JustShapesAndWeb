@@ -18,7 +18,8 @@ exports[`Area Button - Snapshot mobile control test should render correctly 1`] 
   }
 >
   <View
-    animatedStyle={
+    collapsable={false}
+    jestAnimatedStyle={
       {
         "value": {
           "left": 0,
@@ -32,7 +33,6 @@ exports[`Area Button - Snapshot mobile control test should render correctly 1`] 
         },
       }
     }
-    collapsable={false}
     style={
       {
         "borderColor": "rgb(20, 210, 255)",

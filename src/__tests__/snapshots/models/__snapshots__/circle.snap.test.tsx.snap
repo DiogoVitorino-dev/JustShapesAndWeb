@@ -2,7 +2,8 @@
 
 exports[`Circle model - Snapshot test Should renders correctly 1`] = `
 <View
-  animatedStyle={
+  collapsable={false}
+  jestAnimatedStyle={
     {
       "value": {
         "borderRadius": 25,
@@ -13,7 +14,6 @@ exports[`Circle model - Snapshot test Should renders correctly 1`] = `
       },
     }
   }
-  collapsable={false}
   style={
     {
       "backgroundColor": "rgb(255, 64, 20)",

@@ -41,7 +41,8 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
     testID="pan"
   >
     <View
-      animatedStyle={
+      collapsable={false}
+      jestAnimatedStyle={
         {
           "value": {
             "transform": [
@@ -55,7 +56,6 @@ exports[`Analogic Directional - Snapshot mobile controller test should render co
           },
         }
       }
-      collapsable={false}
       style={
         {
           "backgroundColor": "rgb(20, 210, 255)",
