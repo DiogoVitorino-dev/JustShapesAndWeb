@@ -119,6 +119,10 @@ const game = {
 
 const substage = {
   default: Blue["15"],
+  ani: {
+    phase_1: Blue["15"],
+    phase_2: Pink["15"],
+  },
 };
 
 export default {

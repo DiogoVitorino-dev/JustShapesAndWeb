@@ -17,9 +17,10 @@ export default function Menu() {
 
   return (
     <MenuBackground layout={layoutAnimation} style={styles.container}>
-      <View style={styles.containerButtons}>
+      <View style={[{ height }, styles.containerButtons]}>
         <MenuButton
           title="Jogar"
+          href="/stages/"
           isStart
           style={{ marginVertical: 18, height: height / 5 }}
         />
@@ -38,7 +39,7 @@ export default function Menu() {
           />
         ) : null}
       </View>
-      <View style={styles.containerTitle}>
+      <View style={[{ height }, styles.containerTitle]}>
         <BlurView
           style={styles.blur}
           blurReductionFactor={4}
