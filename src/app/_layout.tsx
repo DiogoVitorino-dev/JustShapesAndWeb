@@ -5,19 +5,22 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 
-import MusicProvider from "@/audio/music";
-import SoundProvider from "@/audio/sound";
+import MusicProvider, { useMusicContext } from "@/audio/music";
+import SoundProvider, { useSoundContext } from "@/audio/sound";
 import HeadphoneHint from "@/components/menu/headphoneHint";
+import { Loading } from "@/components/shared";
 import Colors from "@/constants/Colors";
+import { useAppSelector } from "@/hooks";
 import CollisionSystemProvider from "@/scripts/collision/collisionSystemProvider";
 import { store } from "@/store";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
+import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -35,47 +38,59 @@ export const defaultStackScreenOptions: React.ComponentProps<
   statusBarTranslucent: true,
 };
 
-export default function RootLayout() {
-  const [animationFinished, setAnimationFinished] = useState(false);
-  const [loaded, error] = useFonts({
+interface InitialLoadingProps {
+  onFullyLoaded: () => void | undefined;
+}
+
+const InitialLoading = ({ onFullyLoaded }: InitialLoadingProps) => {
+  const [fontLoaded, fontError] = useFonts({
     Megrim: require("@/assets/fonts/Megrim.ttf"),
     MajorMonoDisplay: require("@/assets/fonts/MajorMonoDisplay.ttf"),
     Manjari: require("@/assets/fonts/Manjari.ttf"),
     ...FontAwesome.font,
   });
 
-  const initializedSettings = store.getState().settings.initialized;
+  const music = useMusicContext();
+  const sound = useSoundContext();
 
   useEffect(() => {
     store.dispatch(SettingsActions.initialize());
   }, []);
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+  const settingsLoaded = useAppSelector(SettingsSelectors.selectInitialized);
 
   useEffect(() => {
-    if (loaded && animationFinished && initializedSettings) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded, animationFinished, initializedSettings]);
+    if (fontError) throw fontError;
+  }, [fontError]);
 
-  if (!loaded || !animationFinished) {
-    return (
-      <GestureHandlerRootView style={{ height: "100%", width: "100%" }}>
-        <HeadphoneHint onAnimationFinished={() => setAnimationFinished(true)} />
-      </GestureHandlerRootView>
-    );
-  }
+  useEffect(() => {
+    if (fontLoaded && settingsLoaded && music.loaded && sound.loaded)
+      onFullyLoaded();
+  }, [fontLoaded, settingsLoaded, music, sound]);
+
+  return <Loading />;
+};
+
+export default function RootLayout() {
+  const [animationFinished, setAnimationFinished] = useState(false);
+  const [gameLoaded, setGameLoaded] = useState(false);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ height: "100%", width: "100%" }}>
       <Provider store={store}>
         <MusicProvider>
           <SoundProvider>
             <CollisionSystemProvider>
+              {animationFinished && gameLoaded ? (
               <RootLayoutNav />
+              ) : (
+                <>
+                  <HeadphoneHint
+                    onAnimationFinished={() => setAnimationFinished(true)}
+                  />
+                  <InitialLoading onFullyLoaded={() => setGameLoaded(true)} />
+                </>
+              )}
             </CollisionSystemProvider>
           </SoundProvider>
         </MusicProvider>
