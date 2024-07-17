@@ -29,6 +29,9 @@ export type AudioRemove = (indexes?: number[]) => Promise<void>;
 export type AudioSetProgress = (progress: number) => Promise<void>;
 export type AudioSetVolume = (volume: number) => Promise<void>;
 
+export type CallbackTrackChanged = (track?: AudioTrack) => void;
+export type AudioOnTrackChanged = (callback: CallbackTrackChanged) => void;
+
 export interface AudioFunctions {
   /**
    * Plays or resumes the current track.
@@ -110,4 +113,10 @@ export interface AudioFunctions {
    * `NOTE` if omitted, the playlist will be cleared
    */
   remove: AudioRemove;
+
+  /**
+   * Appends an listener that will be invoked when the track is changed.
+   * @param {CallbackTrackChanged} callback Sets the callback that will be invoked when when the track is changed.
+   */
+  onTrackChanged: AudioOnTrackChanged;
 }

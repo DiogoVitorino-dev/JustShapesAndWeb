@@ -20,6 +20,8 @@ import {
   AudioTrack,
   AudioFunctions,
   AudioGetPlaylist,
+  AudioOnTrackChanged,
+  CallbackTrackChanged,
 } from "./audio.types";
 
 import { MathUtils } from "@/utils/mathUtils";
@@ -43,6 +45,8 @@ export function useAudioSystem(): AudioFunctions {
   const index = useRef<number>(-1);
   const fade = useRef(new Animated.Value(0)).current;
 
+  const trackChanged = useRef<CallbackTrackChanged>(() => {});
+
   const getTrack: AudioGetTrack = (index) => playlist.current[index]?.track;
 
   const getPlaylist: AudioGetPlaylist = () =>
@@ -58,6 +62,7 @@ export function useAudioSystem(): AudioFunctions {
       await stop();
       index.current = newIndex;
       setListener(getCurrentSound());
+      trackChanged.current(getCurrentTrack());
       if (autoPlay) {
         await play();
       }
@@ -113,6 +118,7 @@ export function useAudioSystem(): AudioFunctions {
 
     playlist.current = newPlaylist;
     index.current = newIndex;
+    trackChanged.current(getCurrentTrack());
   };
 
   const pause: AudioPause = async (duration = 300) => {
@@ -190,6 +196,10 @@ export function useAudioSystem(): AudioFunctions {
   const getCurrentSound = (): Audio.Sound | undefined =>
     playlist.current[index.current]?.sound;
 
+  const onTrackChanged: AudioOnTrackChanged = (callback) => {
+    trackChanged.current = callback;
+  };
+
   const startFade: Fade = (type, duration, onFinish) => {
     fade.stopAnimation();
 
@@ -250,6 +260,7 @@ export function useAudioSystem(): AudioFunctions {
   }, []);
 
   return {
+    onTrackChanged,
     getPlaylist,
     play,
     pause,

@@ -44,6 +44,7 @@ const Context = createContext<SoundContext>({
   remove: async () => {},
   skip: async () => {},
   stop: async () => {},
+  onTrackChanged: () => {},
 });
 
 export const useSoundContext = () => useContext(Context);

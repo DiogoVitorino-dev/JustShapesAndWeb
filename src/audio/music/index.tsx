@@ -33,6 +33,7 @@ const Context = createContext<MusicContext>({
   remove: async () => {},
   skip: async () => {},
   stop: async () => {},
+  onTrackChanged: () => {},
 });
 
 export const useMusicContext = () => useContext(Context);
