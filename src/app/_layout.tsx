@@ -6,6 +6,14 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import {
+  OrientationLock,
+  getOrientationAsync,
+  supportsOrientationLockAsync,
+  Orientation,
+  lockPlatformAsync,
+  WebOrientationLock,
+} from "expo-screen-orientation";
 import React, { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -44,6 +52,7 @@ interface InitialLoadingProps {
 }
 
 const InitialLoading = ({ onFullyLoaded }: InitialLoadingProps) => {
+  const [adjustedOrientation, setAdjustedOrientation] = useState(false);
   const [fontLoaded, fontError] = useFonts({
     Megrim: require("@/assets/fonts/Megrim.ttf"),
     MajorMonoDisplay: require("@/assets/fonts/MajorMonoDisplay.ttf"),
@@ -54,7 +63,36 @@ const InitialLoading = ({ onFullyLoaded }: InitialLoadingProps) => {
   const music = useMusicContext();
   const sound = useSoundContext();
 
+  const screenOrientation = async () => {
+    try {
+      const current = await getOrientationAsync();
+      const supported = await supportsOrientationLockAsync(
+        OrientationLock.LANDSCAPE,
+      );
+
+      if (
+        supported &&
+        current !== Orientation.LANDSCAPE_LEFT &&
+        current !== Orientation.LANDSCAPE_RIGHT
+      ) {
+        await lockPlatformAsync({
+          screenOrientationConstantAndroid: 0,
+          screenOrientationLockWeb: WebOrientationLock.LANDSCAPE,
+          screenOrientationArrayIOS: [
+            Orientation.LANDSCAPE_LEFT,
+            Orientation.LANDSCAPE_RIGHT,
+          ],
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setAdjustedOrientation(true);
+    }
+  };
+
   useEffect(() => {
+    screenOrientation();
     store.dispatch(SettingsActions.initialize());
   }, []);
 
@@ -65,9 +103,15 @@ const InitialLoading = ({ onFullyLoaded }: InitialLoadingProps) => {
   }, [fontError]);
 
   useEffect(() => {
-    if (fontLoaded && settingsLoaded && music.loaded && sound.loaded)
+    if (
+      fontLoaded &&
+      settingsLoaded &&
+      music.loaded &&
+      sound.loaded &&
+      adjustedOrientation
+    )
       onFullyLoaded();
-  }, [fontLoaded, settingsLoaded, music, sound]);
+  }, [fontLoaded, settingsLoaded, music, sound, adjustedOrientation]);
 
   return <Loading />;
 };
