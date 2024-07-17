@@ -1,5 +1,5 @@
 import { useAssets } from "expo-asset";
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { useAudioSystem } from "@/audio";
 import { AudioFunctions, AudioTrack } from "@/audio/audio.types";
@@ -26,10 +26,12 @@ const gameAssets = {
 export type SoundList = keyof typeof menuAssets | keyof typeof gameAssets;
 
 export interface SoundContext extends AudioFunctions {
+  loaded: boolean;
   playSound: (name: SoundList) => Promise<void>;
 }
 
 const Context = createContext<SoundContext>({
+  loaded: false,
   playSound: async () => {},
   pause: async () => {},
   setProgress: async () => {},
@@ -54,6 +56,8 @@ interface ProviderProps {
 }
 
 export default function SoundProvider({ children }: ProviderProps) {
+  const [loaded, setLoaded] = useState(false);
+
   const value = useAudioSystem();
   const [assets] = useAssets([
     ...Object.values(menuAssets),
@@ -66,6 +70,8 @@ export default function SoundProvider({ children }: ProviderProps) {
 
   useEffect(() => {
     if (assets) {
+      setLoaded(true);
+
       const tracks = assets.map<AudioTrack>((asset) => {
         return {
           title: asset.name.substring(0, asset.name.lastIndexOf(".")),
@@ -90,7 +96,7 @@ export default function SoundProvider({ children }: ProviderProps) {
   };
 
   return (
-    <Context.Provider value={{ ...value, playSound }}>
+    <Context.Provider value={{ ...value, loaded, playSound }}>
       {children}
     </Context.Provider>
   );
