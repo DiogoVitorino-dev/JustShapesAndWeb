@@ -29,6 +29,9 @@ export const selectAudioSettings = (state: RootState) =>
 
 export const selectProcessing = (state: RootState) => state.settings.processing;
 
+export const selectInitialized = (state: RootState) =>
+  state.settings.initialized;
+
 export const selectError = (state: RootState) => state.settings.error;
 
 export const SettingsSelectors = {
@@ -37,4 +40,5 @@ export const SettingsSelectors = {
   selectGameCommands,
   selectProcessing,
   selectError,
+  selectInitialized,
 };
