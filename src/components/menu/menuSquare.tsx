@@ -9,6 +9,7 @@ import Animated, {
   withRepeat,
   withDelay,
   runOnUI,
+  cancelAnimation,
 } from "react-native-reanimated";
 
 import Colors from "@/constants/Colors";
@@ -17,11 +18,16 @@ import { MathUtils } from "@/utils/mathUtils";
 
 type SquareEasing = Pick<WithTimingConfig, "duration" | "easing">;
 
-export default function MenuSquare() {
+interface MenuSquareProps {
+  step?: number;
+}
+
+export default function MenuSquare({ step = 3 }: MenuSquareProps) {
   const { random } = MathUtils;
   const window = useWindowDimensions();
   const duration = random(8000, 20000);
   const fase = random(0, 1) < 0.5;
+  step *= 100;
 
   const top = useSharedValue<number>(random(0, window.height));
   const left = useSharedValue<number>(random(0, window.width));
@@ -52,20 +58,25 @@ export default function MenuSquare() {
     "worklet";
     if (fase) {
       scale.value = withRepeat(
-        withTiming(1.1, { duration: 300, easing: Easing.out(Easing.exp) }),
+        withTiming(1.1, { duration: step, easing: Easing.out(Easing.exp) }),
         -1,
         true,
       );
     } else {
       scale.value = withDelay(
-        300,
+        step,
         withRepeat(
-          withTiming(1.1, { duration: 300, easing: Easing.out(Easing.exp) }),
+          withTiming(1.1, { duration: step, easing: Easing.out(Easing.exp) }),
           -1,
           true,
         ),
       );
     }
+  });
+
+  const stopBounce = runOnUI(() => {
+    cancelAnimation(scale);
+    scale.value = 1;
   });
 
   useEffect(() => {
@@ -74,8 +85,9 @@ export default function MenuSquare() {
     const interval = setInterval(() => run(), duration);
     return () => {
       clearInterval(interval);
+      stopBounce();
     };
-  }, []);
+  }, [step]);
 
   const animatedView = useAnimatedStyle(() => ({
     width: width.value,

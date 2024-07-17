@@ -21,6 +21,7 @@ import CollisionSystemProvider from "@/scripts/collision/collisionSystemProvider
 import { store } from "@/store";
 import { SettingsActions } from "@/store/reducers/settings/settingsActions";
 import { SettingsSelectors } from "@/store/reducers/settings/settingsSelectors";
+import { MathUtils } from "@/utils/mathUtils";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -82,7 +83,7 @@ export default function RootLayout() {
           <SoundProvider>
             <CollisionSystemProvider>
               {animationFinished && gameLoaded ? (
-              <RootLayoutNav />
+                <RootLayoutNav />
               ) : (
                 <>
                   <HeadphoneHint
@@ -102,6 +103,24 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+  const { playMusic } = useMusicContext();
+
+  const playMenuMusic = () => {
+    const selector = Math.floor(MathUtils.random(0, 3));
+
+    switch (selector) {
+      case 0:
+        playMusic("amaksi-chipmunk-games");
+        break;
+      case 1:
+        playMusic("nickpanek620-chiptune-score-theme-for-video-games");
+        break;
+      default:
+        playMusic("stormAIMusician-firestorm");
+        break;
+    }
+  };
+
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack
@@ -109,7 +128,7 @@ function RootLayoutNav() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="index" />
+        <Stack.Screen name="index" listeners={{ focus: playMenuMusic }} />
         <Stack.Screen name="settings" />
         {__DEV__ ? <Stack.Screen name="(testing)" /> : null}
       </Stack>

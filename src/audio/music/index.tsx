@@ -12,7 +12,13 @@ const gameAssets = {
   "blackbox-ani": require("@/assets/audio/music/blackbox-ani.mp3"),
 };
 
-export type MusicList = keyof typeof gameAssets;
+const menuAssets = {
+  "amaksi-chipmunk-games": require("@/assets/audio/music/amaksi-chipmunk-games.mp3"),
+  "nickpanek620-chiptune-score-theme-for-video-games": require("@/assets/audio/music/nickpanek620-chiptune-score-theme-for-video-games.mp3"),
+  "stormAIMusician-firestorm": require("@/assets/audio/music/stormAIMusician-firestorm.mp3"),
+};
+
+export type MusicList = keyof typeof gameAssets | keyof typeof menuAssets;
 
 export interface MusicContext extends AudioFunctions {
   playMusic: (list: MusicList) => Promise<void>;
@@ -47,7 +53,10 @@ interface ProviderProps {
 export default function MusicProvider({ children }: ProviderProps) {
   const [loaded, setLoaded] = useState(false);
   const value = useAudioSystem();
-  const [assets] = useAssets(Object.values(gameAssets));
+  const [assets] = useAssets([
+    ...Object.values(gameAssets),
+    ...Object.values(menuAssets),
+  ]);
 
   const musicVolume = useAppSelector(
     SettingsSelectors.selectAudioSettings,
