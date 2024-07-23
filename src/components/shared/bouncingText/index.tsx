@@ -32,9 +32,7 @@ export function BouncingText({
   const handleFinish = () => {
     display.value = "none";
 
-    if (onFinish) {
-      onFinish();
-    }
+    if (onFinish) onFinish();
   };
 
   const Characters = useMemo(() => {
@@ -47,7 +45,7 @@ export function BouncingText({
         <Character
           {...props}
           start={start}
-          onFinish={index === 0 ? handleFinish : undefined}
+          onFinish={index === name.length - 1 ? handleFinish : undefined}
           index={index}
           key={`letter_${index}`}
           style={typeof style === "function" ? style(index) : style}
