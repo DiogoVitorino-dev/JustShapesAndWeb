@@ -1,0 +1,601 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Presentation - Snapshot component test should render correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "rgb(3, 38, 25)",
+      },
+      {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "column",
+        "justifyContent": "center",
+      },
+    ]
+  }
+>
+  <View
+    style={
+      [
+        undefined,
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <View
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "display": "flex",
+            "flexDirection": "row",
+          },
+        }
+      }
+      style={
+        {
+          "display": "flex",
+          "flexDirection": "row",
+          "marginLeft": 28,
+        }
+      }
+    >
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(245, 245, 245)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        J
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(245, 245, 245)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        u
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(245, 245, 245)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        s
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(245, 245, 245)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        t
+      </Text>
+    </View>
+    <View
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "display": "flex",
+            "flexDirection": "row",
+          },
+        }
+      }
+      style={
+        {
+          "display": "flex",
+          "flexDirection": "row",
+          "marginLeft": 28,
+        }
+      }
+    >
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 255, 170)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        S
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 255, 170)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        h
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 255, 170)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        A
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 255, 170)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        P
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 255, 170)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        E
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 255, 170)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        S
+      </Text>
+    </View>
+    <View
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "display": "flex",
+            "flexDirection": "row",
+          },
+        }
+      }
+      style={
+        {
+          "display": "flex",
+          "flexDirection": "row",
+          "marginLeft": 28,
+        }
+      }
+    >
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(245, 245, 245)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        &
+      </Text>
+    </View>
+    <View
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "display": "flex",
+            "flexDirection": "row",
+          },
+        }
+      }
+      style={
+        {
+          "display": "flex",
+          "flexDirection": "row",
+          "marginLeft": 28,
+        }
+      }
+    >
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 210, 255)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        W
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 210, 255)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        e
+      </Text>
+      <Text
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {
+              "opacity": 0,
+              "transform": [
+                {
+                  "translateY": -100,
+                },
+              ],
+            },
+          }
+        }
+        style={
+          {
+            "color": "rgb(20, 210, 255)",
+            "fontFamily": "MajorMonoDisplay",
+            "fontSize": 80,
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": -100,
+              },
+            ],
+          }
+        }
+      >
+        b
+      </Text>
+    </View>
+  </View>
+  <Text
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
+    style={
+      {
+        "color": "rgb(245, 245, 245)",
+        "fontFamily": "Manjari",
+        "fontSize": 22,
+        "marginBottom": -3,
+        "marginTop": 16,
+        "opacity": 0,
+      }
+    }
+  >
+    Pressione para continuar
+  </Text>
+  <View
+    collapsable={false}
+    style={
+      [
+        undefined,
+        [
+          {
+            "height": "100%",
+            "position": "absolute",
+            "width": "50%",
+          },
+          {
+            "width": "100%",
+          },
+        ],
+      ]
+    }
+  >
+    <View
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "left": 0,
+            "opacity": 0,
+            "top": 0,
+            "transform": [
+              {
+                "scale": 1,
+              },
+            ],
+          },
+        }
+      }
+      style={
+        {
+          "borderColor": "rgb(20, 210, 255)",
+          "borderRadius": 0,
+          "borderWidth": 3,
+          "height": 0,
+          "left": 0,
+          "opacity": 0,
+          "top": 0,
+          "transform": [
+            {
+              "scale": 1,
+            },
+          ],
+          "width": 0,
+          "zIndex": 1000,
+        }
+      }
+    />
+  </View>
+</View>
+`;
