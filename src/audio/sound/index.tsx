@@ -74,7 +74,7 @@ export default function SoundProvider({ children }: ProviderProps) {
 
       const tracks = assets.map<AudioTrack>((asset) => {
         return {
-          title: asset.name.substring(0, asset.name.lastIndexOf(".")),
+          title: asset.name.substring(0, asset.name.indexOf(".")),
           asset,
         };
       });
