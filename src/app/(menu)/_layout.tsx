@@ -5,7 +5,7 @@ import { useMusicContext } from "@/audio/music";
 import { MathUtils } from "@/utils/mathUtils";
 
 export default function MenuLayout() {
-  const { playMusic } = useMusicContext();
+  const { playMusic, stop } = useMusicContext();
 
   const playMenuMusic = () => {
     const selector = Math.floor(MathUtils.random(0, 3));
@@ -23,9 +23,14 @@ export default function MenuLayout() {
     }
   };
 
+  const stopMenuMusic = () => stop();
+
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" listeners={{ focus: playMenuMusic }} />
+      <Stack.Screen
+        name="index"
+        listeners={{ focus: playMenuMusic, beforeRemove: stopMenuMusic }}
+      />
     </Stack>
   );
 }
