@@ -39,6 +39,7 @@ export default function StageName({
   return (
     <BouncingText
       {...props}
+      type="title"
       start={start}
       style={
         typeof style === "function"
