@@ -20,13 +20,13 @@ export interface SceneProps
   onFinalize?: SceneOnFinalize;
   onPause?: SceneOnPause;
   onFail?: SceneOnFail;
-  onStageEnd?: SceneOnComplete;
+  onStageCompleted?: SceneOnComplete;
 }
 
 export default function Scene({
   onStart,
   onFinalize,
-  onStageEnd,
+  onStageCompleted,
   onFail,
   onPause,
 
@@ -43,7 +43,7 @@ export default function Scene({
         break;
 
       case StageStatus.Completed:
-        if (onStageEnd) onStageEnd();
+        if (onStageCompleted) onStageCompleted();
         break;
 
       case StageStatus.Paused:

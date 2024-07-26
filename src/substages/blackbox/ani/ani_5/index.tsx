@@ -46,10 +46,9 @@ export default function Ani_5() {
 
   return (
     <Scene
-      data={substage_5}
       onStart={handleStart}
       onFail={handleFinalize}
-      onFinalize={handleFinalize}
+      onStageCompleted={handleFinalize}
     >
       <AnimatedEffects.Shake
         start={shake}
