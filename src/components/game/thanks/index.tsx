@@ -80,6 +80,7 @@ export default function Thanks() {
         <BouncingText
           start={start}
           duration={ringsQuantity * 1000}
+          type="title"
           style={(index) =>
             index <= 6 ? [styles.text, styles.textVariant] : styles.text
           }
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 76,
+    fontSize: 56,
     color: Colors.game.thanks.text.primary,
   },
   textVariant: {
