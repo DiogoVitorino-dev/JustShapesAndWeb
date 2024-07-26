@@ -124,27 +124,25 @@ export default function ControllablePlayer() {
   }, [collided]);
 
   useEffect(() => {
-    if (stageStatus === StageStatus.Playing) {
-      switch (status) {
-        case PlayerStatus.Alive:
-          opacity.value = withTiming(1, { duration: 150 });
-          break;
+    switch (status) {
+      case PlayerStatus.Alive:
+        opacity.value = withTiming(1, { duration: 150 });
+        break;
 
-        case PlayerStatus.Invulnerable:
-          opacity.value = withRepeat(
-            withSequence(
-              withTiming(1, { duration: 150 }),
-              withTiming(0.5, { duration: 150 }),
-            ),
-            2,
-            true,
-          );
-          break;
+      case PlayerStatus.Invulnerable:
+        opacity.value = withRepeat(
+          withSequence(
+            withTiming(1, { duration: 150 }),
+            withTiming(0.5, { duration: 150 }),
+          ),
+          2,
+          true,
+        );
+        break;
 
-        case PlayerStatus.Dead:
-          opacity.value = withTiming(0, { duration: 150 });
-          break;
-      }
+      case PlayerStatus.Dead:
+        opacity.value = withTiming(0, { duration: 150 });
+        break;
     }
   }, [status]);
 
