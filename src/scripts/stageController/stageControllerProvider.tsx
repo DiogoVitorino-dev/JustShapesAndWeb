@@ -182,8 +182,12 @@ export default function StageControllerProvider({ children }: ProviderProps) {
 
       case StageStatus.Failed:
         await pause(1000);
+
         if (checkpoint) {
-          await setProgress(allSubstages[checkpoint].musicStartTime);
+          await setProgress(
+            allSubstages.filter((stage) => stage.id === checkpoint)[0]
+              .musicStartTime,
+          );
         }
         break;
 
