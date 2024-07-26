@@ -25,6 +25,8 @@ import { useStageTimer } from "@/scripts/stageController/useStageTimer";
 import { PlayerActions } from "@/store/reducers/player/playerActions";
 import { PlayerStatus } from "@/store/reducers/player/playerReducer";
 import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
+import { StageStatus } from "@/store/reducers/stage/stageReducer";
+import { StageSelectors } from "@/store/reducers/stage/stageSelectors";
 import { TimerUtils } from "@/utils/timerUtils";
 
 export default function ControllablePlayer() {
@@ -42,6 +44,7 @@ export default function ControllablePlayer() {
   const dispatch = useAppDispatch();
 
   const status = useAppSelector(PlayerSelectors.selectStatus);
+  const stageStatus = useAppSelector(StageSelectors.selectStatus);
   const maxHealth = useAppSelector(PlayerSelectors.selectMaxHealth);
   const health = useAppSelector(PlayerSelectors.selectHealth);
 
@@ -114,32 +117,34 @@ export default function ControllablePlayer() {
   }));
 
   useEffect(() => {
-    if (collided) {
+    if (collided && stageStatus === StageStatus.Playing) {
       collisionSound();
       damage();
     }
   }, [collided]);
 
   useEffect(() => {
-    switch (status) {
-      case PlayerStatus.Alive:
-        opacity.value = withTiming(1, { duration: 150 });
-        break;
+    if (stageStatus === StageStatus.Playing) {
+      switch (status) {
+        case PlayerStatus.Alive:
+          opacity.value = withTiming(1, { duration: 150 });
+          break;
 
-      case PlayerStatus.Invulnerable:
-        opacity.value = withRepeat(
-          withSequence(
-            withTiming(1, { duration: 150 }),
-            withTiming(0.5, { duration: 150 }),
-          ),
-          2,
-          true,
-        );
-        break;
+        case PlayerStatus.Invulnerable:
+          opacity.value = withRepeat(
+            withSequence(
+              withTiming(1, { duration: 150 }),
+              withTiming(0.5, { duration: 150 }),
+            ),
+            2,
+            true,
+          );
+          break;
 
-      case PlayerStatus.Dead:
-        opacity.value = withTiming(0, { duration: 150 });
-        break;
+        case PlayerStatus.Dead:
+          opacity.value = withTiming(0, { duration: 150 });
+          break;
+      }
     }
   }, [status]);
 
