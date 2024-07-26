@@ -91,6 +91,7 @@ export default function StageControllerProvider({ children }: ProviderProps) {
 
   const dispatch = useAppDispatch();
   const substage = useAppSelector(StageSelectors.selectSubstage);
+  const checkpoint = useAppSelector(StageSelectors.selectCheckpoint);
   const allSubstages = useAppSelector(SubstagesSelectors.selectAllSubstages);
   const status = useAppSelector(StageSelectors.selectStatus);
 
@@ -180,8 +181,14 @@ export default function StageControllerProvider({ children }: ProviderProps) {
         break;
 
       case StageStatus.Failed:
+        await pause(1000);
+        if (checkpoint) {
+          await setProgress(allSubstages[checkpoint].musicStartTime);
+        }
+        break;
+
       case StageStatus.Completed:
-        await stop(3000);
+        await stop(1000);
         break;
     }
   };
