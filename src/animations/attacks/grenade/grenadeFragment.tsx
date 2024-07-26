@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import {
   Easing,
   WithTimingConfig,
-  cancelAnimation as cancel,
+  cancelAnimation,
   runOnJS,
   runOnUI,
   useAnimatedStyle,
@@ -153,9 +153,9 @@ export default function GrenadeFragment({
     collision.value = true;
   });
 
-  const cancelAnimation = runOnUI(() => {
-    cancel(position);
-    cancel(opacity);
+  const cancel = runOnUI(() => {
+    cancelAnimation(position);
+    cancelAnimation(opacity);
     endAnimation();
   });
 
@@ -169,7 +169,7 @@ export default function GrenadeFragment({
     }
 
     return () => {
-      if (start) cancelAnimation();
+      if (start) cancel();
     };
   }, [start]);
 
