@@ -1,4 +1,5 @@
 import { BlurView } from "expo-blur";
+import { useRouter } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import Animated, {
@@ -18,6 +19,7 @@ import { MathUtils } from "@/utils/mathUtils";
 
 export default function Thanks() {
   const ringsQuantity = 8;
+  const router = useRouter();
 
   const { width, height } = useWindowDimensions();
   const [start, setStart] = useState(false);
@@ -25,6 +27,8 @@ export default function Thanks() {
 
   const display = useSharedValue<DisplayOptions>("none");
   const status = useAppSelector(StageSelectors.selectStatus);
+
+  const backToMenu = () => router.replace("/(menu)");
 
   useEffect(() => {
     if (status === StageStatus.Completed) {
@@ -79,6 +83,7 @@ export default function Thanks() {
           style={(index) =>
             index <= 6 ? [styles.text, styles.textVariant] : styles.text
           }
+          onFinish={backToMenu}
         >
           Thanks For Playing
         </BouncingText>
