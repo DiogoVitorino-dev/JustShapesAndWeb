@@ -22,8 +22,8 @@ interface Player extends HealthAtributes {
 export interface PlayerState extends Player {}
 
 const initialState: PlayerState = {
-  life: 3,
-  maxLife: 3,
+  life: 1,
+  maxLife: 1,
 
   health: 3,
   maxHealth: 3,

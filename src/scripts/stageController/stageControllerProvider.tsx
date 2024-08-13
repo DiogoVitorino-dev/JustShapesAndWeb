@@ -17,6 +17,8 @@ import { Loading } from "@/components/shared";
 import Colors from "@/constants/Colors";
 import { useAppDispatch, useAppSelector, useTimerController } from "@/hooks";
 import { PlayerActions } from "@/store/reducers/player/playerActions";
+import { PlayerStatus } from "@/store/reducers/player/playerReducer";
+import { PlayerSelectors } from "@/store/reducers/player/playerSelectors";
 import { StageActions } from "@/store/reducers/stage/stageActions";
 import { StageStatus } from "@/store/reducers/stage/stageReducer";
 import { StageSelectors } from "@/store/reducers/stage/stageSelectors";
@@ -94,6 +96,7 @@ export default function StageControllerProvider({ children }: ProviderProps) {
   const checkpoint = useAppSelector(StageSelectors.selectCheckpoint);
   const allSubstages = useAppSelector(SubstagesSelectors.selectAllSubstages);
   const status = useAppSelector(StageSelectors.selectStatus);
+  const playerStatus = useAppSelector(PlayerSelectors.selectStatus);
 
   const load: StageControllerLoad = (stage, substages, newMusic) => {
     music.current = newMusic;
@@ -184,10 +187,14 @@ export default function StageControllerProvider({ children }: ProviderProps) {
         await pause(1000);
 
         if (checkpoint) {
-          await setProgress(
-            allSubstages.filter((stage) => stage.id === checkpoint)[0]
-              .musicStartTime,
-          );
+          if (playerStatus === PlayerStatus.Dead) {
+            await setProgress(allSubstages[0].musicStartTime);
+          } else {
+            await setProgress(
+              allSubstages.filter((stage) => stage.id === checkpoint)[0]
+                .musicStartTime,
+            );
+          }
         }
         break;
 
